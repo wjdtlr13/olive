@@ -1,0 +1,172 @@
+.article-list {
+  color: #313437;
+  background-color: #fff;
+}
+
+.article-list p {
+  color: #7d8285;
+}
+
+.article-list h2 {
+  font-weight: bold;
+  margin-bottom: 40px;
+  padding-top: 40px;
+  color: inherit;
+}
+
+@media (max-width:767px) {
+  .article-list h2 {
+    margin-bottom: 25px;
+    padding-top: 25px;
+    font-size: 24px;
+  }
+}
+
+.article-list .intro {
+  font-size: 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.article-list .intro p {
+  margin-bottom: 0;
+}
+
+.article-list .articles {
+  padding-bottom: 40px;
+}
+
+.article-list .item {
+  padding-top: 50px;
+  min-height: 425px;
+  text-align: center;
+}
+
+.article-list .item .name {
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 20px;
+  color: inherit;
+}
+
+.article-list .item .description {
+  font-size: 14px;
+  margin-top: 15px;
+  margin-bottom: 0;
+}
+
+.article-list .item .action {
+  font-size: 24px;
+  width: 24px;
+  margin: 22px auto 0;
+  line-height: 1;
+  display: block;
+  color: #4f86c3;
+  opacity: 0.85;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+
+.article-list .item .action:hover {
+  opacity: 1;
+}
+
+hr {
+  width: 90%;
+}
+
+.div-msg-title:nth-child(1) {
+  margin-left: 130px;
+  font-size: 20px;
+}
+
+.div-msg-title {
+  padding-top: 50px;
+}
+
+.div-search {
+  padding-left: 300px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.div-search select {
+  width: 110px;
+  height: 35px;
+  font-size: 11px;
+}
+
+.div-search input {
+  width: 300px;
+  height: 35px;
+  margin-left: 5px;
+}
+
+.div-search-icon {
+  padding-left: 10px;
+  padding-top: 10px;
+}
+
+.tbody-msglist td {
+  padding-left: 20px;
+}
+
+.tbody-msglist tr :nth-child(2) {
+  padding-left: 470px;
+}
+
+.div-msg-title span:not(:nth-child(1)) {
+  font-size: 11px;
+}
+
+.div-msg-title span:nth-child(2) {
+  margin-left: 770px;
+  margin-right: 10px;
+}
+
+.div-title {
+  font-size: 20px;
+  padding-top: 70px;
+}
+
+.btn-group button {
+  border-radius: 0;
+  font-size: 15px;
+  width: 150px;
+  height: 60px;
+  position: absolute;
+}
+
+.div-manage-user {
+  margin-top: 50px;
+}
+
+.div-manage-permit {
+  margin-top: 10px;
+  margin-bottom: 85px;
+}
+
+.btn-group button:nth-child(2n) {
+  margin-left: 50px;
+}
+
+button {
+}
+
+.btn-padding {
+  margin: 0px 10px;
+}
+
+textarea {
+  resize: none;
+}
+
+.div-covid-top :nth-child(2) {
+  font-size: 12px;
+  margin-left: 470px;
+}
+
+.div-check-wrap span {
+  padding: 0 20px 0 5px;
+}
+
