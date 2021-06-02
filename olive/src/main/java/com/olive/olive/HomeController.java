@@ -21,6 +21,59 @@ public class HomeController {
 	public String home(Locale locale, Model model) {
 		
 		return ".home";
-	}
+	}    
+	
+	@RequestMapping(value = "/note", method = RequestMethod.GET)
+	public String note(Locale locale, Model model) {
+		
+		return ".note";
+	}   
+	
+	@RequestMapping(value = "/a", method = RequestMethod.GET)
+	public String a(Locale locale, Model model) {
+		
+		return ".1";
+	}   
+	@RequestMapping(value = "/b", method = RequestMethod.GET)
+	public String b(Locale locale, Model model) {
+		
+		return ".2";
+	}    @RequestMapping(value = "/c", method = RequestMethod.GET)
+	public String c(Locale locale, Model model) {
+		
+		return ".3";
+	}    @RequestMapping(value = "/d", method = RequestMethod.GET)
+	public String d(Locale locale, Model model) {
+		
+		return ".4";
+	}    @RequestMapping(value = "/e", method = RequestMethod.GET)
+	public String e(Locale locale, Model model) {
+		
+		return ".5";
+	}    @RequestMapping(value = "/f", method = RequestMethod.GET)
+	public String f(Locale locale, Model model) {
+		
+		return ".6";
+	}    @RequestMapping(value = "/g", method = RequestMethod.GET)
+	public String g(Locale locale, Model model) {
+		
+		return ".7";
+	}    @RequestMapping(value = "/h", method = RequestMethod.GET)
+	public String h(Locale locale, Model model) {
+		
+		return ".8";
+	}    @RequestMapping(value = "/i", method = RequestMethod.GET)
+	public String i(Locale locale, Model model) {
+		
+		return ".9";
+	}   @RequestMapping(value = "/j", method = RequestMethod.GET)
+	public String j(Locale locale, Model model) {
+		
+		return ".10";
+	}   @RequestMapping(value = "/k", method = RequestMethod.GET)
+	public String k(Locale locale, Model model) {
+		
+		return ".0";
+	}   
 	
 }

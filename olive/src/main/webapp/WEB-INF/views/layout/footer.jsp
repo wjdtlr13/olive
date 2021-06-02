@@ -3,23 +3,28 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<div class="container">
-	<div class="footer-container">
-	    <ul class="footer-links text-muted">
-	        <li><a href="#">SPRING 정책 및 약관</a></li>
-	        <li>&middot;</li>
-	        <li><a href="#">회사소개</a></li>
-	        <li>&middot;</li>
-	        <li><a href="#">제휴제안</a></li>
-	        <li>&middot;</li>
-	        <li><a href="#">이용약관</a></li>
-	        <li>&middot;</li>
-	        <li><a href="#">개인정보취급방침</a></li>
-	        <li>&middot;</li>
-	        <li><a href="#">고객센터</a></li>
-	        <li>&middot;</li>
-	        <li>© SPRING Corp.</li>
-	    </ul>
-	</div>
-</div>        
-
+<footer style="background: rgb(211,211,211);">
+        <div class="row d-flex justify-content-around">
+            <div class="col-auto text-center text-secondary"><i class="fa fa-instagram" style="font-size: 30px;"></i></div>
+            <div class="col-auto text-center text-secondary"><i class="fa fa-facebook" style="font-size: 30px;"></i></div>
+            <div class="col-auto text-center text-secondary"><i class="fa fa-youtube-play" style="font-size: 30px;"></i></div>
+            <div class="col-auto text-center text-secondary"><i class="fa fa-snapchat" style="font-size: 30px;"></i></div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <p>권리침해신고</p>
+            </div>
+            <div class="col text-center">
+                <p>카페이용약관</p>
+            </div>
+            <div class="col text-center">
+                <p>고객센터</p>
+            </div>
+            <div class="col text-center">
+                <p>개인정보처리방침</p>
+            </div>
+        </div>
+        <div class="col">
+            <p class="text-center">OliveAlone corp. © 2021<br></p>
+        </div>
+    </footer>

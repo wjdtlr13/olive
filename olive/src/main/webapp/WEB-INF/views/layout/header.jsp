@@ -3,100 +3,38 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<div class="container">
-	<div class="header-top">
-		<div class="header-brand"><a href="${pageContext.request.contextPath}/"><span class="logo">SPRING</span></a></div>
-				
-		<div class="login header-login">
-			<c:if test="${empty sessionScope.member}">
-				<a href="javascript:dialogLogin();">로그인</a>
-				<i></i>
-				<a href="${pageContext.request.contextPath}/member/member">회원가입</a>
-			</c:if>
-			<c:if test="${not empty sessionScope.member}">
-				<span style="color:blue;">${sessionScope.member.userName}</span>님 <i></i>
-				<c:if test="${sessionScope.member.userId=='admin'}">
-					<a href="${pageContext.request.contextPath}/admin">관리자</a> <i></i>
-				</c:if>
-				<a href="${pageContext.request.contextPath}/member/logout"> 로그아웃 </a>
-			</c:if>
-		</div>
-	</div>
-</div>
-
-<div class="container">
-	<nav class="navbar navbar-expand-sm bg-light navbar-light">
-		<a class="navbar-brand" href="#"><i class="bi bi-app-indicator"></i></a>
-		
-		<ul class="navbar-nav">
-			 <li class="nav-item">
-			 	 <a class="nav-link" href="#">회사 소개</a>
-			 </li>
-			 
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop1" data-toggle="dropdown">
-					커뮤니티
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="navbardrop1">
-					<li><a class="dropdown-item" href="#">방명록</a></li>
-					<li><a class="dropdown-item" href="${pageContext.request.contextPath}/bbs/list">게시판</a></li>
-					<li><a class="dropdown-item" href="#">답변형 게시판</a></li>
-					<li><a class="dropdown-item" href="#">포토갤러리</a></li>
-					<li><hr class="dropdown-divider"></li>
-					<li><a class="dropdown-item" href="#">자료실</a></li>
-					<li><a class="dropdown-item" href="#">채팅</a></li>
-				</ul>
-			</li>
-
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop2" data-toggle="dropdown">
-					스터디룸
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="navbardrop2">
-					<li><a class="dropdown-item" href="#">프로그래밍</a></li>
-					<li><a class="dropdown-item" href="#">데이터베이스</a></li>
-					<li><a class="dropdown-item" href="#">웹</a></li>
-					<li><a class="dropdown-item" href="#">질문과 답변</a></li>
-					<li><a class="dropdown-item" href="#">스케쥴러</a></li>
-				</ul>
-			</li>
-			
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop3" data-toggle="dropdown">
-					고객 센터
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="navbardrop3">
-					<li><a class="dropdown-item" href="#">자주하는질문</a></li>
-					<li><a class="dropdown-item" href="#">공지사항</a></li>
-					<li><a class="dropdown-item" href="#">1:1문의</a></li>
-					<li><a class="dropdown-item" href="#">질문과답변</a></li>
-					<li><a class="dropdown-item" href="#">이벤트</a></li>
-				</ul>
-			</li>
-		</ul>
-			
-		<ul class="navbar-nav ml-auto">
-			<c:if test="${not empty sessionScope.member}">
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbardrop4" data-toggle="dropdown">
-						마이 페이지
-					</a>
-					<ul class="dropdown-menu" aria-labelledby="navbardrop4">
-						<li><a class="dropdown-item" href="#">정보확인</a></li>
-						<li><a class="dropdown-item" href="#">일정관리</a></li>
-						<li><a class="dropdown-item" href="#">포토 앨범</a></li>
-						<li><a class="dropdown-item" href="#">쪽지</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="${pageContext.request.contextPath}/member/pwd">정보수정</a></li>
-					</ul>
-				</li>
-			</c:if>
-			<li class="nav-item">
-				<a class="nav-link" href="#"><i class="bi bi-grid-3x3-gap-fill"></i></a>
-			</li>
-		</ul>
-	</nav>
-</div>
+  <nav class="navbar navbar-dark navbar-expand-lg" style="background: rgb(108,111,0);">
+        <div class="container-fluid"><a class="navbar-brand" href="#">OLIVE ALONE</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-2"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-2">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">meal</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">올리브의 동네맛집</a><a class="dropdown-item" href="#">올리브의 밥친구</a></div>
+                    </li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">saving</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">주고받는 올리브</a><a class="dropdown-item" href="#">함께 사는 올리브</a></div>
+                    </li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">life-info</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">올리브나무</a><a class="dropdown-item" href="#">올리브열매</a></div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">board</a></li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">real-estate</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">올리브의 새집</a><a class="dropdown-item" href="#">올리브의 집문서</a><a class="dropdown-item" href="#">꿀팁안내봇</a></div>
+                    </li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">medical</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">올리브네 응급실</a><a class="dropdown-item" href="#">올리브의 구급상자</a></div>
+                    </li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">cash book</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">올리브의 지갑사정</a><a class="dropdown-item" href="#">올리브의 스케줄</a></div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">QnA</a></li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">Olive</a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">올리브의 발도장</a><a class="dropdown-item" href="#">올리브의 도전</a></div>
+                    </li>
+                    <li class="nav-item" style="width: 40px;height: 40px;"><i class="fa fa-user"></i></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 <script>
 function dialogLogin() {

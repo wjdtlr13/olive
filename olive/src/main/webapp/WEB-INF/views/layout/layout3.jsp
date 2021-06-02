@@ -18,9 +18,11 @@
 
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style2.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css">
-	
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alfa+Slab+One">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css">
 
+	<script src="${pageContext.request.contextPath}/resources/jquery/js/jquery.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/jquery/js/jquery.min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/util-jquery.js"></script>
 	
@@ -43,7 +45,7 @@
 	    <tiles:insertAttribute name="header"/>
 	</header>
 		
-	<main class="container">
+	<main>
 	    <tiles:insertAttribute name="body"/>
 	</main>
 	
