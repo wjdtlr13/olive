@@ -73,7 +73,35 @@ public class HomeController {
 	}   @RequestMapping(value = "/k", method = RequestMethod.GET)
 	public String k(Locale locale, Model model) {
 		
-		return ".0";
-	}   
+		return ".articleForm";
+	}   @RequestMapping(value = "/l", method = RequestMethod.GET)
+	public String l(Locale locale, Model model) {
+		
+		return ".houseForm";
+	} @RequestMapping(value = "/m", method = RequestMethod.GET)
+	public String m(Locale locale, Model model) {
+		
+		return ".imageForm";
+	} @RequestMapping(value = "/n", method = RequestMethod.GET)
+	public String n(Locale locale, Model model) {
+		
+		return ".writeForm";
+	} @RequestMapping(value = "/o", method = RequestMethod.GET)
+	public String o(Locale locale, Model model) {
+		
+		return ".listForm";
+	} @RequestMapping(value = "/p", method = RequestMethod.GET)
+	public String p(Locale locale, Model model) {
+		
+		return ".profileForm";
+	} @RequestMapping(value = "/q", method = RequestMethod.GET)
+	public String q(Locale locale, Model model) {
+		
+		return ".qnaForm";
+	} @RequestMapping(value = "/r", method = RequestMethod.GET)
+	public String r(Locale locale, Model model) {
+		
+		return ".walletForm";
+	}
 	
 }
