@@ -9,7 +9,7 @@
 
 
 .login-all {
-  background:#DFF1C5;padding:80px 0
+  background:rgb(108,111,0); padding:80px 0
    
    }
  .login-all form{
