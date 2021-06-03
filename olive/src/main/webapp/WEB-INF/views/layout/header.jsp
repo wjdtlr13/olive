@@ -30,7 +30,9 @@
                     <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#">Olive</a>
                         <div class="dropdown-menu"><a class="dropdown-item" href="#">올리브의 발도장</a><a class="dropdown-item" href="#">올리브의 도전</a></div>
                     </li>
-                    <li class="nav-item" style="width: 40px;height: 40px;"><i class="fa fa-user"></i></li>
+                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" aria-expanded="false" data-toggle="dropdown" href="#"><i class="fa fa-user" style="font-size: 30px;"></i> </a>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">공지사항</a><a class="dropdown-item" href="#">로그인</a><a class="dropdown-item" href="#">입주신청</a></div>
+                    </li>
                 </ul>
             </div>
         </div>
