@@ -5,7 +5,8 @@ public class SessionInfo {
 	private long memberIdx;
 	private String userId;
 	private String userName;
-	private int memberLevel;
+	private String nickName;
+	private int grade;
 	
 	public long getMemberIdx() {
 		return memberIdx;
@@ -25,10 +26,17 @@ public class SessionInfo {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public int getMemberLevel() {
-		return memberLevel;
+	public int getGrade() {
+		return grade;
 	}
-	public void setMemberLevel(int memberLevel) {
-		this.memberLevel = memberLevel;
+	public void setGrade(int grade) {
+		this.grade = grade;
 	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	
 }

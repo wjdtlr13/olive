@@ -5,14 +5,17 @@ public class Member {
 	private int membership;
 	private String userId;
 	private String userName;
-	private String userPwd;
+	private String nickName;
+	private String pwd;
 	private String created_date, modify_date, last_login;
-	private String email, email1, email2;
-	private String tel, tel1, tel2, tel3;
+	private String email;
+	private String tel;
 	private String birth;
 	private String zip;
 	private String addr1, addr2;
 	private int enabled;
+	private int grade;
+	private int gender;
 	
 	public long getMemberIdx() {
 		return memberIdx;
@@ -38,12 +41,6 @@ public class Member {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getUserPwd() {
-		return userPwd;
-	}
-	public void setUserPwd(String userPwd) {
-		this.userPwd = userPwd;
-	}
 	public String getCreated_date() {
 		return created_date;
 	}
@@ -68,41 +65,11 @@ public class Member {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getEmail1() {
-		return email1;
-	}
-	public void setEmail1(String email1) {
-		this.email1 = email1;
-	}
-	public String getEmail2() {
-		return email2;
-	}
-	public void setEmail2(String email2) {
-		this.email2 = email2;
-	}
 	public String getTel() {
 		return tel;
 	}
 	public void setTel(String tel) {
 		this.tel = tel;
-	}
-	public String getTel1() {
-		return tel1;
-	}
-	public void setTel1(String tel1) {
-		this.tel1 = tel1;
-	}
-	public String getTel2() {
-		return tel2;
-	}
-	public void setTel2(String tel2) {
-		this.tel2 = tel2;
-	}
-	public String getTel3() {
-		return tel3;
-	}
-	public void setTel3(String tel3) {
-		this.tel3 = tel3;
 	}
 	public String getBirth() {
 		return birth;
@@ -134,4 +101,29 @@ public class Member {
 	public void setEnabled(int enabled) {
 		this.enabled = enabled;
 	}
+	public String getPwd() {
+		return pwd;
+	}
+	public void setPwd(String pwd) {
+		this.pwd = pwd;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public int getGrade() {
+		return grade;
+	}
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+	public int getGender() {
+		return gender;
+	}
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+	
 }
