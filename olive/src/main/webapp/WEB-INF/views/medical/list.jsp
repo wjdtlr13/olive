@@ -51,7 +51,7 @@ body {
 }
 .div-question{
 	padding: 10px 10px;
-	border-top: 1px solid #f5f5f5;
+	border-top: 1px solid #eeeeee;
 	margin-top: 20px;
 	font-size: 17px;
 	font-weight: bold;
@@ -84,9 +84,10 @@ function listSearch() { // 검색
 }
 
 	$(document).ready(function() {
+		$(".div-answer").hide();
 		$(".div-question").click(function() { // 제목을 클릭했을때
-			var submenu = $(".div-answer");
-
+			var submenu = $(this).next();
+			
 			if (submenu.is(":visible")) { // submenu 가 화면에 보일때
 				submenu.slideUp();
 			} else {
@@ -154,13 +155,9 @@ function deleteList(num, page) {
 	
 	</c:if>
 
-	<table>
-		<tr>
-			<td align="center">
-	  	${dataCount==0?"등록된 게시물이 없습니다.":paging}
-			</td>
-		</tr>
-	</table>
+	<div style="margin: auto; height: 80px; margin-top: 10px;">
+	  	${dataCount==0?"게시물이 존재하지 않습니다.":paging}
+	</div>
 
 	<c:if test="${sessionScope.member.userId=='admin'}">
 		<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/medical/created';">등록</button>
