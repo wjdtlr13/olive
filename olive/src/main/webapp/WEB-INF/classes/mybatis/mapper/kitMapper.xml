@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kit">
+	<select id="seq" resultType="Integer">
+		SELECT kit_seq.NEXTVAL FROM dual
+	</select>
+	
+	<insert id="insertKit" parameterType="com.olive.olive.medical.Kit">
+		INSERT INTO kit(num, userId, subject, content, created)
+		VALUES(#{num}, #{userId}, #{subject}, #{content}, SYSDATE)
+	</insert>
+	
+	<sql id="where-list">
+		<if test="condition=='all'">
+			( INSTR(subject, #{keyword}) &gt; 0 OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0)
+		</if>
+		<if test="condition=='subject'">
+			INSTR(subject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content'">
+			DBMS_LOB.INSTR( content, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='userName'">
+			userName=#{keyword}
+		</if>
+		<if test="condition=='created'">
+			(TO_CHAR(created, 'YYYY-MM-DD') = #{keyword} OR TO_CHAR(created, 'YYYY-MM-DD')= #{keyword})
+		</if>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*),0)
+		FROM kit k
+		JOIN member1 m ON k.userId = m.userId 
+		<where>
+			<if test="keyword !=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	<select id="listKit" parameterType="map" resultType="com.olive.olive.medical.Kit">
+		SELECT k.num, k.userId, userName, subject, content, created
+		FROM kit k
+		JOIN member1 m ON k.userId= m.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="readKit" parameterType="Integer" resultType="com.olive.olive.medical.Kit">
+		SELECT num, k.userId, userName, subject, content, created
+		FROM kit k
+		JOIN member1 m ON k.userId = m.userId
+		WHERE num=#{num}
+	</select>
+	
+	<update id="updateKit" parameterType="com.olive.olive.medical.Kit">
+		UPDATE kit SET subject = #{subject}, content=#{content}
+		WHERE num=#{num}
+	</update>
+	
+	<delete id="deleteKit" parameterType="Integer">
+		DELETE FROM kit WHERE num=#{num}
+	</delete>
+	
+</mapper>

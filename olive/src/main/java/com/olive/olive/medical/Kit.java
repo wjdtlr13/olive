@@ -7,7 +7,6 @@ public class Kit {
 	private String subject;
 	private String content;
 	private String created;
-	private int hitCount;
 	
 	public int getListNum() {
 		return listNum;
@@ -51,12 +50,6 @@ public class Kit {
 	public void setCreated(String created) {
 		this.created = created;
 	}
-	public int getHitCount() {
-		return hitCount;
-	}
-	public void setHitCount(int hitCount) {
-		this.hitCount = hitCount;
-	}
-	
+
 	
 }
