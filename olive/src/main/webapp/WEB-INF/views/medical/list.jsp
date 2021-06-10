@@ -5,16 +5,15 @@
 <style type="text/css">
 body {
 	marin: 0;
-	padding: 0;
-}
+	}
 
 .title {
 	font-size: 20px;
-	font-weight: lighter;
 	padding-top: 50px;
 	padding-bottom:30px;
 	width: 70%;
 	margin: auto;
+	font-weight: 800;
 }
 
 .btn {

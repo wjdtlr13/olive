@@ -11,7 +11,7 @@
 
 .bodytitle span {
 	font-size: 22px;
-	font-weight: 400;
+	font-weight: 800;
 }
 
 .btn {
@@ -81,13 +81,13 @@ function sendOk() {
 	<form name="kitForm" method="post" enctype="multipart/form-data">
 		<table style="width: 100%;margin: 30px auto; border-spacing: 0px; border-collapse: collapse; border-top: 2px solid #111;">
 			<tr align="left" height=100px; style=" border-bottom: 1px solid #ddd; ">
-				<td style="text-align: center; ">제목</td>
+				<td style="text-align: center; font-weight: 600; ">제목</td>
 				<td style="padding-left: 10px; ">
 					<input type="text" name="subject" maxlength="50" class="boxTF" value="${dto.subject}">
 				</td>			
 			</tr>
 			<tr align="left" style="border-bottom: 1px solid #ddd; height: 355px;">
-				<td style="text-align: center; width: 250px;">내용</td>
+				<td style="text-align: center; width: 250px; font-weight: 600;">내용</td>
 				<td valign="top">
 					<textarea name="content" class="boxTA">${dto.content}</textarea>	
 				</td>
