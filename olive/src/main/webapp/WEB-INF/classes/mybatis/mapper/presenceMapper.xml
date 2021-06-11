@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="presence">
+	<insert id="insertPresence" parameterType="com.olive.olive.presence.Presence">
+		insert into presence values(presence_Seq.nextval, #{userId}, #{content}, to_char(sysdate, 'yyyy-mm-dd'), #{hidden}, #{continuous})
+	</insert>
+	
+	<select id="findContinuous" parameterType="map" resultType="Integer">
+		select NVL(continuous, 0) from presence 
+		<where> 
+			userId=#{userId}
+			AND 
+			created=to_char(sysdate-1, 'yyyy-mm-dd')
+		</where>
+	</select>
+	
+	<select id="myDataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM presence a
+		JOIN member1 m ON a.userId=m.userId
+		<where>
+			a.userId = #{userId}
+		</where>
+	</select>
+	
+	<select id="findMyTodayData" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) 
+		FROM presence a
+		JOIN member1 m ON a.userId=m.userId
+		<where>
+			a.userId = #{userId}
+			AND
+			created = to_char(sysdate, 'yyyy-mm-dd')
+		</where>
+	</select>
+	
+	<select id="findMyLatest" parameterType="map" resultType="com.olive.olive.presence.Presence">
+		select created
+		FROM presence
+		<where>
+		userId = #{userId}
+		</where>
+		order by created DESC
+		OFFSET 0 ROWS FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		select NVL(COUNT(*), 0)
+		FROM presence a
+		JOIN member1 m on a.userId = m.userId
+		<where>
+			created > to_char(add_months(sysdate, -1), 'yyyy-mm-dd')
+			AND
+            (hidden = 0
+			OR
+			hidden = 1 and a.userId = #{userId})
+		</where>
+	</select>
+	
+	<select id="listPresence" parameterType="map" resultType="com.olive.olive.presence.Presence">
+		select a.num, a.userId, nickName, content, a.created, hidden, continuous
+		FROM presence a
+		JOIN member1 m on a.userId = m.userId
+		<where>
+			created > to_char(add_months(sysdate, -1), 'yyyy-mm-dd')
+			AND
+            (hidden = 0
+			OR
+			hidden = 1 and a.userId = #{userId})
+		</where>
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<update id="updatePresence" parameterType="com.olive.olive.presence.Presence">
+		UPDATE presence SET content=#{content}, hidden=#{hidden}
+		<where>
+		created= #{created} AND userId = #{userId}
+		</where>
+	</update>
+	
+</mapper>

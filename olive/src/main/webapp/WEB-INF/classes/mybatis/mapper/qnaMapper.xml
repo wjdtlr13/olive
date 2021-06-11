@@ -32,6 +32,7 @@
 	</select>
 	
 	<!-- qna리스트 조회 -->
+	<!-- 
 	<select id="qnaList" parameterType="map" resultType="com.olive.olive.qna.Qna">
 		select qnaNum, subject, questionId, questionContent,
 		questioncreated, answerId, answerContent,answercreated from qna
@@ -46,7 +47,7 @@
 		where qnaNum= #{qnaNum}
 	</select>
 	
-	
+	 -->
 	
 	
 	
