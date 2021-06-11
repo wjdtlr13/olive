@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qna">
+
+	<!-- 검색시 필요한 문장 -->
+	<sql id="where-list">
+		<choose>
+			<!-- 검색조건이 회원아이디'userId'라면 -->
+			<when test="condition=='userId'">
+				<!-- db에 저장된 userid에서 검색값이 있는 지 찾아라 -->
+				instr(m1.userid,#{keyword}) &gt;= 1
+			</when>
+			<otherwise>
+				<!-- 그게 아니라면 #{condition}에서 검색값이 있는 지 찾아라 -->
+				instr(#{condition},#{keyword}) &gt;=1
+			</otherwise>
+		
+		</choose>
+	</sql>
+
+
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		select nvl(count(*),0)
+		from qna
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>		
+	
+	</select>
+	
+	<!-- qna리스트 조회 -->
+	<select id="qnaList" parameterType="map" resultType="com.olive.olive.qna.Qna">
+		select qnaNum, subject, questionId, questionContent,
+		questioncreated, answerId, answerContent,answercreated from qna
+		order by qnaNum desc 
+		offset #{offset} rows fetch first #{rows} ROWS only
+	</select>
+	
+	
+	<select id="readQuestion" parameterType="Integer" resultType="com.olive.olive.qna.Qna">
+		select qnaNum, subject, questionId, questionContent,questioncreated
+		from qna
+		where qnaNum= #{qnaNum}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>

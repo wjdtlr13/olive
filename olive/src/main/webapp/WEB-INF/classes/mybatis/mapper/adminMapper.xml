@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin">
+
+	<!-- 검색시 필요한 문장 -->
+	<sql id="where-list">
+		<choose>
+			<!-- 검색조건이 회원아이디'userId'라면 -->
+			<when test="condition=='userId'">
+				<!-- db에 저장된 userid에서 검색값이 있는 지 찾아라 -->
+				instr(m1.userid,#{keyword}) &gt;= 1
+			</when>
+			<otherwise>
+				<!-- 그게 아니라면 #{condition}에서 검색값이 있는 지 찾아라 -->
+				instr(#{condition},#{keyword}) &gt;=1
+			</otherwise>
+		
+		</choose>
+	</sql>
+	
+	
+	<!-- 데이터개수 조회 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		select nvl(count(*),0)
+		from member1
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+			<!-- and m1.userId != 'admin' -->
+		</where>
+	</select>
+
+
+	<!-- 회원리스트 조회 -->
+	<select id="listMember" parameterType="map" resultType="com.olive.olive.admin.manage.Member">
+		select memberidx, m1.userid,userName, nickName, grade, point, enabled,
+		created_date, modify_date, last_login, failure_cnt, gender, to_char(birth, 'YYYY-MM-DD') birth
+		 from member1 m1
+		 join member2 m2 on m1.userid=m2.userid
+		 order by memberidx desc
+		 <!-- 안에 조건 들어가야 함 -->
+		 offset #{offset} rows fetch first #{rows} ROWS only
+		
+	</select>
+	
+	<!-- 회원 상세 조회 -->
+	<select id="detailMemberlist" parameterType="String" resultType="com.olive.olive.admin.manage.Member">
+		select m2.userId, userName, to_char(birth,'YYYY-MM-DD') birth, email, tel, addr1, addr2, zip,nickName,prefer,allergy,selfIntro
+		from member2 m2
+		left outer join member1 m1 on m1.userId=m2.userId
+		left outer join profile p on p.userId=m1.userId
+		left outer join profile_food pf on pf.userId=m1.userId
+		WHERE m1.userId = #{m1.userId}
+	</select>
+	
+	<!-- 신고회원리스트 조회-->
+	<select id="blockList" parameterType="map" resultType="com.olive.olive.admin.manage.Member">
+		select memberIdx, userId, warn_cnt
+		from member1
+		order by memberIdx desc
+		 <!-- 안에 조건 들어가야 함 -->
+		offset #{offset} rows fetch first #{rows} ROWS only		
+	</select>
+	
+	<!-- 신고2회시 게시판 포인트로 막기 -->
+	<!--  
+	<update id="handling_block" parameterType="String" >
+		update member1 set point = 3
+		where warn_cnt >=2 and point >3
+		and userId= #{userId}
+	</update>
+	
+	
+	-->
+	
+	
+	
+	
+	
+
+
+
+
+</mapper>
