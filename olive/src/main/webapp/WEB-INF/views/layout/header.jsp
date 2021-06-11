@@ -50,10 +50,8 @@
 					</ul>
 				</li>
 				
-                <li><a href="${pageContext.request.contextPath}/helper/wallet">cash book</a></li>
-                
-                <li><a href="${pageContext.request.contextPath}/helper/schedule">schedule</a></li>
-				
+                		<li><a href="${pageContext.request.contextPath}/helper/wallet">cash book</a></li>
+                		<li><a href="${pageContext.request.contextPath}/helper/schedule">schedule</a></li>
 				<li class="dropdown">
 					<a href="#">olive</a>
 					<ul>
@@ -80,7 +78,7 @@
 								<li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
 								<li><a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
 								<li><a href="${pageContext.request.contextPath}/mypage/list">내 정보</a></li>
-								<li><a href="${pageContext.request.contextPath}/mypage/receivenote">우체통</a></li>
+								<li><a href="${pageContext.request.contextPath}/note/receive/list">우체통</a></li>
 								<c:if test="${sessionScope.member.userId=='admin'}">
 									<li><a href="${pageContext.request.contextPath}/admin/main">관리실</a></li>
 								</c:if>

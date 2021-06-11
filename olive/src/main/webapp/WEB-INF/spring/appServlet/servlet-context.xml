@@ -56,8 +56,25 @@
 		<beans:property name="maxUploadSize" value="10485760" />
     </beans:bean>
 
-	<!-- 예외처리 -->
-    <!-- 
+	<!-- Interceptor 설정 -->
+    <interceptors>
+        <interceptor>
+            <mapping path="/**"/>
+            <!-- 제외 -->
+            <exclude-mapping path="/"/>
+            <exclude-mapping path="/resources/**"/>
+            <exclude-mapping path="/uploads/photo/**"/>
+            <exclude-mapping path="/member/login"/>
+            <exclude-mapping path="/member/logout"/>
+            <exclude-mapping path="/member/member"/>
+            <exclude-mapping path="/member/userIdCheck"/>
+            <exclude-mapping path="/member/complete"/>
+            <exclude-mapping path="/member/pwdFind"/>
+            <beans:bean class="com.olive.olive.member.LoginCheckInterceptor"/>
+        </interceptor>
+    </interceptors>	 
+
+   <!-- 예외처리 -->
     <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <beans:property name="order" value="1" />
         <beans:property name="exceptionMappings">
@@ -69,7 +86,6 @@
         </beans:property>
         <beans:property name="defaultErrorView" value=".error.error"/>
     </beans:bean>
-     -->
-	
-	
+
 </beans:beans>
+
