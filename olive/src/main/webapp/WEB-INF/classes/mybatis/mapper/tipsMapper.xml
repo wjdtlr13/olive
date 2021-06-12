@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tips">
+	<insert id="insertTips" parameterType="com.olive.olive.papers.tips.Tips">
+		INSERT INTO tips(num, userId, subject, content, hitCount, created) 
+			VALUES(tips_seq.NEXTVAL, #{userId}, #{subject}, #{content}, 0, SYSDATE)
+	</insert>
+	
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'all' ">
+				(INSTR(subject, #{keyword}) &gt; 0
+					OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 )
+			</when>
+			<when test="condition == 'subject'">
+				(INSTR(subject, #{keyword}) &gt; 0
+			</when>
+			<when test="condition == 'content'">
+			    DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
+			</when>
+			<otherwise>
+			    INSTR(${condition}, #{keyword}) &gt; 0
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM tips t
+		JOIN member1 m ON t.userId=m.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where> 
+	</select>
+	
+	<select id="listTips" parameterType="map" resultType="com.olive.olive.papers.tips.Tips">
+		SELECT t.num, t.userId, subject, TO_CHAR(created, 'YYYY-MM-DD') created, hitCount
+		FROM tips t
+		JOIN member1 m ON t.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="readTips" parameterType="Integer" resultType="com.olive.olive.papers.tips.Tips">
+		SELECT num, subject, content, hitCount, created, NVL(tipsLikeCount, 0) tipsLikeCount
+		FROM tips t
+		JOIN member1 m ON t.userId=m.userId
+		LEFT OUTER JOIN (
+			SELECT num, count(*) tipsLikeCount FROM tipsLike
+			GROUP BY num
+		) bc ON t.bum=bc.num
+		WHERE t.num = #{num}
+	</select>
+	
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE tips SET hitCount=hitCount+1 WHERE num = #{num}
+	</update>
+	
+	<select id="preReadBoard" parameterType="map" resultType="com.olive.olive.papers.tips.Tips">
+		SELECT num, subject
+		FROM tips t
+		JOIN member1 m ON t.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &gt; #{num})
+		</where>
+		ORDER BY num ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<select id="nextReadBoard" parameterType="map" resultType="com.olive.olive.papers.tips.Tips">
+		SELECT num, subject
+		FROM tips t
+		JOIN member1 m ON t.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &lt; #{num})
+		</where>
+		ORDER BY num DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<update id="updateTips" parameterType="com.olive.olive.papers.tips.Tips">
+		UPDATE tips SET subject=#{subject}, content=#{content},
+		WHERE num = #{num}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="Integer">
+		DELETE FROM tips WHERE num = #{num}
+	</delete>
+	
+	<!-- 좋아요관련 -->
+	
+	<insert id="insertTipsLike" parameterType="map">
+		INSERT INTO tipsLike(num, userId) VALUES (#{num}, #{userId})
+	</insert>
+	
+	<select id="tipsLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM tipsLike WHERE num= #{num}
+	</select>
+	
+	<select id="tipsLikeUserCount" parameterType="map" resultType="Integer">
+		SELECT COUNT(*) FROM tipsLike WHERE num=#{num} AND userId=#{userId}
+	</select>
+	
+	<delete id="tipsLikeDelete" parameterType="map">
+		DELETE FROM tipsLike WHERE num=#{num} AND userId=#{userId}
+	</delete>
+	
+</mapper>
