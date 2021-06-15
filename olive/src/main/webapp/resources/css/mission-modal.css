@@ -1,0 +1,62 @@
+.row {
+  padding: 10px;
+  font-size: 18px;
+}
+
+input {
+  padding: 0;
+  width: 100%;
+  border-width: 3px;
+  border-color: #c0ca33;
+}
+
+textarea {
+  width: 100%;
+  border-width: 3px;
+  border-color: #c0ca33;
+  resize: none;
+  height: 100px;
+}
+
+.subtitle p {
+  color: rgb(255,255,255);
+  font-size: 22px;
+  padding: 20px;
+}
+
+.btn.btn-secondary {
+  margin: 15px;
+  padding: 8px;
+}
+
+.col.footer {
+  padding: 5px 5%;
+  background: #e4e65e;
+}
+
+.container.list {
+  border-bottom-style: solid;
+  border-bottom-color: #e4e65e;
+  margin: 10px auto;
+}
+
+.col.subtitle {
+  background: #7c8500;
+  padding: 0;
+}
+
+.col.title {
+  background: #cddc39;
+  padding: 20px;
+}
+
+.title p {
+  font-size: 25px;
+}
+
+.col.header {
+  height: 30px;
+  background: #7c8500;
+  padding: 0;
+}
+
