@@ -8,10 +8,12 @@
 	</insert>
 	
 	<update id="updateMission" parameterType="com.olive.olive.mission.Mission">
-		UPDATE mission SET subject=#{subject}, content=#{content}, startDate=to_char(#{startDate}, 'yyyy-mm-dd'),
-		endDate=to_char(#{endDate}, 'yyyy-mm-dd')
+		UPDATE mission SET subject=#{subject}, content=#{content}, startDate=#{startDate},
+		endDate=#{endDate}
 		<where>
-		createId=#{userId}
+		createId=#{userId} 
+		and
+		num=#{num}
 		</where>
 	</update>
 	
@@ -40,6 +42,10 @@
 		<where>
 		to_char(sysdate, 'yyyy-mm-dd')&lt;=endDate
 		</where>
+	</select>
+	
+	<select id="countMission" resultType="Integer">
+		select NVL(count(*), 0) from mission
 	</select>
 	
 	<select id="listCurrentNotMyMission" parameterType="map" resultType="com.olive.olive.mission.Mission">

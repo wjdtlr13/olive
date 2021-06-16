@@ -22,14 +22,25 @@ public class MissionServiceImpl implements MissionService{
 
 	@Override
 	public int updateMission(Mission dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.updateData("mission.updateMission", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int deleteMission(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.deleteData("mission.deleteMission", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
@@ -53,6 +64,17 @@ public class MissionServiceImpl implements MissionService{
 			e.printStackTrace();
 		}
 		return list;
+	}
+	
+	@Override
+	public int countMission() {
+		int result = 0;
+		try {
+			result=dao.selectOne("mission.countMission");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override

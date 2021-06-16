@@ -2,8 +2,9 @@ header {
   background: #524c00;
 }
 
-.header {
+.modal-header .header {
   background: #524c00;
+  padding: 10px 0;
 }
 
 .header h1 {
@@ -16,7 +17,6 @@ header {
   height: 5px;
   background: #f9fbe7;
   width: 20%;
-  margin: 10px auto;
 }
 
 .header h4 {
@@ -57,7 +57,6 @@ hr {
   background: #9e9d24;
   height: 10px;
   width: 60%;
-  margin: 10px auto;
 }
 
 .content p {
@@ -107,11 +106,6 @@ hr {
   padding: 20px 0;
 }
 
-.subtitle p {
-  font-size: 30px;
-  margin-left: 10%;
-}
-
 .content hr {
   width: 100%;
   height: 3px;
@@ -130,5 +124,85 @@ p.title-detail {
 
 .row2.col-auto {
   padding-right: 2%;
+}
+
+.modal-body .row .col {
+  padding: 10px 20px;
+}
+
+.modal-body input {
+  width: 100%;
+  border: 3px solid #c0ca33;
+  padding: 0;
+}
+
+.modal-body textarea {
+  width: 100%;
+  border-width: 3px;
+  border-color: #c0ca33;
+  resize: none;
+  height: 100px;
+}
+
+.modal-header .mtitle p {
+  font-size: 25px;
+  margin: 10px;
+}
+
+.stitle p {
+  color: rgb(255,255,255);
+  font-size: 25px;
+  margin: 10px;
+}
+
+.stitle {
+  background: #7c8500;
+  padding: 0 20px;
+  height: 57px;
+}
+
+.modal-body {
+  padding: 0;
+}
+
+.modal-body .row {
+  padding: 10px;
+}
+
+.modal-header .mtitle {
+  padding: 0 20px;
+}
+
+.btn {
+  margin: 5; padding: 0;
+}
+
+.col.footer {
+  padding: 5px 5%;
+  margin: 0;
+  background: #e4e65e;
+}
+
+.modal-footer {
+  padding: 0;
+}
+
+.modal-footer .col {
+  background: #e4e65e;
+  margin: 0px;
+}
+
+.modal-header {
+  padding: 0;
+  background: #c0ca33;
+}
+
+.header {
+  background: #524c00;
+}
+
+.subtitle p {
+  font-size: 30px;
+  margin-left: 10%;
 }
 

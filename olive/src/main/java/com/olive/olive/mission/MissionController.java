@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -53,7 +54,11 @@ public class MissionController {
 		if(mode.equals("notmy")) {
 			dataCount = service.countCurrentNotMyMission(userId);
 			list = service.listCurrentNotMyMission(userId);
-		} else {
+		} else if(mode.equals("admin")) {
+			dataCount = service.countMission();
+			list = service.listMission();
+		}
+		else{
 			dataCount = service.countMyCurrentAttend(userId);
 			list = service.listMyCurrentAttend(userId);
 		}
@@ -103,6 +108,44 @@ public class MissionController {
 		}
 		Map<String, Object> model = new HashMap<>();
 		model.put("list", list);
+		
+		return model;
+	}
+	
+	@PostMapping("update")
+	@ResponseBody
+	public Map<String, Object> updateMission(
+			Mission dto) throws Exception{
+		Map<String, Object> model = new HashMap<>();
+		
+		try {
+			service.updateMission(dto);
+			model.put("status", "true");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("status", "false");
+		}
+		
+		return model;
+	}
+	
+	@PostMapping("delete")
+	@ResponseBody
+	public Map<String, Object> deleteMission(
+			@RequestParam int num,
+			@RequestParam String userId) throws Exception{
+		Map<String, Object> model = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("num", num);
+		map.put("userId", userId);
+		try {
+			
+			service.deleteMission(map);
+			model.put("status", "true");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("status", "false");
+		}
 		
 		return model;
 	}
