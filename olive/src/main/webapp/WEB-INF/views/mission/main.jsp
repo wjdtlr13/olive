@@ -229,7 +229,10 @@ $(function(){
 	
 	
 	$(document).on('click', '.delete', function(){
-		confirm('도전과제를 삭제하시겠습니까?');
+		if(!confirm('도전과제를 삭제하시겠습니까?'))  {
+			return false;
+		}
+				
 		var url="${pageContext.request.contextPath}/mission/delete";
 		
 		var form = $(this).closest('form');
