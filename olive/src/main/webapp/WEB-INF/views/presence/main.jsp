@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/presence.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+KR">
 <style type="text/css">
-main{
-	font-family: 'Noto Sans KR', sans-serif !important;
+.container {
+	font-family: 'Noto Sans KR', sans-serif;
 }
 </style>
 <script type="text/javascript">
@@ -190,12 +190,12 @@ function update() {
 
 <div class="header">
    	<div class="col-12">
-            <h1 class="text-center"><strong>올리브의 발도장</strong></h1>
+            <h1 class="text-center"><strong style="font-family: 'Noto Sans KR';">올리브의 발도장</strong></h1>
             <hr>
         </div>
     </div>
 
-<div class="container">
+<div class="container" style="font-family: 'Noto Sans KR';">
     <div class="row" id="title">
         <div class="col">
             <p><strong>오늘까지 올리브와</strong></p>
