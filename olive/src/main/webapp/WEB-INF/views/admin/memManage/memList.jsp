@@ -8,7 +8,7 @@
 
 function searchList() { 
 	var f= document.searchForm;
-	
+	 
 	f.action="${pageContext.request.contextPath}/admin/memManage/memList";
 	f.submit();
 }

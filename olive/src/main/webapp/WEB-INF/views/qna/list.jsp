@@ -6,7 +6,7 @@
 
 <div class="container">
         <div class="col text-center article-name">
-        	<p>Q&A</p>
+        	<p>Q&A</p> 
         </div>
         <div class="col text-center">
             <p ><span style="border-bottom: 1px solid #ccc;">Q&A 게시판입니다</span></p>

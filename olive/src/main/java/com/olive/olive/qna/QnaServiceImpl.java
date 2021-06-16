@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.olive.olive.common.dao.CommonDAO;
-
+ 
 
 @Service("qna.qnaService")
 public class QnaServiceImpl implements QnaService{

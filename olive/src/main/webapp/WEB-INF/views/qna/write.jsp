@@ -8,7 +8,7 @@
 		var f =document.qnaForm;
 		
 		f.action="${pageContext.request.contextPath}/qna/${mode}";
-		
+		 
 		f.submit();
 	}
 

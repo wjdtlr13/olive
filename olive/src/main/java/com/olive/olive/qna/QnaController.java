@@ -22,7 +22,7 @@ import com.olive.olive.member.SessionInfo;
 
 @Controller("qna.qnaController")
 @RequestMapping("/qna/*")
-public class QnaController {
+public class QnaController { 
 	
 	@Autowired
 	private QnaService service;

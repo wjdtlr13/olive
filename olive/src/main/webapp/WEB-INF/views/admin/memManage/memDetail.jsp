@@ -8,7 +8,7 @@
     </div>
     <div class="col"> 
         <hr>
-    </div>
+    </div> 
     <div class="container" style="background: #e6ee9c;width: 80%;border-radius: 30px;padding: 30px;">
     <div class="col">
     	<form name="searchForm" action="${pageContext.request.contextPath}/admin/memManage/memList" method="post">

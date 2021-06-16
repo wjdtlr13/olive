@@ -5,7 +5,7 @@
 
 <div class="col text-center"><img src="assets/img/security-guard.png"></div>
     <div class="col text-center">
-        <p>올리브네 관리실</p>
+        <p>올리브네 관리실</p> 
     </div>
     <div class="row d-flex justify-content-center">
         <div class="col-auto"><button class="btn btn-secondary" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/admin/memManage/memList';">회원 정보</button></div>

@@ -23,7 +23,7 @@ import com.olive.olive.member.SessionInfo;
 @RequestMapping("/notice/*")
 public class NoticeController {
 	
-	@Autowired
+	@Autowired 
 	private NoticeService service;
 	
 	@Autowired

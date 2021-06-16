@@ -8,7 +8,7 @@
 		<a href="${pageContext.request.contextPath}/" class="logo">OLIVE ALONE</a><img src="${pageContext.request.contextPath}/resources/img/mainLogo2.png" width="46px;" height="48px;">
 		<nav class="nav-menu">
 			<ul>
-				<li class="dropdown">
+				<li class="dropdown"> 
 					<a href="${pageContext.request.contextPath}/mate/main">meal</a>
 					<ul>
                 		<li><a href="${pageContext.request.contextPath}/mate/store">올리브의 동네맛집</a></li>

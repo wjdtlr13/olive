@@ -2,7 +2,7 @@ package com.olive.olive.notice;
 
 public class Notice {
 	private int listNum;
-	private int num;
+	private int num; 
 	private String subject;
 	private String userId;
 	private String content;

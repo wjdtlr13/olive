@@ -8,7 +8,7 @@
 function stopMemberChange() { 
 	var f= document.stopMemberForm;
 	var enabled= f.enabled.value;
-
+ 
 		
 		if(confirm("선택한 아이디를 정지하시겠습니까?")) {
 			enabled=0;

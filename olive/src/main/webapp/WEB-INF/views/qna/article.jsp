@@ -8,7 +8,7 @@
 function login() {
 	location.href="${pageContext.request.contextPath}/member/login";
 }
-
+ 
 function ajaxFun(url, method, query, dataType,fn) {
 	$.ajax({
 		type:method,

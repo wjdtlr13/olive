@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-<style type="text/css">
+<style type="text/css"> 
 * {
 	margin: 0; padding: 0;
 	

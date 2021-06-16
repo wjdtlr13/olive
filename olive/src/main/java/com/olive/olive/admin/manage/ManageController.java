@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.olive.olive.common.MyUtil;
-
+ 
 @Controller("admin.manageController")
 @RequestMapping("/admin/memManage/*")
 public class ManageController { 

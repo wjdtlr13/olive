@@ -11,7 +11,7 @@ import com.olive.olive.common.dao.CommonDAO;
 
 @Service("notice.noticeService")
 public class NoticeServiceImpl implements NoticeService{
-	
+	 
 	@Autowired
 	private CommonDAO dao;
 	

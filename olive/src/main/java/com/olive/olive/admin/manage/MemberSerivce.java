@@ -2,7 +2,7 @@ package com.olive.olive.admin.manage;
 
 import java.util.List;
 import java.util.Map;
-
+ 
 public interface MemberSerivce {
 	 
 	public int dataCount(Map<String, Object> map);

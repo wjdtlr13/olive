@@ -7,7 +7,7 @@ public interface NoticeService {
 	
 	public void insertNotice(Notice dto, String mode) throws Exception;
 	public int dataCount(Map<String, Object> map);
-	
+	 
 	public List<Notice> listNotice(Map<String, Object> map);
 	
 	public void updateHitCount(int num) throws Exception;

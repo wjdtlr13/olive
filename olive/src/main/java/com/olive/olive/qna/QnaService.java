@@ -2,7 +2,7 @@ package com.olive.olive.qna;
 
 import java.util.List;
 import java.util.Map;
-
+ 
 public interface QnaService {
 	public int dataCount(Map<String, Object> map) throws Exception;
 	public List<Qna> listQna(Map<String, Object> map);

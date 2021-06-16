@@ -1,7 +1,7 @@
 package com.olive.olive.qna;
 
 public class Qna {
-	private int listNum;
+	private int listNum; 
 	private int qnaNum;
 	private String subject;
 	private String questionContent;

@@ -10,7 +10,7 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style type="text/css">
 * {
-	margin: 0; padding: 0;
+	margin: 0; padding: 0; 
 	
 	font-family: 맑은 고딕, 돋움;
 }

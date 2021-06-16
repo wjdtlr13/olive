@@ -6,7 +6,7 @@
 <div class="footer-container">
 	<div class="container flex-center justify-content-center">
 	    <ul class="footer-links">
-	        <li><a href="#">회사소개</a></li>
+	        <li><a href="#">회사소개</a></li> 
 	        <li>&middot;</li>
 	        <li><a href="#">이용약관</a></li>
 	        <li>&middot;</li>

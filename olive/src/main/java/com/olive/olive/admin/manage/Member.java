@@ -1,7 +1,7 @@
 package com.olive.olive.admin.manage;
 
 public class Member {
-	private int memberIdx;
+	private int memberIdx; 
 	private String userId;
 	private String userName;
 	private String nickName;
