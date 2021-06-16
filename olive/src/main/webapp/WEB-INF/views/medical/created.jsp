@@ -4,10 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <style type="text/css">
-.container {
-	margin-top: 50px;
-	width: 70%;
-}
 
 .bodytitle span {
 	font-size: 22px;
@@ -73,7 +69,7 @@ function sendOk() {
 
 </script>
 <div class="container body-container">
-	<div class="bodytitle">
+	<div class="bodytitle" style="margin-top: 70px;">
 		<span> 올리브의 구급상자 </span>
 	</div>
     
