@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice">
+	<select id="seq" resultType="Integer">
+		select notice_seq.nextval from dual
+	</select>
+	
+	<sql id="where-list">
+		<if test="condition=='all' ">
+			( INSTR(subject, #{keyword}) &gt; 0
+				OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='subject' ">
+			INSTR(subject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content' ">
+			DBMS_LOB.INSTR( content, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='userName' ">
+			userName=#{keyword}
+		</if>
+		<if test="condition=='created' ">
+			( TO_CHAR(created, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(created, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>	
+	
+	
+	<!-- 공지글입력 -->
+	<insert id="insertNotice" parameterType="com.olive.olive.notice.Notice">
+		insert into notice (num, subject, userId, content, created)
+		values ( #{num}, #{subject}, #{userId}, #{content}, SYSDATE)
+		<!-- ,saveFilename,originalFilename, #{saveFilename}, #{originalFilename} -->
+	</insert>
+	
+	<!-- 데이터개수 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		select nvl(count(*),0)
+		from notice
+	</select>
+	
+	
+	<!-- 공지글 리스트 -->
+	<select id="listNotice"  parameterType="map" resultType="com.olive.olive.notice.Notice">
+		select num, notice, userId, subject, hitCount,
+		to_char(created,'YYYY-MM-DD') created
+		from notice
+		order by num desc
+		offset #{offset} rows fetch first #{rows} rows only		
+	</select>
+	<!--  -->
+	<!-- 글 보기 -->
+	<select id="readNotice" parameterType="Integer" resultType="com.olive.olive.notice.Notice">
+		select num, userId, subject, content, created 
+		from notice
+		where num=#{num}
+		
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateHitCount" parameterType="Integer">
+		update notice set hitCount=hitCount+1
+		where num=#{num}
+	</update>
+	
+	<!-- 공지수정 -->
+	<update id="updateNotice" parameterType="com.olive.olive.notice.Notice">
+		update notice set subject=#{subject}, content=#{content},notice=${notice}
+		where num = #{num} and userId=#{userId}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteNotice" parameterType="map">
+		delete from notice 
+		where num=#{num} 
+	</delete>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+</mapper>

@@ -32,27 +32,37 @@
 	</select>
 	
 	<!-- qna리스트 조회 -->
-	<!-- 
 	<select id="qnaList" parameterType="map" resultType="com.olive.olive.qna.Qna">
 		select qnaNum, subject, questionId, questionContent,
-		questioncreated, answerId, answerContent,answercreated from qna
+		to_char(questioncreated, 'YYYY-MM-DD') questioncreated, answerId, answerContent, to_char(answercreated, 'YYYY-MM-DD') answercreated from qna
 		order by qnaNum desc 
 		offset #{offset} rows fetch first #{rows} ROWS only
 	</select>
 	
-	
-	<select id="readQuestion" parameterType="Integer" resultType="com.olive.olive.qna.Qna">
-		select qnaNum, subject, questionId, questionContent,questioncreated
+	<!-- question article -->
+	<select id="readQna" parameterType="Integer" resultType="com.olive.olive.qna.Qna">
+		select qnaNum, subject, questionId, questionContent,to_char(questioncreated, 'YYYY-MM-DD') questioncreated, 
+			answerContent,to_char(answercreated, 'YYYY-MM-DD') answercreated
 		from qna
 		where qnaNum= #{qnaNum}
 	</select>
 	
-	 -->
+	<!-- answer article -->
+	<select id="articleAnswer" parameterType="Integer" resultType="com.olive.olive.qna.Qna">
+		select qnaNum, ,answerId,answerContent,to_char(answercreated, 'YYYY-MM-DD') answercreated
+		from qna
+		where qnaNum= #{qnaNum}
+	</select>
+
+	<!-- 질문 등록 -->
+	<insert id="insertQuestion" parameterType="com.olive.olive.qna.Qna">
+		insert into qna(qnaNum, subject,questionId,questionContent, questioncreated)
+		values(#{qna_seq.nextval},#{subject},#{questionId},#{questionContent},sysdate)
+	</insert>
 	
-	
-	
-	
-	
-	
-	
+	<!-- 답변 등록 -업데이트수정해야함-->
+	<update id="insertAnswer" parameterType="com.olive.olive.qna.Qna">
+		update qna set answerId=#{answerId},answerContent=#{answerContent},answercreated=sysdate
+		where qnaNum=#{qnaNum}
+	</update>		
 </mapper>

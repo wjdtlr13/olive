@@ -5,7 +5,7 @@ public class Member {
 	private String userId;
 	private String userName;
 	private String nickName;
-	private String pwd;
+	private String pwd; 
 	private String grade;
 	private int point;
 	private int enabled;

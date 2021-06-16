@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+
 <div class="container">
         <div class="col text-center article-name">
         	<p>Q&A</p>
@@ -38,6 +39,12 @@
                     </optgroup>
                 </select></div>
         </div>
+        
+        <div class="row">
+        	<div class="col">
+        		<button class="btn btn-primary btn-list" type="button" style="float: right;" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/write';">질문하기</button>
+        	</div>
+        </div>
         <hr>
 
         <div class="table-responsive">
@@ -53,8 +60,14 @@
                 <tbody>
                 	<c:forEach var="dto" items="${list}">
                     <tr>
-                        <td style="width: 15%;">${dto.qnaNum}</td>
-                        <td><a href="${articleUrl}&qnaNum=${dto.qnaNum}"> ${dto.subject}</a></td>
+                        <td style="width: 15%;">${dto.listNum}</td>
+                        
+                        <td><a href="${articleUrl}&qnaNum=${dto.qnaNum}"> ${dto.subject}<br>
+                        <c:if test="${not empty dto.answerContent }">
+                        	답변완료<i class="far fa-check-circle"></i>
+                        </c:if>
+                        </a></td>
+                        
                         <td style="width: 15%;">${dto.questionId}</td>
                         <td style="width: 20%;">${dto.questioncreated}</td>
                     </tr>

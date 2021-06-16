@@ -5,7 +5,7 @@
 
 <script type="text/javascript">
 
-function stopMemberChange() {
+function stopMemberChange() { 
 	var f= document.stopMemberForm;
 	var enabled= f.enabled.value;
 

@@ -3,17 +3,31 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<script type="text/javascript">
+	function btnSubmit() {
+		var f =document.qnaForm;
+		
+		f.action="${pageContext.request.contextPath}/qna/${mode}";
+		
+		f.submit();
+	}
+
+</script>
+
+
 <div class="container" style="min-height: 1200px;">
+        <form name="qnaForm">
         <div>
+			
             <div class="row">
                 <div class="col">
-                    <p class="article-name">Question</p>
+                    <p class="article-date">${dto.questioncreated}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col">
-                    <p class="article-date">2021-03-06</p>
-                </div>
+                    <p class="userName">${sessionScope.member.userName}</p>
+                </div>            	
             </div>
             <hr>
         </div>
@@ -23,13 +37,13 @@
             </div>
             <div class="row">
                 <div class="col article-title">
-                    <p><strong>궁금한게있음</strong></p>
+                    <input type="text" value="${dto.subject}" placeholder="제목을 입력하세요">
                 </div>
             </div>
         </div>
         <div>
             <div class="col article-content-textarea" >
-                <p style="height: 200px;">궁금궁금</p>
+                <textarea style="height: 200px; width: 600px;">${dto.questionContent}</textarea>
             </div>
             <hr>
         </div>
@@ -51,52 +65,22 @@
                 </div>
             </div>
             <hr>
+        
         </div>
-        <div>
-            <div class="row">
-                <div class="col-auto" >
-                    <a class="pre-content">이전글 :</a>
-                </div>
-                <div class="col">
-                    <a class="pre-content">올리브가 글쎄..</a>
-                </div>
-            </div>
-            <hr>
-        </div>
-        <div>
-            <div class="row">
-                <div class="col-auto">
-                    <a class="next-content">다음글 :</a>
-                </div>
-                <div class="col">
-                    <a class="next-content">올리브가 ??..</a>
-                </div>
-            </div>
-            <hr>
-        </div>
+       
+       </form>
+       
         <div>
             <div class="row d-flex justify-content-end">
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">목록</button></div>
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">수정</button></div>
+                <div class="col-auto"><button class="btn btn-primary btn-list" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list';">목록</button></div>
+	             <div class="col-auto"><button class="btn btn-primary btn-list btnSubmit" type="button">${mode=='update'?'수정':'등록'}</button></div>               
+                 <c:if test="${mode=='update'}">
+                 	<input type="hidden" name="num" value="${dto.qnaNum}">
+                 	<input type="hidden" name="page" value="${page}">
+                  </c:if>
                 <div class="col-auto"><button class="btn btn-primary btn-list" type="button">삭제</button></div>
             </div>
            
         </div>
- 		<hr>
-        <div class="col">
-            <p style="font-size: 25px;"><strong>Answer</strong></p>
-        </div>
-        <div class="col">
-            <p><strong>관리자</strong></p>
-        </div>
-        <div class="col">
-            <p>2021-03-06</p>
-        </div>
-        <hr>
-        <div class="col"><textarea style="width: 100%;height: 300px;border-style: none; resize: none;" placeholder="답변하기"></textarea></div>
-            <div class="row d-flex justify-content-end">
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">목록</button></div>
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">수정</button></div>
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">삭제</button></div>
-            </div>
+
     </div>

@@ -18,7 +18,7 @@ import com.olive.olive.common.MyUtil;
 
 @Controller("admin.manageController")
 @RequestMapping("/admin/memManage/*")
-public class ManageController {
+public class ManageController { 
 	
 	@Autowired
 	private MemberSerivce service;
@@ -151,7 +151,7 @@ public class ManageController {
 	}
 	
 	
-	
+	//신고회원리스트
 	@RequestMapping("blockList")
 	public String blockList(
 			@RequestParam(defaultValue = "all") String condition,
@@ -163,7 +163,7 @@ public class ManageController {
 		
 		String cp = req.getContextPath(); //경로 
 		
-		int rows=5;
+		int rows=15;
 		int total_page=0;
 		int dataCount =0;
 		

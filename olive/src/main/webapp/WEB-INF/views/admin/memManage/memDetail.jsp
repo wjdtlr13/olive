@@ -6,7 +6,7 @@
 <div class="col-auto">
         <p style="font-size: 25px;">회원 상세정보</p>
     </div>
-    <div class="col">
+    <div class="col"> 
         <hr>
     </div>
     <div class="container" style="background: #e6ee9c;width: 80%;border-radius: 30px;padding: 30px;">

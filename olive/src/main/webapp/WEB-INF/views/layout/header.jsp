@@ -5,7 +5,7 @@
 
 <div class="navbar fixed-top">
 	<div class="container flex-center">
-		<a href="${pageContext.request.contextPath}/" class="logo">OLIVE ALONE</a><img src="${pageContext.request.contextPath}/resources/img/mainLogo2.png" width="70px;" height="50px;">
+		<a href="${pageContext.request.contextPath}/" class="logo">OLIVE ALONE</a><img src="${pageContext.request.contextPath}/resources/img/mainLogo2.png" width="46px;" height="48px;">
 		<nav class="nav-menu">
 			<ul>
 				<li class="dropdown">

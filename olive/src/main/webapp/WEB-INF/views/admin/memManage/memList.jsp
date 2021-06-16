@@ -6,7 +6,7 @@
 
 <script type="text/javascript">
 
-function searchList() {
+function searchList() { 
 	var f= document.searchForm;
 	
 	f.action="${pageContext.request.contextPath}/admin/memManage/memList";
@@ -65,7 +65,7 @@ function searchList() {
                 <tbody>
                 	<c:forEach var="dto" items="${list}">
                     <tr>
-                        <td>${dto.memberidx}<br></td>
+                        <td>${dto.memberIdx}<br></td>
                         <td>${dto.userId}<br></td>
                         <td>${dto.userName}<br></td>
                         <td>${dto.birth}</td>

@@ -3,6 +3,75 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
+<script type="text/javascript">
+
+function login() {
+	location.href="${pageContext.request.contextPath}/member/login";
+}
+
+function ajaxFun(url, method, query, dataType,fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX",true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status===403) {
+				login();
+				return false;
+			}
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+$(function(){
+    $(document).ready(function() {
+        $("#articleAnswer").hide();
+    });
+});
+
+//답변 폼 보기 / 답변 등록
+$(function(){
+	$(".btnSendAnswer").click(function(){
+		var isVisible = $("#articleAnswer").is(':visible');
+		if(! isVisible) {
+			// 답변 폼 보기
+			$("#articleAnswer").show('3000');
+			return false;
+		}		
+		
+		// 답변 등록
+		var num="${dto.qnaNum}";
+		var content=$(".answerTA").val().trim();
+		
+		if(! content) {
+			$(".answerTA").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		var url="${pageContext.request.contextPath}/qna/writeAnswer";
+		var query="qnaNum="+num+"&answerContent="+content;
+		
+		var fn = function(data){
+			// 답변 등록 후 다시  글보기로
+			location.href="${pageContext.request.contextPath}/qna/article?${query}&qnaNum=${dto.qnaNum}";
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+</script>
+
+
 <div class="container" style="min-height: 1200px;">
         <div>
             <div class="row">
@@ -69,27 +138,42 @@
         </div>
         <div>
             <div class="row d-flex justify-content-end">
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">목록</button></div>
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">수정</button></div>
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">삭제</button></div>
+            	<c:if test="${not empty dto.answerContent }">
+                	<div class="col-auto"><button class="btn btn-primary btn-list answerClick" type="button">답변보기</button></div>
+                </c:if>
+                <div class="col-auto"><button class="btn btn-primary btn-list" type="button"  onclick="javascript:location.href='${pageContext.request.contextPath}/qna/list?${query}';">목록</button></div>
+                <c:if test="${sessionScope.member.userId=='userId' }">
+               	 <div class="col-auto"><button class="btn btn-primary btn-list" type="button">수정</button></div>
+               	 <div class="col-auto"><button class="btn btn-primary btn-list" type="button">삭제</button></div>
+           	 	</c:if>
             </div>
            
         </div>
  		<hr>
-        <div class="col">
-            <p style="font-size: 25px;"><strong>Answer</strong></p>
-        </div>
-        <div class="col">
-            <p><strong>관리자</strong></p>
-        </div>
-        <div class="col">
-            <p>2021-03-06</p>
-        </div>
-        <hr>
-        <div class="col"><textarea style="width: 100%;height: 300px;border-style: none; resize: none;" placeholder="답변하기"></textarea></div>
-            <div class="row d-flex justify-content-end">
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">목록</button></div>
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">수정</button></div>
-                <div class="col-auto"><button class="btn btn-primary btn-list" type="button">삭제</button></div>
-            </div>
+ 		
+ 		<c:if test="${empty dto.answerContent }">
+	 		<div id="articleAnswer">
+		        <div class="col">
+		            <p style="font-size: 25px;"><strong>Answer</strong></p>
+		        </div>
+		        <div class="col">
+		            <p><strong>관리자</strong></p>
+		        </div>
+	        
+	        <hr>
+	        <div class="col"><textarea style="width: 100%;height: 300px;border-style: none; resize: none;" class="answerTA">${dto.answerContent}</textarea></div>
+	        </div>  
+	          <div class="row d-flex justify-content-end">
+	          		<c:if test="${sessionScope.member.userId=='admin'}">
+	                <div class="col-auto"><button class="btn btn-primary btn-list btnSendAnswer" type="button">답변등록</button></div>
+	          		</c:if>
+	          </div>
+       </c:if>
+		<c:if test="${not empty dto.answerContent }"> 
+		
+		답변 : ${dto.answerContent }
+		
+		</c:if> 
+          
+          
     </div>
