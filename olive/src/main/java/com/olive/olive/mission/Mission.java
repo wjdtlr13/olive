@@ -1,54 +1,41 @@
-package com.olive.olive.auction;
+package com.olive.olive.mission;
 
-public class Auction {
-	private int listNum;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
+public class Mission {
 	private int num;
 	private String userId;
-	private String userName;
 	private String subject;
-	private String price;
 	private String content;
 	private String created;
 	private String startDate;
 	private String endDate;
-	private int hitCount;
-	private int tag;
+	private int attendee;
+	private List<MultipartFile> selectFile;
+	private int imageNum;
+	private String imageFilename;
+	private int LikeCount;
 	
-	public int getListNum() {
-		return listNum;
-	}
-	public void setListNum(int listNum) {
-		this.listNum = listNum;
-	}
 	public int getNum() {
 		return num;
 	}
 	public void setNum(int num) {
 		this.num = num;
 	}
+	
 	public String getUserId() {
 		return userId;
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
 	public String getSubject() {
 		return subject;
 	}
 	public void setSubject(String subject) {
 		this.subject = subject;
-	}
-	public String getPrice() {
-		return price;
-	}
-	public void setPrice(String price) {
-		this.price = price;
 	}
 	public String getContent() {
 		return content;
@@ -74,18 +61,39 @@ public class Auction {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public int getHitCount() {
-		return hitCount;
+	public int getAttendee() {
+		return attendee;
 	}
-	public void setHitCount(int hitCount) {
-		this.hitCount = hitCount;
+	public void setAttendee(int attendee) {
+		this.attendee = attendee;
 	}
-	public int getTag() {
-		return tag;
+	public List<MultipartFile> getSelectFile() {
+		return selectFile;
 	}
-	public void setTag(int tag) {
-		this.tag = tag;
+	public void setSelectFile(List<MultipartFile> selectFile) {
+		this.selectFile = selectFile;
 	}
+	public int getImageNum() {
+		return imageNum;
+	}
+	public void setImageNum(int imageNum) {
+		this.imageNum = imageNum;
+	}
+	public String getImageFilename() {
+		return imageFilename;
+	}
+	public void setImageFilename(String imageFilename) {
+		this.imageFilename = imageFilename;
+	}
+	public int getLikeCount() {
+		return LikeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		LikeCount = likeCount;
+	}
+	
+	
+	
 	
 	
 }

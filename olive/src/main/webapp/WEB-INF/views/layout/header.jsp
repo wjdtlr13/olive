@@ -55,8 +55,8 @@
 				<li class="dropdown">
 					<a href="#">olive</a>
 					<ul>
-                		<li><a href="${pageContext.request.contextPath}/mission/list">올리브의 도전</a></li>
-                		<li><a href="${pageContext.request.contextPath}/presence/list">올리브의 발도장</a></li>
+                		<li><a href="${pageContext.request.contextPath}/mission/main">올리브의 도전</a></li>
+                		<li><a href="${pageContext.request.contextPath}/presence/main">올리브의 발도장</a></li>
 					</ul>
 				</li>
 								

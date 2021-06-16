@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mission">
+	<insert id="insertMission" parameterType="com.olive.olive.mission.Mission">
+		insert into mission values(mission_Seq.nextval, #{userId}, #{subject}, #{content}, 
+		to_char(sysdate, 'yyyy-mm-dd'), to_char(#{startDate}, 'yyyy-mm-dd'), to_char(#{endDate}, 'yyyy-mm-dd'), 0)
+	</insert>
+	
+	<update id="updateMission" parameterType="com.olive.olive.mission.Mission">
+		UPDATE mission SET subject=#{subject}, content=#{content}, startDate=to_char(#{startDate}, 'yyyy-mm-dd'),
+		endDate=to_char(#{endDate}, 'yyyy-mm-dd')
+		<where>
+		createId=#{userId}
+		</where>
+	</update>
+	
+	<delete id="deleteMission" parameterType="map">
+		delete from mission
+		<where>
+		num=#{num}
+		AND
+		createId=#{userId}
+		</where>
+	</delete>
+	
+	<insert id="insertMissionImage" parameterType="com.olive.olive.mission.Mission">
+		insert into missionImage values(missionImage_seq.nextval, #{num}, #{imageFileName})
+	</insert>
+	
+	<delete id="deleteMissionImage" parameterType="Integer">
+		delete from missionImage
+		<where>
+		imageNum = #{imageNum}
+		</where>
+	</delete>
+	
+	<select id="listMission" resultType="com.olive.olive.mission.Mission">
+		select * from mission
+		<where>
+		to_char(sysdate, 'yyyy-mm-dd')&lt;=endDate
+		</where>
+	</select>
+	
+	<select id="listCurrentNotMyMission" parameterType="map" resultType="com.olive.olive.mission.Mission">
+		select * from mission
+		<where>
+		to_char(sysdate, 'yyyy-mm-dd')&lt;=endDate
+		AND
+		num not in (select missionNum from missionAttend where userId=#{userId})
+		</where>
+	</select>
+	
+	<select id="countCurrentNotMyMission" parameterType="map" resultType="Integer">
+		select NVL(COUNT(*), 0) from mission
+		<where>
+		to_char(sysdate, 'yyyy-mm-dd')&lt;=endDate
+		AND
+		num not in (select missionNum from missionAttend where userId=#{userId})
+		</where>
+	</select>
+	
+	<insert id="insertLike" parameterType="map">
+		insert into MissionLike values(#{num}, #{userId})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="map">
+		delete from missionLike
+		<where>
+		num=#{num}
+		AND
+		userId=#{userId}
+		</where>
+	</delete>
+	
+	<select id="countLike" parameterType="Integer" resultType="Integer">
+		select NVL(count(*),0)
+		from missionLike
+		<where>
+		num=#{num}
+		</where>
+	</select> 
+	
+	<insert id="insertMissionAttend" parameterType="com.olive.olive.mission.Mission">
+		insert into missionAttend values(missionAttend_seq.nextval, #{num}, #{userId}, 0)
+	</insert>
+	
+	<delete id="deleteMissionAttend" parameterType="map">
+		delete from missionAttend
+		<where>
+			missionNum=#{num}
+			AND
+			userId=#{userId}
+		</where>
+	</delete>
+	
+	<select id="countAttend" parameterType="map" resultType="Integer">
+		select NVL(count(*), 0)
+		from missionAttend
+		<where>
+		missionNum=#{num}
+		</where>
+	</select>
+	
+	<select id="listMyAttend" parameterType="map" resultType="com.olive.olive.mission.Mission">
+		select * from mission
+		<where>
+		num in (select num from missionAttend where userId=#{userId})
+		</where>
+	</select>
+	
+	<select id="countMyCompleteAttend" parameterType="map" resultType="Integer">
+		select NVL(count(*), 0)
+		from missionAttend
+		<where>
+		userId=#{userId}
+		AND
+		complete=1
+		</where>
+	</select>
+	
+	<select id="listMyCurrentAttend" parameterType="map" resultType="com.olive.olive.mission.Mission">
+		select num, subject, content, startDate, endDate, attendee from mission
+		<where>
+		num in (select missionNum from missionAttend where userId=#{userId})
+		and to_char(sysdate, 'yyyy-mm-dd')&lt;=endDate
+		</where>
+	</select>
+	
+	<select id="countMyCurrentAttend" parameterType="map" resultType="Integer">
+		select NVL(COUNT(*), 0) from mission
+		<where>
+		num in (select num from missionAttend where userId=#{userId})
+		AND
+		to_char(sysdate, 'yyyy-mm-dd')&lt;=endDate
+		</where>
+	</select>
+	
+	<insert id="insertMissionContent" parameterType="com.olive.olive.mission.Content">
+		insert into missionContent values(missionContent_seq, #{missionNum}, #{userId}, #{subject},
+		#{content}, #{startDate}, #{endDate})
+	</insert>
+	
+	<update id="updateMissionContent" parameterType="com.olive.olive.mission.Content">
+		update missionUpdate set
+		subject=#{subject}, content=#{content}, startDate=#{startDate}, endDate=#{endDate}
+		<where>
+		contentNum=#{contentNum}
+		and
+		createId=#{userId}
+		</where>
+	</update>
+	
+	<delete id="deleteMissionContent" parameterType="map">
+		delete from missionContent
+		<where>
+		contentNum=#{contentNum}
+		and
+		createId=#{userId}
+		</where>
+	</delete>
+	
+	<select id="listMissionContent" parameterType="Integer" resultType="com.olive.olive.mission.Content">
+		select * from missionContent
+		<where>
+		missionNum=#{missionNum}
+		</where>
+	</select>
+	
+	<insert id="insertMissionContentAttend" parameterType="com.olive.olive.mission.Content">
+		insert into missionContentAttend values(#{contentNum}, #{userId}, #{content},
+		#{attendDate}, 0, #{imageFileName})
+	</insert>
+	
+	<update id="updateMissionContentAttend" parameterType="com.olive.olive.mission.Content">
+		update missionContentAttend set
+		content=#{content}, imageFileName=#{imageFileName}
+		where contentNum=#{contentNum} and userId=#{userId}
+	</update>
+	
+	<delete id="deleteMissionContentAttend" parameterType="map">
+		delete from missionContentAttend
+		<where>
+		contentNum=#{contentNum}
+		and
+		userId=#{userId}
+		</where>
+	</delete>
+	
+	<select id="countContentAttend" parameterType="Integer" resultType="Integer">
+		select NVL(COUNT(*), 0) from missionContentAttend
+		<where>
+		contentNum=#{contentNum}
+		</where>
+	</select>
+	
+	<select id="getMyContentAttend" parameterType="map" resultType="com.olive.olive.mission.Content">
+		select content attendContent, attendDate, accept, imageFileName from missionContentAttend
+		<where>
+		contentNum=#{contentNum}
+		AND
+		userId=#{userId}
+		</where>
+	</select>
+	
+	<select id="checkMyContentAttendAccept" parameterType="map" resultType="Integer">
+		select NVL(COUNT(*), 0) from missionContentAttend
+		<where>
+		contentNum=#{contentNum}
+		AND
+		userId=#{userId}
+		AND
+		accept=1
+		</where>
+	</select>
+	
+</mapper>
