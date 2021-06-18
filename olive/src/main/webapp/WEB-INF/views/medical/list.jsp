@@ -9,7 +9,7 @@ body {
 
 .title {
 	font-size: 20px;
-	padding-top: 50px;
+	padding-top: 80px;
 	padding-bottom:30px;
 	width: 70%;
 	margin: auto;
