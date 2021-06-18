@@ -82,7 +82,7 @@ $(function() {
 });
 </script>
 
-<div class="container" style="background: #f0f4c3;width: 85%;border-radius: 30px; margin-top: 50px;">
+<div class="container" style="background: #FFFFFF;width: 85%;border-radius: 30px; margin-top: 50px;">
     <div class="body-title">
 		<h2><i class="icofont-ui-messaging"></i> 쪽지함 </h2>
     </div>

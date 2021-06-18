@@ -138,7 +138,7 @@
 				<button type="button" class="login-btn" onclick="sendLogin()">로그인</button>
 				<div class="bottomText">
 					회원이 아니신가요? Olive <a
-						href="location.href='${pageContext.request.contextPath}/member/member';">
+						href="${pageContext.request.contextPath}/member/member">
 						입주신청</a>
 				</div>
 			</form>

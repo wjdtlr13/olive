@@ -51,7 +51,7 @@
 				</li>
 				
                 		<li><a href="${pageContext.request.contextPath}/helper/wallet">cash book</a></li>
-                		<li><a href="${pageContext.request.contextPath}/helper/schedule">schedule</a></li>
+                		<li><a href="${pageContext.request.contextPath}/schedule/main">schedule</a></li>
 				<li class="dropdown">
 					<a href="#">olive</a>
 					<ul>

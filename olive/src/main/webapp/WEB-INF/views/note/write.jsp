@@ -24,6 +24,7 @@
 }
 
 .forms-receiver-name {
+	
 	display: inline-block;
 }
 .receiver-user {
@@ -50,11 +51,18 @@
 .dialog-receiver-list ul, .dialog-receiver-list li{
 	list-style: none;
 	padding: 0;
+	
 }
 .dialog-footer {
 	text-align: right;
 	padding: 5px 0;
 }
+
+.chk {
+	height: 17px;
+	padding: 0;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -127,7 +135,7 @@ $(function(){
 		$("#receiver-dialog").dialog({
 			  modal: true,
 			  height: 450,
-			  width: 380,
+			  width: 400,
 			  title: '받는사람',
 			  close: function(event, ui) {
 			  }
@@ -159,7 +167,7 @@ $(function(){
 			var userId = data.listFriend[i].userId;
 			var userName = data.listFriend[i].userName;
 			
-			s = "<li><input type='checkbox' data-userId='"+userId+"' title='"+userId+"'><span>"+userName+"</span></li>";
+			s = "<li><div class='input-group'><input type='checkbox' class='form-control chk' data-userId='"+userId+"' title='"+userId+"'><span>"+userName+"</span></div></li>";
 			$(".dialog-receiver-list ul").append(s);
 		}
 	}

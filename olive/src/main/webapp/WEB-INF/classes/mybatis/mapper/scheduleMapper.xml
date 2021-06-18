@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="schedule">
+	<insert id="insertSchedule" parameterType="com.olive.olive.schedule.Schedule">
+		INSERT INTO schedule(num, userId, subject, color, sday, eday,
+					stime, etime, repeat, repeat_cycle, memo, created) 
+				VALUES(schedule_seq.NEXTVAL, #{userId}, #{subject},
+					#{color}, #{sday},
+					#{eday, jdbcType=VARCHAR},
+					#{stime, jdbcType=VARCHAR},
+					#{etime, jdbcType=VARCHAR},
+					#{repeat}, #{repeat_cycle},
+					#{memo, jdbcType=VARCHAR},
+					SYSDATE
+		)
+	</insert>
+	
+	<select id="listMonth" parameterType="map" resultType="com.olive.olive.schedule.Schedule">
+		SELECT num id, subject title, sday, eday, stime, etime,
+				color, repeat, repeat_cycle, memo, created
+		FROM schedule
+		<where>
+			userId = #{userId} AND
+			<if test="group !='all' ">
+				color=#{group} AND 
+			</if>
+			( 
+				( 
+					 ( TO_DATE(sday, 'YYYY-MM-DD') &gt;= TO_DATE(#{start}, 'YYYY-MM-DD')
+						AND TO_DATE(sday, 'YYYY-MM-DD') &lt;= TO_DATE(#{end}, 'YYYY-MM-DD')
+					 ) OR ( TO_DATE(eday, 'YYYY-MM-DD') &gt;= TO_DATE(#{start}, 'YYYY-MM-DD') 
+					     AND TO_DATE(eday, 'YYYY-MM-DD') &lt;= TO_DATE(#{end}, 'YYYY-MM-DD')
+					 )
+				) OR (
+					repeat=1 AND repeat_cycle!=0
+						AND ADD_MONTHS(TO_DATE(sday, 'YYYY-MM-DD'), 12 * repeat_cycle*TRUNC(((SUBSTR(#{start},1,4)-SUBSTR(sday,1,4))/repeat_cycle))) &gt;= TO_DATE(#{start}, 'YYYY-MM-DD')
+						AND ADD_MONTHS(TO_DATE(sday, 'YYYY-MM-DD'), 12 * repeat_cycle*TRUNC(((SUBSTR(#{start},1,4)-SUBSTR(sday,1,4))/repeat_cycle))) &lt;= TO_DATE(#{end}, 'YYYY-MM-DD')
+			  )
+			)
+		</where>
+		ORDER BY sday ASC, id DESC 
+	</select>
+
+	<select id="readSchedule" parameterType="Integer" resultType="com.olive.olive.schedule.Schedule">
+		SELECT num, subject, sday, eday, stime, etime,
+			color, repeat, repeat_cycle, memo, created 
+		FROM schedule
+		WHERE num = #{num}
+	</select>
+	
+	<update id="updateSchedule" parameterType="com.olive.olive.schedule.Schedule">
+		UPDATE schedule SET
+			subject=#{subject}, color=#{color}, sday=#{sday}, 
+			eday=#{eday, jdbcType=VARCHAR},
+			stime=#{stime, jdbcType=VARCHAR},
+			etime=#{etime, jdbcType=VARCHAR},
+			repeat=#{repeat},
+			repeat_cycle=#{repeat_cycle},
+			memo=#{memo, jdbcType=VARCHAR}
+		WHERE num=#{num} AND userId=#{userId}
+	</update>
+	
+	<delete id="deleteSchedule" parameterType="map">
+		DELETE FROM schedule WHERE num=#{num} AND userId=#{userId}
+	</delete>
+</mapper>
