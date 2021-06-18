@@ -113,8 +113,8 @@ $(function() {
 						<th width="40"><input type="checkbox" name="chkAll" id="chkAll" style="margin-top: 3px;"> </th>
 						<th>내용</th>
 						<th width="110">${menuItem=="receive"?"보낸사람":"받는사람"}</th>
-						<th width="150">${menuItem=="receive"?"받은날짜":"보낸날짜"}</th>
-						<th width="150">읽은날짜</th>
+						<th width="190">${menuItem=="receive"?"받은날짜":"보낸날짜"}</th>
+						<th width="190">읽은날짜</th>
 					</tr>
 					
 					<c:forEach var="dto" items="${list}">

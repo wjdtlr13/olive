@@ -59,8 +59,11 @@
 }
 
 .chk {
-	height: 17px;
+	height: 16px;
 	padding: 0;
+	margin: 0;
+	margin-top:5px;
+	vertical-align: middle;
 }
 
 </style>
@@ -167,7 +170,7 @@ $(function(){
 			var userId = data.listFriend[i].userId;
 			var userName = data.listFriend[i].userName;
 			
-			s = "<li><div class='input-group'><input type='checkbox' class='form-control chk' data-userId='"+userId+"' title='"+userId+"'><span>"+userName+"</span></div></li>";
+			s = "<li><div class='input-group col-sm-3' style='padding:0;'><input type='checkbox' class='form-control chk' data-userId='"+userId+"' title='"+userId+"'><span style='vertical-align: middle;'>"+userName+"</span></div></li>";
 			$(".dialog-receiver-list ul").append(s);
 		}
 	}
