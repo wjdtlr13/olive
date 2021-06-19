@@ -64,7 +64,7 @@ function searchList(){
 				<td>${dto.hitCount}</td>
 				<td>
 					<c:if test="${not empty dto.saveFilename}">
-						<a href="${pageContext.request.contextPath}/tips/download?num=${dto.num}"><i class="icofont-file-alt"><</i></a>
+						<a href="${pageContext.request.contextPath}/tips/download?num=${dto.num}"><i class="icofont-file-alt"></i></a>
 					</c:if>
 				</td>
 			</tr>
