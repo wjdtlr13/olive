@@ -3,9 +3,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tips">
 	<insert id="insertTips" parameterType="com.olive.olive.tips.Tips">
-		INSERT INTO tips(num, userId, subject, content,
+		INSERT INTO tips(num, userId, subject, downLink, content,
 			saveFilename, originalFilename, hitCount, created) VALUES
-			(tips_seq.NEXTVAL, #{userId}, #{subject}, #{content},
+			(tips_seq.NEXTVAL, #{userId}, #{subject}, #{downLink, jdbcType=VARCHAR},#{content},
 			#{saveFilename, jdbcType=VARCHAR},
 			#{originalFilename, jdbcType=VARCHAR},
 			0, SYSDATE
@@ -54,7 +54,7 @@
 	</select>
 	
 	<select id="readTips" parameterType="Integer" resultType="com.olive.olive.tips.Tips">
-		SELECT t.num, t.userId, userName, subject, content,
+		SELECT t.num, t.userId, userName, subject, downLink, content,
 				hitCount, t.created, saveFilename, originalFilename,
 				NVL(tipsLikeCount, 0) tipsLikeCount
 		FROM tips t
@@ -99,7 +99,7 @@
 	</select>
 	
 	<update id="updateTips" parameterType="com.olive.olive.tips.Tips">
-		UPDATE tips SET subject=#{subject}, content=#{content},
+		UPDATE tips SET subject=#{subject}, downLink=#{downLink}, content=#{content},
 				saveFilename=#{saveFilename, jdbcType=VARCHAR},
 				originalFilename=#{originalFilename, jdbcType=VARCHAR}
 		WHERE num=#{num}

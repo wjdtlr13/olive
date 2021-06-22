@@ -15,12 +15,16 @@
 .table-content input[type=text], .table-content input[type=file], .table-content textarea {
 	width: 97%;
 }
+.body-container{
+	margin-top: 130px;;
+}
+
 </style>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	function check(){
-		var f = document.tipsForm;
+		var f = document.tipsForm; 
 		
 		var str = f.subject.value;
 		if(!str){
@@ -90,10 +94,10 @@ function setDefaultFont() {
 
 <div class="container body-container">
 	<div class="body-title">
-		<h2><i class="icofont-google-talk"></i> 게시판 </h2>
+		<h2> 서류 Tip 작성 </h2>
 	</div>
 	
-	<div class="body-main wx-850 ml-30 pt-15">
+	<div class="body-main">
 		<form name="tipsForm" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this);">
 		<table class="table table-border table-content">
 			<tr>
@@ -107,6 +111,13 @@ function setDefaultFont() {
 				<td>작성자</td>
 				<td>
 					${sessionScope.member.userName}
+				</td>
+			</tr>
+			
+			<tr>
+				<td>서류다운링크</td>
+				<td>
+					<input type="text" name="downlink" class="boxTF" value="${dto.downLink}">
 				</td>
 			</tr>
 			

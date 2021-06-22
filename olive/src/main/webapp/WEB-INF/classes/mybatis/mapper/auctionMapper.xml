@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="auction">
+
+	<!-- 글등록 created -->
+	<insert id="insertAuction" parameterType="com.olive.olive.auction.Auction">
+		INSERT INTO auction(num, userId, subject, price, content, 
+				created, startDate, endDate, hitCount) VALUES
+			(auction_seq.NEXTVAL, #{userId}, #{subject}, #{content},
+				SYSDATE, #{startDate}, #{endDate}, #{hitCount}
+			)
+	</insert>
+
+	<!-- 검색 -->
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'all' ">
+			   ( INSTR(subject, #{keyword}) &gt; 0
+		          OR DBMS_LOB.INSTR(content, #{keyword}) &gt; 0 )
+			</when>
+			<when test="condition == 'content'">
+			    DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
+			</when>
+			<otherwise>
+			    INSTR(${condition}, #{keyword}) &gt; 0
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<!-- 글개수 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM auction a
+		JOIN member1 m ON a.userId=m.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>   
+	</select>
+	
+	<!-- 글리스트 list -->
+	<select id="listAuction" parameterType="map" resultType="com.olive.olive.auction.Auction">
+		SELECT a.num, a.userId, userName, subject, price,
+		       TO_CHAR(startDate, 'YYYY-MM-DD') startDate,
+		       TO_CHAR(endDate, 'YYYY-MM-DD') endDate,
+		       hitCount
+		FROM auction a
+		JOIN member1 m ON a.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+		<!-- 글보기 article -->
+	<select id="readAuction" parameterType="Integer" resultType="com.olive.olive.auction.Auction">
+		SELECT a.num, a.userId, userName, subject, price, content,
+			   hitCount, startDate, endDate
+			   NVL(auctionLikeCount, 0) auctionLikeCount
+		FROM auction a
+		JOIN member1 m ON b.userId=m.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) auctionLikeCount FROM auctionLike
+			GROUP BY num
+		) ac ON a.num = ac.num
+		WHERE a.num = #{num}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE auction SET hitCount=hitCount+1 WHERE num = #{num}
+	</update>
+	
+	<!-- 이전글 -->
+	<select id="preReadAuction" parameterType="map" resultType="com.olive.olive.auction.Auction">
+		SELECT num, subject
+		FROM auction a
+		JOIN member1 m ON a.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &gt; #{num})
+		</where>
+		ORDER BY num ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+
+	<!-- 다음글 -->
+	<select id="nextReadAuction" parameterType="map" resultType="com.olive.olive.auction.Auction">
+		SELECT num, subject
+		FROM auction a
+		JOIN member1 m ON a.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &lt; #{num})
+		</where>
+		ORDER BY num DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<!-- 수정 -->
+	<update id="updateAuction" parameterType="com.olive.olive.auction.Auction">
+		UPDATE auction SET subject=#{subject}, price=#{price}, content=#{content},
+							startDate=#{startDate}, endDate=#{endDate}				
+		WHERE num = #{num}
+	</update>
+      
+	<!-- 삭제 -->
+	<delete id="deleteAuction" parameterType="Integer">
+		DELETE FROM auction WHERE num = #{num}
+	</delete>
+	
+	<!-- 게시 글 좋아요 추가 -->
+	<insert id="insertAuctionLike" parameterType="map">
+		INSERT INTO auctionLike(num, userId) VALUES (#{num}, #{userId})
+	</insert>
+      
+	<!-- 게시글 좋아요 개수 -->
+	<select id="auctionLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM auctionLike WHERE num=#{num}
+	</select>
+	
+	<!-- 댓글 관련 -->
+	<insert id="insertReply" parameterType="com.olive.olive.auction.Auction">
+		INSERT INTO auctionReply(replyNum, num, userId, content, answer, created)
+			VALUES (auctionReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, #{created})
+	</insert>
+	
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM auctionReply
+		WHERE num=#{num} AND answer=0
+	</select>
+	
+	<select id="listReply" parameterType="map" resultType="com.olive.olive.auction.Auction">
+		SELECT r.replyNum, r.userId, userName, num, content, r.created,
+			NVL(answerCount, 0) answerCount
+		FROM auctionReply r
+		JOIN member1 m ON r.userId = m.userId
+		LEFT OUTER JOIN(
+			SELECT answer, COUNT(*) answerCount
+			FROM auctionReply WHERE answer !=0 GROUP BY answer
+		) a ON r.replyNum = a.answer
+		ORDER BY r.replyNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM auctionReply
+		WHERE replyNum=#{replyNum}
+		<if test="mode=='reply'">
+			OR answer=#{replyNum}
+		</if>
+	</delete>
+	
+	<!-- 댓글의 답글 -->
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.olive.olive.auction.Auction">
+		SELECT replyNum, num, r.userId, userName, content, created, answer
+		FROM auctionReply r
+		JOIN member1 m ON r.userId = m.userId
+		WHERE answer = #{answer}
+		ORDER BY replyNum DESC
+	</select>
+	
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM auctionReply WHERE answer = #{answer}
+	</select>
+	
+	
+</mapper>

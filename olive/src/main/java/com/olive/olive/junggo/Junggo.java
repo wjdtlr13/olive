@@ -1,128 +1,102 @@
-package com.olive.olive.tips;
+package com.olive.olive.junggo;
 
-import org.springframework.web.multipart.MultipartFile;
-
-public class Tips {
-	private int num, listNum;
+public class Junggo {
+	private int num;
+	private int listNum;
+	
 	private String userId;
 	private String userName;
 	private String subject;
-	private String downLink;
+	private long price;
 	private String content;
 	private String created;
 	private int hitCount;
 	
-	private String saveFilename;
-	private String originalFilename;
-	private MultipartFile upload;
+	private int categoryNum;
+	private String categoryName;
 	
-	private int tipsLikeCount;
-
+	private int replyCount;
+	private int junggoLikeCount;
+	
+	
 	public int getNum() {
 		return num;
 	}
-
 	public void setNum(int num) {
 		this.num = num;
 	}
-
 	public int getListNum() {
 		return listNum;
 	}
-
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
 	}
-
 	public String getUserId() {
 		return userId;
 	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
 	public String getUserName() {
 		return userName;
 	}
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 	public String getSubject() {
 		return subject;
 	}
-
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	
-	public String getDownLink() {
-		return downLink;
+	public long getPrice() {
+		return price;
 	}
-
-	public void setDownLink(String downLink) {
-		this.downLink = downLink;
+	public void setPrice(long price) {
+		this.price = price;
 	}
-	
 	public String getContent() {
 		return content;
 	}
-
 	public void setContent(String content) {
 		this.content = content;
 	}
-
 	public String getCreated() {
 		return created;
 	}
-
 	public void setCreated(String created) {
 		this.created = created;
 	}
-
 	public int getHitCount() {
 		return hitCount;
 	}
-
 	public void setHitCount(int hitCount) {
 		this.hitCount = hitCount;
 	}
-
-	public String getSaveFilename() {
-		return saveFilename;
+	public int getCategoryNum() {
+		return categoryNum;
 	}
-
-	public void setSaveFilename(String saveFilename) {
-		this.saveFilename = saveFilename;
+	public void setCategoryNum(int categoryNum) {
+		this.categoryNum = categoryNum;
 	}
-
-	public String getOriginalFilename() {
-		return originalFilename;
+	public String getCategoryName() {
+		return categoryName;
 	}
-
-	public void setOriginalFilename(String originalFilename) {
-		this.originalFilename = originalFilename;
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
-
-	public MultipartFile getUpload() {
-		return upload;
+	public int getReplyCount() {
+		return replyCount;
 	}
-
-	public void setUpload(MultipartFile upload) {
-		this.upload = upload;
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
 	}
-
-	public int getTipsLikeCount() {
-		return tipsLikeCount;
+	public int getJunggoLikeCount() {
+		return junggoLikeCount;
 	}
-
-	public void setTipsLikeCount(int tipsLikeCount) {
-		this.tipsLikeCount = tipsLikeCount;
+	public void setJunggoLikeCount(int junggoLikeCount) {
+		this.junggoLikeCount = junggoLikeCount;
 	}
-
-	
 	
 	
 	

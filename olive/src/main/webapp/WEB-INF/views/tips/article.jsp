@@ -102,6 +102,12 @@ $(function(){
 				</td>
 			</tr>
 			
+			<tr>
+				<td colspan="2" align="left">
+					서류다운링크 : ${dto.downLink}
+				</td>
+			</tr>
+			
 			<tr style="border: none;">
 				<td colspan="2" valign="top" height="200">
 					${dto.content}

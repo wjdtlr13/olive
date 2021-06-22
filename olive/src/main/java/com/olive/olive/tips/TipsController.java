@@ -272,6 +272,7 @@ public class TipsController {
 		return "redirect:/tips/list?"+query;
 	}
 	
+	@RequestMapping(value="download")
 	public void download(
 			@RequestParam int num,
 			HttpServletRequest req,

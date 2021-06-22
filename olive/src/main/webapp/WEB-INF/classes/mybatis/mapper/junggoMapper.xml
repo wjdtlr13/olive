@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junggo">
+	<insert id="insertJunggo" parameterType="com.olive.olive.junggo.Junggo">
+		INSERT INTO junggo(num, userId, categoryNum, subject, price, content,
+			hitCount, created)	VALUES
+			(junggo_seq.NEXTVAL, #{userId}, #{categoryNum}, #{subject}, 
+				#{price}, #{content}, 0, SYSDATE
+			)
+	</insert>
+	
+	<select id="listCategory" resultType="com.olive.olive.junggo.Junggo">
+		SELECT categoryNum, categoryName FROM junggoCategory
+	</select>
+	
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'all' ">
+				( INSTR(subject, #{keyword}) &gt; 0
+					OR DBMS_LOB.INSTR(content, #{keyword} &gt; 0 )
+			</when>
+			<when test="condition == 'content'">
+				DBMS_LOB.INSTR(content, #{keyword}) &gt; 0
+			</when>
+			<otherwise>
+				INSTR(${condition}, #{keyword}) &gt;0
+			</otherwise>
+		</choose>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM junggo j
+		JOIN member1 m ON j.userId=m.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>
+	</select>
+	
+	<select id="listJunggo" parameterType="map" resultType="com.olive.olive.junggo.Junggo">
+		SELECT j.num, j.userId, userName, subject, price, 
+				created, hitCount, NVL(replyCount, 0) replyCount
+		FROM junggo j
+		JOIN member1 m ON j.userId=m.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) replyCount FROM junggoReply
+			WHERE answer = 0
+			GROUP BY num
+		) c ON j.num = c.num
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="readJunggo" parameterType="Integer" resultType="com.olive.olive.junggo.Junggo">
+		SELECT j.num, j.userId, userName, subject, price, content
+			hitCount, j.created, NVL(junggoLikeCount, 0) junggoLikeCount
+		FROM junggo j
+		JOIN member1 m ON j.userId=m.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) junggoLikeCount FROM junggoLike
+			GROUP BY num
+		) jc ON j.num = jc.num
+		WHERE j.num = #{num} 
+	</select>
+	
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE junggo SET hitCount+1 WHERE num=#{num}
+	</update>
+	
+	<select id="preReadJunggo" parameterType="map" resultType="com.olive.olive.junggo.Junggo">
+		SELECT num, subject
+		FROM junggo j
+		JOIN member1 m ON j.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &gt; #{num})
+		</where>
+		ORDER BY num ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<select id="nextReadJunggo" parameterType="map" resultType="com.olive.olive.junggo.Junggo">
+		SELECT num, subject
+		FROM junggo j
+		JOIN member1 m ON j.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &lt; #{num})
+		</where>
+		ORDER BY num DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>	
+	
+	<update id="updateJunggo" parameterType="com.olive.olive.junggo.Junggo">
+		UPDATE junggo SET subject=#{subject}, price=#{price}, content=#{content},
+		WHERE num = #{num}
+	</update>
+
+	<delete id="deleteJunggo" parameterType="Integer">
+		DELETE FROM junggo WHERE num = #{num}
+	</delete>	
+	
+	<!-- 좋아요 관련 -->
+	<insert id = "insertJunggoLike" parameterType="map">
+		INSERT INTO junggoLike(num, userId) VALUES (#{num}, #{userId})
+	</insert> 
+	
+	<select id="junggoLikeCount" parameterType="Integer" resultType="Integer">
+		SELECT COUNT(*) FROM junggoLike WHERE num=#{num}
+	</select>
+	
+	<!-- 댓글 관련 -->
+	<insert id="insertReply" parameterType="com.olive.olive.junggo.Junggo">
+		INSERT INTO junggoReply(replyNum, num, userId, content, answer, created)
+			VALUES (junggoReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, #{created})
+	</insert>
+	
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM junggoReply
+		WHERE num=#{num} AND answer=0
+	</select>
+	
+	<select id="listReply" parameterType="map" resultType="com.olive.olive.junggo.Junggo">
+		SELECT r.replyNum, r.userId, userName, num, content, r.created,
+			NVL(answerCount, 0) answerCount
+		FROM junggoReply r
+		JOIN member1 m ON r.userId = m.userId
+		LEFT OUTER JOIN(
+			SELECT answer, COUNT(*) answerCount
+			FROM junggoReply WHERE answer !=0 GROUP BY answer
+		) a ON r.replyNum = a.answer
+		ORDER BY r.replyNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<delete id="deleteReply" parameterType="map">
+		DELETE FROM junggoReply
+		WHERE replyNum=#{replyNum}
+		<if test="mode=='reply'">
+			OR answer=#{replyNum}
+		</if>
+	</delete>
+	
+	<!-- 댓글의 답글 -->
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.olive.olive.junggo.Junggo">
+		SELECT replyNum, num, r.userId, userName, content, created, answer
+		FROM junggoReply r
+		JOIN member1 m ON r.userId = m.userId
+		WHERE answer = #{answer}
+		ORDER BY replyNum DESC
+	</select>
+	
+	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM junggoReply WHERE answer = #{answer}
+	</select>
+	
+</mapper>
