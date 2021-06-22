@@ -45,7 +45,7 @@
 					<a href="#">real-estate</a>
 					<ul>
                 		<li><a href="${pageContext.request.contextPath}/house/info">올리브의 새 집</a></li>
-                		<li><a href="${pageContext.request.contextPath}/tips/list">올리브의 집문서</a></li>
+                		<li><a href="${pageContext.request.contextPath}/house/every">올리브의 집문서</a></li>
                 		<li><a href="${pageContext.request.contextPath}/house/bot">꿀팁 안내봇</a></li>
 					</ul>
 				</li>
@@ -57,6 +57,7 @@
 					<ul>
                 		<li><a href="${pageContext.request.contextPath}/mission/main">올리브의 도전</a></li>
                 		<li><a href="${pageContext.request.contextPath}/presence/main">올리브의 발도장</a></li>
+                		<li><a href="${pageContext.request.contextPath}/chat/main">올리브네 반상회</a></li>
 					</ul>
 				</li>
 								

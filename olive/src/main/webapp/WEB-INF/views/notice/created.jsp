@@ -12,7 +12,7 @@
 * {
 	margin: 0; padding: 0;
 	
-	font-family: 맑은 고딕, 돋움;
+	
 }
 
 .body-container {

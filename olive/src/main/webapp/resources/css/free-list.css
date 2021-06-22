@@ -1,0 +1,42 @@
+.btn {
+  font-size: 14px;
+  border-style: solid;
+  border-color: #000000;
+  padding: 6px;
+}
+
+a {
+  color: #9e9d24;
+}
+
+a:hover {
+  color: #6c6f00;
+  text-decoration: blink;
+}
+
+.page-link:hover {
+  color: #6c6f00;
+}
+
+.page-link {
+  color: #9e9d24;
+}
+
+form * {
+  margin: 0 5px;
+}
+
+.form-control {
+  width: 100px;
+}
+
+.btn:hover {
+  background-color: #9e9d24;
+  color: white;
+  border: 1px solid white;
+}
+
+thead tr {
+  background: #cdcc3970;
+}
+
