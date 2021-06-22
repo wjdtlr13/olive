@@ -40,6 +40,11 @@ textarea:focus, input:focus{
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	cursor: pointer;
 }
+.sbtn{
+    width: 30%;
+    height: 45px;
+    margin-top: 20px;
+}
 .boxTF {
 	border:1px solid #999;
 	padding:5px 5px 5px;
@@ -47,6 +52,7 @@ textarea:focus, input:focus{
 	background-color:#fff;
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
+	margin:20px;
 }
 .boxTF[readonly] {
 	background-color:#eeeeee;
@@ -68,6 +74,8 @@ textarea:focus, input:focus{
 	border-radius:4px;
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
+	height: 43px;
+    margin-top: 20px;
 }
 
 </style>
@@ -135,19 +143,28 @@ function searchList(){
 					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/tips/list';">새로고침</button>
 				</td>
 				<td align="center">
-					<form name="searchForm" action="${pageContext.request.contextPath}/tips/list" method="post">
+					<form name="searchForm" class="d-flex justify-content-end" action="${pageContext.request.contextPath}/tips/list" method="post">
 						<select name="condition" class="selectField">
 							<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
 							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 						</select>
 						<input type="text" name="keyword" value="${keyword}" class="boxTF">
-						<button type="button" class="btn" onclick="searchList()">검색</button>
+						<button type="button" class="btn sbtn" onclick="searchList()">검색</button>
 					</form>
 				</td>
-				<td align="right" width="20%">
-					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/tips/created';">글올리기</button>
-				</td>
+				<c:choose>
+					<c:when test="${sessionScope.member.userId=='admin'}">
+						<td align="right" width="20%">
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/tips/created';">글올리기</button>
+						</td>
+					</c:when>
+					<c:otherwise>
+						<td style="padding-left: 120px;">
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						</td>
+					</c:otherwise>
+				</c:choose>
 			</tr>
 		</table>
 	</div>

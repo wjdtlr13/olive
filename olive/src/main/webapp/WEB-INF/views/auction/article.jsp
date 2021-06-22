@@ -8,10 +8,19 @@
 	border: none;
 }
 
+.body-container{
+	margin-top: 130px;
+}
+
 .table-content tr > td {
 	padding-left: 5px; padding-right: 5px;
 }
-
+.container{
+	margin-top: 130px;
+}
+.body-title{
+	margin-top: 130px;
+}
 .reply {
 	padding: 15px 0 10px;
 }
@@ -266,7 +275,7 @@ $(function(){
 
 <div class="container body-container">
     <div class="body-title">
-        <h2> 공동구매 게시판 </h2>
+        <h2> 공동구매 글쓰기 </h2>
     </div>
     
      <div class="body-main">
@@ -275,7 +284,7 @@ $(function(){
 	     		<td width="20%" align="left">
 					&nbsp;
 				</td>
-				<td width="50%" align="right">
+				<td width="50%" align="left">
 					이름 : ${dto.userName}
 				</td>
 			</tr>
@@ -290,8 +299,8 @@ $(function(){
 			</tr>
 			
 			<tr>
-	     		<td width="50%" align="center">
-					진행날짜 : ${startDate}-${endDate} 
+	     		<td width="50%" align="left">
+					진행날짜 : ${dto.startDate} - ${dto.endDate} 
 				</td>
 				<td width="50%" align="left">
 					조회 ${dto.hitCount}
@@ -303,10 +312,14 @@ $(function(){
 					<div class="editor">${dto.content}</div>
 				</td>
 			</tr>
-			<!-- 좋아요 -->
+			
+			
 			<tr>
-				<td colspan="2" style="padding-bottom: 15px;" align="center">
-					<button type="button" class="btn btnSendAuctionLike" title="좋아요"><i class="icofont-like"></i>&nbsp;&nbsp;<span id="auctionLikeCount">${dto.auctionLikeCount}</span></button>
+				<td style="padding-bottom: 15px;" align="right">
+					<button type="button" class="btn btnSendAuctionLike" title="좋아요"><i class="icofont-like"></i>&nbsp;&nbsp;<span id="auctionLikeCount">좋아요! ${dto.auctionLikeCount}</span></button>
+				</td>
+				<td align="left">
+					<button type="button" id="auctionList" onclick="auctionAttend()"></button>
 				</td>
 			</tr>
 			
@@ -385,6 +398,19 @@ $(function(){
      	
      </div>
     
+<script type="text/javascript">
+
+$("#auctionList").click(function(){
+	'sessionScope.member.userId'
+});
+
+function auctionAttend() {
+	const userId = document.getElementById(b333).value;
+	
+}
+
+</script>
+
 <script type="text/javascript">
 ClassicEditor
 	.create( document.querySelector( '.editor' ), {

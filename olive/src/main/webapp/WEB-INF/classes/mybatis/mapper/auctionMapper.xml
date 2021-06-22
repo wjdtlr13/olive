@@ -7,7 +7,7 @@
 	<insert id="insertAuction" parameterType="com.olive.olive.auction.Auction">
 		INSERT INTO auction(num, userId, subject, price, content, 
 				created, startDate, endDate, hitCount) VALUES
-			(auction_seq.NEXTVAL, #{userId}, #{subject}, #{content},
+			(auction_seq.NEXTVAL, #{userId}, #{subject},#{price}, #{content},
 				SYSDATE, #{startDate}, #{endDate}, #{hitCount}
 			)
 	</insert>
@@ -60,10 +60,10 @@
 		<!-- 글보기 article -->
 	<select id="readAuction" parameterType="Integer" resultType="com.olive.olive.auction.Auction">
 		SELECT a.num, a.userId, userName, subject, price, content,
-			   hitCount, startDate, endDate
+			   hitCount, startDate, endDate,
 			   NVL(auctionLikeCount, 0) auctionLikeCount
 		FROM auction a
-		JOIN member1 m ON b.userId=m.userId
+		JOIN member1 m ON a.userId=m.userId
 		LEFT OUTER JOIN (
 			SELECT num, COUNT(*) auctionLikeCount FROM auctionLike
 			GROUP BY num

@@ -25,6 +25,81 @@
 .table-content input[type=text], .table-content input[type=file], .table-content textarea {
 	width: 97%;
 }
+.btn {
+	color:#333;
+	font-weight: 500;
+	border:1px solid #ccc;
+	background-color:#fff;
+	text-align:center;
+	vertical-align: middle;
+	padding:6px 13px;
+	border-radius: 3px;
+	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+	cursor: pointer;
+}
+.btn:active, .btn:focus, .btn:hover {
+	background-color:#e6e6e6;
+	border-color: #adadad;
+	color: #333;
+}
+.btn[disabled], fieldset[disabled] .btn {
+	pointer-events: none;
+	cursor: not-allowed;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	opacity: .65;
+}
+
+.btn-dark {
+    background: #424951;
+	border:1px solid #2f3741;
+    color:#fff;
+}
+.btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+    background: #333;
+   	border:1px solid #222;
+   	color:#fff;
+}
+
+.boxTF {
+	border:1px solid #999;
+	padding:5px 5px 5px;
+	border-radius:4px;
+	background-color:#fff;
+	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+	vertical-align: middle;
+}
+.boxTF[readonly] {
+	background-color:#eeeeee;
+	/* border: none;*/
+}
+.body-container {
+	display: block;
+	padding-top: 10px;
+}
+
+.body-title {
+    color: #424951;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin: 0 0 25px 0;
+    border-bottom: 1px solid #ddd;
+}
+.body-title h2 {
+    font-size: 23px;
+    min-width: 300px;
+    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+    font-weight: bold;
+    margin: 0 0 -5px 0;
+    padding-bottom: 5px;
+    display: inline-block;
+    border-bottom: 3px solid #424951;
+    
+}
+.table-content tr > td:nth-child(1) {
+	background-color: #afb42b;
+}
 </style>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/build/ckeditor.js"></script>
@@ -101,13 +176,6 @@
 				</td>				
 			</tr>
 			
-			<tr>
-				<td>이미지</td>
-				<td>
-					<div class="imgPreView"></div>
-					<input type="file" name="upload" class="boxTF" accept="image/*" style="display: none;">
-				</td>
-			</tr>
 		</table>
 			
 		<table class="table">

@@ -40,6 +40,11 @@ textarea:focus, input:focus{
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	cursor: pointer;
 }
+.sbtn{
+    width: 30%;
+    height: 45px;
+    margin-top: 20px;
+}
 .boxTF {
 	border:1px solid #999;
 	padding:5px 5px 5px;
@@ -47,6 +52,7 @@ textarea:focus, input:focus{
 	background-color:#fff;
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
+	margin:20px;
 }
 .boxTF[readonly] {
 	background-color:#eeeeee;
@@ -68,6 +74,8 @@ textarea:focus, input:focus{
 	border-radius:4px;
 	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
+	height: 43px;
+    margin-top: 20px;
 }
 </style>
 
@@ -98,10 +106,10 @@ function searchList(){
 		<table class="table table-border table-content">
 			<tr>
 				<th width="60">번호</th>
-				<th>제목</th>
+				<th align="center">제목</th>
 				<th width="200">가격</th>
 				<th width="100">작성자</th>
-				<th width="80">작성일</th>
+				<th width="20%">작성일</th>
 				<th width="100">조회수</th>
 			</tr>
 			
@@ -131,14 +139,14 @@ function searchList(){
 					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/junggo/list';">새로고침</button>
 				</td>
 				<td align="center" class="search">
-					<form name="searchForm" action="${pageContext.request.contextPath}/junggo/list" method="post">
+					<form name="searchForm" class="d-flex justify-content-end" action="${pageContext.request.contextPath}/junggo/list" method="post">
 						<select name="condition" class="selectField">
 							<option value="all" ${condition=="all"?"selected='selected'":""}>제목+내용</option>
 							<option value="subject" ${condition=="subject"?"selected='selected'":""}>제목</option>
 							<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
 						</select>
 						<input type="text" name="keyword" value="${keyword}" class="boxTF">
-						<button type="button" class="btn" onclick="searchList()">검색</button>
+						<button type="button" class="btn sbtn" onclick="searchList()">검색</button>
 					</form>
 				</td>
 				<td align="right" width="20%">

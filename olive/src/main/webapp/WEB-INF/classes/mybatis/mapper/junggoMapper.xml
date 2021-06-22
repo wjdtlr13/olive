@@ -60,7 +60,7 @@
 	</select>
 	
 	<select id="readJunggo" parameterType="Integer" resultType="com.olive.olive.junggo.Junggo">
-		SELECT j.num, j.userId, userName, subject, price, content
+		SELECT j.num, j.userId, userName, subject, price, content,
 			hitCount, j.created, NVL(junggoLikeCount, 0) junggoLikeCount
 		FROM junggo j
 		JOIN member1 m ON j.userId=m.userId
@@ -72,7 +72,7 @@
 	</select>
 	
 	<update id="updateHitCount" parameterType="Integer">
-		UPDATE junggo SET hitCount+1 WHERE num=#{num}
+		UPDATE junggo SET hitcount=hitCount+1 WHERE num=#{num}
 	</update>
 	
 	<select id="preReadJunggo" parameterType="map" resultType="com.olive.olive.junggo.Junggo">
