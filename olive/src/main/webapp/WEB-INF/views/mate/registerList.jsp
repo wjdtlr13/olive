@@ -12,31 +12,27 @@ function searchList() {
 	f.submit();
 }
 
+var mode = "#${mode}";
+
 $(function(){
-	if("${categoryNum}"==""){
-		$('ul').find('.navnone').addClass('active');
-	} else{
-		var t = "nav${categoryNum}";
-		$('ul').find("."+t).addClass('active');
-		
-	};
+	$('.nav-tabs').find(mode).addClass('active');
+	
 	
 });
 
 
 </script>
 	<div class="jumbotron" style="background: rgb(103,98,23);">
-        <h1 style="color: rgb(224,224,224);"><strong>형형색깔 올리브</strong></h1>
+        <h1 style="color: rgb(224,224,224);"><strong>올리브의 밥친구</strong></h1>
         <p style="color: #e6ee9c;font-size: 20px;">어떠한 색깔도 자유롭게 칠할 수 있는 여기는 형형색깔 올리브입니다</p>
-        <p><button class="btn" type="button" style="border-style: solid;border-color: #e6ee9c;color: rgb(255,255,255);">지금 글쓰기</button></p>
+        
     </div>
 
 <div class="container">
         <ul class="nav nav-tabs">
-        <li class="nav-item"><a class="nav-link category navnone" href="${pageContext.request.contextPath}/free/list">전체</a></li>
-        <c:forEach var="map" items="${categoryList}">
-        <li class="nav-item"><a class="nav-link category nav${map.num}" href="${pageContext.request.contextPath}/free/list?categoryNum=${map.num}">${map.name }</a></li>
-        </c:forEach>    
+        <li class="nav-item"><a id="upcoming" class="nav-link category navnone" href="${pageContext.request.contextPath}/mate/registerList?mode=upcoming">다가오는 약속</a></li>
+        <li class="nav-item"><a id="past" class="nav-link category navnone" href="${pageContext.request.contextPath}/mate/registerList?mode=past">지난 약속</a></li>
+        <li class="nav-item"><a id="matched" class="nav-link category navnone" href="${pageContext.request.contextPath}/mate/registerList?mode=matched">성립된 약속</a></li>
     </ul>
     
         <div class="col" style="margin: 15px 0;">
@@ -46,22 +42,26 @@ $(function(){
 		<table class="table table-striped table-hover">
 			<thead>
 			<tr> 
-				<th width="10%">번호</th>
-				<th width="40%">제목</th>
-				<th width="12.5%">작성자</th>
+				<th width="5%">번호</th>
+				<th width="5%">분류</th>
+				<th width="27%">상호명</th>
+				<th width="27%">주소</th>
+				<th width="12.5%">약속일</th>
+				<th width="10%">작성자</th>
 				<th width="12.5%">작성일</th>
-				<th width="12.5%">조회수</th>
-				<th width="12.5%">첨부</th>
 			</tr>
 		 	</thead>
 			<tbody>
 			<c:forEach var="dto" items="${list}">
 			<tr> 
 				<td>${dto.listNum}</td>
+				<td>${dto.categoryName }</td>
 				<td>
-					<c:url var="url" value="/free/article">
-						<c:param name="num" value="${dto.num}"/>
+					<c:url var="url" value="/mate/article">
+						<c:param name="mate_reg_num" value="${dto.mate_reg_num}"/>
 						<c:param name="page" value="${page}"/>
+						<c:param name="mate_regi_num" value="${dto.mate_regi_num }"/>
+						<c:param name="mode" value="${mode }"/>
 						<c:if test="${not empty keyword}">
 							<c:param name="condition" value="${condition}"/>
 							<c:param name="keyword" value="${keyword}"/>
@@ -70,16 +70,12 @@ $(function(){
 							<c:param name="categoryNum" value="${categoryNum }"/>
 						</c:if>
 					</c:url>
-					<a href="${url}">${dto.subject} (${dto.replyCount})</a>
+					<a href="${url}">${dto.eating_name}</a>
 				</td>
+				<td>${dto.eating_address}</td>
+				<td>${dto.eating_date}</td>
 				<td>${dto.nickName}</td>
-				<td>${dto.created}</td>
-				<td>${dto.hitCount}</td>
-				<td>
-					<c:if test="${not empty dto.saveFilename}">
-						<a href="${pageContext.request.contextPath}/free/download?num=${dto.num}"><i class="fa fa-file-text-o"></i></a>
-					</c:if>		      
-				</td>
+				<td>${dto.reg_date }</td>
 			</tr>
 			</c:forEach>
 			</tbody>
@@ -91,7 +87,7 @@ $(function(){
 			</tr>
 		</table>
 		
-		 <div class="row">
+		 <div class="row d-none">
                 <div class="col-auto"><button class="btn" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/free/list';">새로고침</button></div>
                 <div class="col-auto"><button class="btn" type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/free/created';">글올리기</button></div>
                 <div class="col">

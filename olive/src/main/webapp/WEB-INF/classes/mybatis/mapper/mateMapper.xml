@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mate">
+	
+	<select id="getAddress" parameterType="String" resultType="String">
+		select addr1 from member2 where userId=#{userId}
+	</select>
+	
+	<insert id="insertMate" parameterType="com.olive.olive.mate.Mate" useGeneratedKeys="true" keyColumn="num" keyProperty="num">
+		Insert into mate values(mate_seq.nextval, #{userId}, #{mate_introduce},
+		#{mate_kind}, #{mate_etc})
+	</insert>
+	
+	<update id="updateMate" parameterType="com.olive.olive.mate.Mate">
+		Update mate set mate_introduce={mate_introduce},
+		mate_kind=#{mate_kind}, mate_etc=#{mate_etc}
+		where num=#{num} and userId=#{userId}
+	</update>
+	
+	<delete id="deleteMate" parameterType="Integer">
+		delete from mate where num = #{num}
+	</delete>
+	
+	<insert id="insertMate_Register" parameterType="com.olive.olive.mate.Register">
+		Insert into mate_register values(mate_reg_seq.nextval, #{mate_regi_num},
+		#{categoryNum}, #{eating_name}, #{eating_address}, #{eating_tel}, #{eating_date}, #{eating_time},
+		#{eating_url},
+		sysdate, null, null)
+	</insert>
+	
+	<delete id="deleteMate_Register" parameterType="Map">
+		delete from mate_register 
+		where mate_reg_num = #{mate_reg_num} and mate_regi_num = #{mate_regi_num}
+	</delete>
+	<delete id="deleteMateinRequest" parameterType="Map">
+		delete from mate
+		where num in (select mate_num from mate_request where reg_num=#{mate_reg_num})
+	</delete>
+	<delete id="deleteRequestinRegister" parameterType="Map">
+		delete from mate_request 
+		where reg_num = #{mate_reg_num}
+	</delete>
+	
+	<sql id="where-list">
+		<choose>
+			<when test="condition == 'both'">
+				(INSTR(eating_address, #{keyword}) &gt; 0
+				AND INSTR(categoryName, #{keyword}) &gt; 0)
+			</when>
+			<when test="condition == 'address'">
+				(INSTR(eating_address, #{keyword}) &gt; 0)
+			</when>
+			<when test="condiiton == 'category'">
+				(INSTR(categoryName, #{keyword}) &gt; 0)
+			</when>
+			<when test="condition == 'nickName'">
+				(INSTR(nickName, #{keyword}) &gt; 0)
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM free f
+		JOIN member1 m ON f.userId=m.userId
+		<where>
+			<if test="categoryNum!=null and categoryNum!='' ">
+				categoryNum=${categoryNum}
+			</if>
+		</where> 
+	</select>
+	
+	<select id="listCategory" resultType="com.olive.olive.mate.Category">
+		SELECT num, categoryName
+		FROM eating_category
+		order by num asc
+	</select>
+	
+	<select id="listRegister_upcoming" parameterType="Map" resultType="com.olive.olive.mate.Register">
+		select mate_reg_num, m.userId, mate_regi_num, nickName, r.categoryNum, categoryName,
+		eating_name, eating_address, eating_date, reg_date
+		from mate_register r
+		JOIN mate m on r.mate_regi_num = m.num
+		JOIN eating_category e on r.categoryNum = e.num
+        JOIN member1 mem on m.userId = mem.userId
+		WHERE TO_DATE(reg_date, 'yyyy-mm-dd')&gt;=sysdate
+			AND m.userId=#{userId}
+		ORDER BY mate_reg_num DESC 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="listRegister_past" parameterType="Map" resultType="com.olive.olive.mate.Register">
+		select mate_reg_num, mate_regi_num, m.userId userId, nickName, r.categoryNum, categoryName,
+		eating_name, eating_address, eating_date, reg_date
+		from mate_register r
+		JOIN mate m on r.mate_regi_num = m.num
+		JOIN eating_category e on r.categoryNum = e.num
+        JOIN member1 mem on m.userId = mem.userId
+        WHERE TO_DATE(reg_date, 'yyyy-mm-dd')&lt;=sysdate
+			AND m.userId=#{userId}
+		ORDER BY mate_reg_num DESC 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="listRegister_matched" parameterType="Map" resultType="com.olive.olive.mate.Register">
+		select mate_reg_num, mate_regi_num, m.userId userId, nickName, r.categoryNum, categoryName,
+		eating_name, eating_address, eating_date, reg_date
+		from mate_register r
+		JOIN mate m on r.mate_regi_num = m.num
+		JOIN eating_category e on r.categoryNum = e.num
+        JOIN member1 mem on m.userId = mem.userId
+		WHERE TO_DATE(reg_date, 'yyyy-mm-dd')&gt;=sysdate
+			AND m.userId=#{userId}
+			AND mate_req_num is not null
+		ORDER BY mate_reg_num DESC 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	
+	
+	<select id="readMate_Register" parameterType="Integer" resultType="com.olive.olive.mate.Register">
+		select mate_reg_num, 
+		mate_regi_num, reg.userId reg_userId, mem1.nickName reg_nickName, reg.mate_introduce 
+		reg_introduce, reg.mate_kind reg_kind, reg.mate_etc reg_etc, 
+		r.categoryNum, categoryName, eating_name, 
+		eating_tel, eating_address, eating_date, eating_time, eating_url, reg_date, 
+		r.mate_req_num, req.userId req_userId, mem2.nickName req_nickName, req.mate_introduce req_introduce, req.mate_kind 
+		req_kind, req.mate_etc req_etc from mate_register r 
+		JOIN mate reg on r.mate_regi_num = reg.num 
+		LEFT OUTER JOIN mate req on r.mate_req_num = req.num 
+		JOIN member1 mem1 on reg.userId = mem1.userId 
+		LEFT OUTER JOIN member1 mem2 on req.userId = mem2.userId 
+		JOIN eating_category e on r.categoryNum = e.num 
+		where mate_reg_num = ${mate_reg_num}
+	</select>
+	
+	<update id="updateMate_RegisterAccept" parameterType="Map">
+		update mate_register set mate_req_num = #{mate_req_num}, mate_date = sysdate
+		where mate_reg_num = #{mate_reg_num}
+	</update>
+	
+	<insert id="insertMate_Request" parameterType="com.olive.olive.mate.Request">
+		insert into mate_request values(mate_req_seq.nextval, #{reg_num}, #{mate_num}, sysdate, 0)
+	</insert>
+	
+	<delete id="deleteMate_Request" parameterType="Integer">
+		delete from mate_request where mate_req_num = #{mate_req_num}
+	</delete>
+	
+	<update id="updateMate_RequestExcept" parameterType="Integer">
+		update mate_reqeust set accept=-1 where reg_num = #{reg_num}
+	</update>
+	
+	<update id="updateMate_RequestAccept" parameterType="Integer">
+		update mate_request set accept=1 where mate_req_num = #{mate_req_num}
+	</update>
+	
+	<update id="updateMate_RequestDeny" parameterType="Integer">
+		update mate_request set accept=-1 where mate_req_num = #{mate_req_num}
+	</update>
+	
+	
+	
+</mapper>

@@ -124,8 +124,6 @@ public class FreeController {
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);
 		
-		model.addAttribute("menuIndex", 2);
-		
 		return ".free.list";
 	}
 	
@@ -134,7 +132,6 @@ public class FreeController {
 			Model model) throws Exception {
 		
 		model.addAttribute("mode", "created");
-		model.addAttribute("menuIndex", 2);
 		return ".free.created";
 	}
 	
@@ -198,7 +195,6 @@ public class FreeController {
 
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
-		model.addAttribute("menuIndex", 2);
 		
         return ".free.article";
 	}
@@ -223,7 +219,6 @@ public class FreeController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("mode", "update");
 		model.addAttribute("page", page);
-		model.addAttribute("menuIndex", 2);
 		
 		return ".free.created";
 	}

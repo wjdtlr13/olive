@@ -1,0 +1,54 @@
+p {
+  font-size: 18px;
+  color: rgb(82,82,82);
+  margin: 10px auto;
+}
+
+.col {
+  padding: 10px 10px;
+}
+
+textarea.form-control {
+  height: 100px;
+  resize: none;
+  background: #d4e15744;
+}
+
+.btn {
+  font-size: 14px;
+  border-style: none;
+  padding: 6px;
+  background: rgb(85,139,47);
+  color: white;
+}
+
+.btn:hover {
+  background-color: #9e9d24;
+  color: white;
+  border: 1px solid white;
+}
+
+.address {
+  font-size: 22px;
+  padding: 5px 20px;
+  text-align: center;
+}
+
+.welcome {
+  height: 30%;
+}
+
+.heading p {
+  font-size: 30px;
+  width: 60%;
+  color: rgb(255,255,255);
+  text-align: center;
+  background: rgba(116,116,116,0.39);
+  border: 2px none rgb(179,179,179);
+}
+
+.col.heading {
+  padding: 0;
+  margin-top: -55px;
+}
+
