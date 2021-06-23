@@ -76,7 +76,7 @@
 						<li class="dropdown"><a href="#"><i class="fa fa-user" style="font-size: 25px;"></i></a>
 							<ul>
 								<li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
-								<li><a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
+								<li><a href="${pageContext.request.contextPath}/member/logout">${sessionScope.member.userName}님 로그아웃</a></li>
 								<li><a href="${pageContext.request.contextPath}/mypage/list">내 정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/note/receive/list">우체통</a></li>
 								<c:if test="${sessionScope.member.userId=='admin'}">

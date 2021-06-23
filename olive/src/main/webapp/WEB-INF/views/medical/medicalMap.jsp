@@ -4,8 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/medicalMap.css" type="text/css">
 
+<div style="height: 75px;"></div>
 <div class="div-title">올리브네 응급실</div>
-<div style="width:1170px; height: 30px; border-top: 1.5px solid #8e8e8e; margin: auto;"></div>
+<div style="width:1170px; height: 10px; border-top: 1.5px solid #8e8e8e; margin: 20px auto;"></div>
 
 <div class="map_wrap" style="border: 2px solid #99aa00; width: 1200px; height: 500px; margin: auto; border-radius: 20px;">
     <div id="map" style="width:100%; height:100%; position:relative; overflow:hidden; border-radius: 20px;"></div>
