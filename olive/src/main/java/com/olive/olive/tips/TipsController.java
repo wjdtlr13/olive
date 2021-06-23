@@ -34,6 +34,20 @@ public class TipsController {
 	@Autowired
 	private FileManager fileManager;
 	
+	@RequestMapping("home")
+	public String home() {
+		return ".tips.main";
+	}
+	
+	@RequestMapping("office")
+	public String office(
+			HttpSession session,
+			Model model) {
+		
+		return ".tips.office";
+		
+	}
+	
 	@RequestMapping(value="list")
 	public String list(
 			@RequestParam(value="page", defaultValue="1") int current_page,
