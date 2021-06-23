@@ -15,7 +15,7 @@
 	font-family: 맑은 고딕, 돋움;
 }
 
-.body-container {
+.body-container { 
 	width: 1000px;
 	margin: 20px auto;
 	height: 1000px;
