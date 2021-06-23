@@ -9,9 +9,13 @@
 }
 
 .body-container{
-	margin-top: 130px;
+    margin-top: 300px;
+    border-bottom-width: 0px;
 }
-
+.body-title{
+	margin-top: 260px;
+	border-bottom-width: 0px;
+}
 .table-content tr > td {
 	padding-left: 5px; padding-right: 5px;
 }
@@ -273,9 +277,9 @@ $(function(){
 });
 </script>
 
-<div class="container body-container">
+<div class="container body-container" style="margin-top: 250px;border-bottom-width: 0px;">
     <div class="body-title">
-        <h2> 공동구매 글쓰기 </h2>
+        <h2> 공동구매 글보기 </h2>
     </div>
     
      <div class="body-main">
@@ -313,7 +317,7 @@ $(function(){
 				</td>
 			</tr>
 			
-			
+		<!-- 좋아요 -->
 			<tr>
 				<td style="padding-bottom: 15px;" align="right">
 					<button type="button" class="btn btnSendAuctionLike" title="좋아요"><i class="icofont-like"></i>&nbsp;&nbsp;<span id="auctionLikeCount">좋아요! ${dto.auctionLikeCount}</span></button>
@@ -322,26 +326,7 @@ $(function(){
 					<button type="button" id="auctionList" onclick="auctionAttend()"></button>
 				</td>
 			</tr>
-			
-			<!-- 이전글다음글 -->
-    		<tr>
-				<td colspan="2">
-					이전글 :
-					<c:if test="${not empty preReadDto}">
-						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
-			
-			<tr>
-				<td colspan="2">
-					다음글 :
-					<c:if test="${not empty nextReadDto}">
-						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
-     	</table>
+		</table>
      	
      	<!-- 수정삭제리스트 -->
     	<table class="table">
@@ -391,9 +376,31 @@ $(function(){
 				    </td>
 				 </tr>
 			</table>
+		</div>
 	    
-	    	<div id="listReply"></div>
-    	</div>
+	    <div id="listReply"></div>
+		
+		<!-- 이전글다음글 -->
+		<table class="table table-border table-content">
+    		<tr>
+				<td colspan="2">
+					이전글 :
+					<c:if test="${not empty preReadDto}">
+						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					다음글 :
+					<c:if test="${not empty nextReadDto}">
+						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+     	</table>
+    	
      	
      	
      </div>

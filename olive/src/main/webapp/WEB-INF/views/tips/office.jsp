@@ -10,15 +10,18 @@
 	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
 	font-size: 12px;
 }
+
 .map_wrap a, .map_wrap a:hover, .map_wrap a:active {
 	color: #000;
 	text-decoration: none;
 }
+
 .map_wrap {
 	position: relative;
 	width: 100%;
 	height: 500px;
 }
+
 #menu_wrap {
 	position: absolute;
 	top: 0;
@@ -33,9 +36,11 @@
 	font-size: 12px;
 	border-radius: 10px;
 }
+
 .bg_white {
 	background: #fff;
 }
+
 #menu_wrap hr {
 	display: block;
 	height: 1px;
@@ -188,6 +193,10 @@
 </head>
 <body>
 	<div class="map_wrap">
+		<div>
+			<h1 id="centerAddr">${address}</h1>
+		</div>
+		<!-- 지도를 담을 영역 만들기 -->
 		<div id="map"
 			style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 
@@ -195,7 +204,7 @@
 			<div class="option">
 				<div>
 					<form onsubmit="searchPlaces(); return false;">
-						키워드 : <input type="text" value="동사무소" id="keyword" size="15">
+						키워드 : <input type="hidden" value="서울시 마포구 서교동 동사무소" id="keyword" size="15">
 						<button type="submit">검색하기</button>
 					</form>
 				</div>
@@ -206,12 +215,15 @@
 		</div>
 	</div>
 
+	<!-- 지도 Javascipt API 불러오기 -->
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=231170e33294b26025a296b21a66afe4&libraries=services"></script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=231170e33294b26025a296b21a66afe4&libraries=services,clusterer,drawing"></script>
+	
 	<script>
-		// 마커를 담을 배열입니다
+		// 마커를 담을 배열
 		var markers = [];
-
+	
+		// 지도를 띄우는 코드
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
@@ -219,9 +231,73 @@
 		// 지도의 확대 레벨
 		};
 
-		// 지도를 생성합니다    
+		// 지도 생성
 		var map = new kakao.maps.Map(mapContainer, mapOption);
 
+		////////
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+
+		var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
+		    infowindow = new kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
+
+		// 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
+		searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+
+		// 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
+		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+		    searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
+		        if (status === kakao.maps.services.Status.OK) {
+		            var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].road_address.address_name + '</div>' : '';
+		            detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+		            
+		            var content = '<div class="bAddr">' +
+		                            '<span class="title">법정동 주소정보</span>' + 
+		                            detailAddr + 
+		                        '</div>';
+
+		            // 마커를 클릭한 위치에 표시합니다 
+		            marker.setPosition(mouseEvent.latLng);
+		            marker.setMap(map);
+
+		            // 인포윈도우에 클릭한 위치에 대한 법정동 상세 주소정보를 표시합니다
+		            infowindow.setContent(content);
+		            infowindow.open(map, marker);
+		        }   
+		    });
+		});
+
+		// 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
+		kakao.maps.event.addListener(map, 'idle', function() {
+		    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+		});
+
+		function searchAddrFromCoords(coords, callback) {
+		    // 좌표로 행정동 주소 정보를 요청합니다
+		    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
+		}
+
+		function searchDetailAddrFromCoords(coords, callback) {
+		    // 좌표로 법정동 상세 주소 정보를 요청합니다
+		    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+		}
+
+		// 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+		function displayCenterInfo(result, status) {
+		    if (status === kakao.maps.services.Status.OK) {
+		        var infoDiv = document.getElementById('centerAddr');
+
+		        for(var i = 0; i < result.length; i++) {
+		            // 행정동의 region_type 값은 'H' 이므로
+		            if (result[i].region_type === 'H') {
+		                infoDiv.innerHTML = result[i].address_name;
+		                break;
+		            }
+		        }
+		    }    
+		}
+		
+		/////////////////////
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
@@ -236,16 +312,19 @@
 		// 키워드 검색을 요청하는 함수입니다
 		function searchPlaces() {
 
-			var keyword = document.getElementById('keyword').value;
-
+			var address = document.getElementById('centerAddr').innerText;
+			var keyword = document.getElementById('keyword').value;	// 키워드는 동사무소
+			document.getElementById('keyword').value=keyword;
+			
 			if (!keyword.replace(/^\s+|\s+$/g, '')) {
 				alert('키워드를 입력해주세요!');
 				return false;
 			}
 
-			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다	// 동사무소 검색
 			ps.keywordSearch(keyword, placesSearchCB);
 		}
+		
 
 		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
 		function placesSearchCB(data, status, pagination) {
@@ -332,11 +411,13 @@
 		// 검색결과 항목을 Element로 반환하는 함수입니다
 		function getListItem(index, places) {
 
-			var el = document.createElement('li'), itemStr = '<span class="markerbg marker_'
+			var el = document.createElement('li'), 
+			itemStr = '<span class="markerbg marker_'
 					+ (index + 1)
 					+ '"></span>'
 					+ '<div class="info">'
-					+ '   <h5>' + places.place_name + '</h5>';
+					+ '   <h5>' + places.place_name + '</h5>'
+					+ '	  <h5>';
 
 			if (places.road_address_name) {
 				itemStr += '    <span>' + places.road_address_name + '</span>'
@@ -430,4 +511,28 @@
 				el.removeChild(el.lastChild);
 			}
 		}
+		
+		function displayStaticMap(address){
+			geocoder.addressSearch(address, function(result, status) {
+
+			    // 정상적으로 검색이 완료됐으면 
+			     if (status === kakao.maps.services.Status.OK) {
+					
+			        var markerPosition = new kakao.maps.LatLng(result[0].y, result[0].x);
+					var marker = {
+						position: markerPosition
+					};
+					
+					
+					var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div  
+					staticMapOption = { 
+			        center: markerPosition, // 이미지 지도의 중심좌표
+			        level: 3, // 이미지 지도의 확대 레벨
+			        marker: marker // 이미지 지도에 표시할 마커 
+					};
+					
+					var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+			    };    
+			});
+		};
 	</script>

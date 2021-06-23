@@ -103,6 +103,9 @@
 .table-content tr > td:nth-child(1) {
 	background-color: #afb42b;
 }
+.selectDate{
+	width:95%;
+}
 </style>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/build/ckeditor.js"></script>
@@ -159,15 +162,15 @@
 			
 			<tr>
 				<td>시&nbsp;작&nbsp;일</td>
-				<td> 
-					<input type="date" name="startDate" class="boxTF" value="${dto.startDate}"> 부터
+				<td class="selectDate table-content"> 
+					<input type="date" name="startDate" class="boxTF" value="${dto.startDate}" style="width:97%;">
 				</td>
 			</tr>
 			
 			<tr>
 				<td>종&nbsp;료&nbsp;일</td>
-				<td> 
-					<input type="date" name="endDate" class="boxTF" value="${dto.endDate}"> 까지
+				<td class="selectDate table-content"> 
+					<input type="date" name="endDate" class="boxTF" value="${dto.endDate}" style="width:97%;">
 				</td>
 			</tr>
 			

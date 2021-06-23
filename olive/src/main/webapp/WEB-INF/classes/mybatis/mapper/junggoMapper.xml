@@ -60,10 +60,11 @@
 	</select>
 	
 	<select id="readJunggo" parameterType="Integer" resultType="com.olive.olive.junggo.Junggo">
-		SELECT j.num, j.userId, userName, subject, price, content,
+		SELECT j.num, j.userId, userName, j.categoryNum, subject, price, content,
 			hitCount, j.created, NVL(junggoLikeCount, 0) junggoLikeCount
 		FROM junggo j
 		JOIN member1 m ON j.userId=m.userId
+		JOIN junggoCategory c ON j.categoryNum = c.categoryNum
 		LEFT OUTER JOIN (
 			SELECT num, COUNT(*) junggoLikeCount FROM junggoLike
 			GROUP BY num

@@ -2,6 +2,11 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tips">
+	
+	<select id = "getAdress" parameterType="String" resultType="String">
+		select addr1 from member2 where userId=#{userId}
+	</select>
+
 	<insert id="insertTips" parameterType="com.olive.olive.tips.Tips">
 		INSERT INTO tips(num, userId, subject, downLink, content,
 			saveFilename, originalFilename, hitCount, created) VALUES

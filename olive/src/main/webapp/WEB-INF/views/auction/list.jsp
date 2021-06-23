@@ -114,14 +114,14 @@ function searchList() {
 				<th width="100">가격</th>
 				<th width="120">시작일</th>
 				<th width="120">종료일</th>
-				<th width="70">조회수</th>
+				<th width="10%">조회수</th>
 			</tr>
 		
 			<c:forEach var="dto" items="${list}">
 			<tr>
 				<td>${dto.listNum}</td>
 				<td>${dto.userName}</td>
-				<td>
+				<td align="left">
 					<a href="${articleUrl}&num=${dto.num}">${dto.subject} (${dto.replyCount})</a>
 				</td>
 				<td>${dto.price}</td>
