@@ -9,7 +9,7 @@
 	rel="stylesheet">
 <style type="text/css">
 .login-all {
-	background: rgb(108, 111, 0);
+	background: #616161;
 	padding: 80px 0
 }
 
