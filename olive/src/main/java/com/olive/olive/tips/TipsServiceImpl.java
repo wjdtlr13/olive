@@ -156,6 +156,17 @@ public class TipsServiceImpl implements TipsService{
 		}
 		return result;
 	}
+
+	@Override
+	public String getAddress(String userId) {
+		String result = "";
+		try {
+			result = dao.selectOne("tips.getAddress", userId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	
 	
 }

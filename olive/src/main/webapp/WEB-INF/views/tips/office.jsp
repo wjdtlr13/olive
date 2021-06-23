@@ -18,8 +18,10 @@
 
 .map_wrap {
 	position: relative;
-	width: 100%;
+	width: 90%;
 	height: 500px;
+	margin-top: 150px;
+	margin-left: 50px;
 }
 
 #menu_wrap {
@@ -35,6 +37,8 @@
 	z-index: 1;
 	font-size: 12px;
 	border-radius: 10px;
+    margin-top: 70px;
+	
 }
 
 .bg_white {
@@ -189,6 +193,12 @@
 	cursor: default;
 	color: #777;
 }
+#centerAddr {
+	font-size:20px;
+    margin-bottom: 40px;
+	
+}
+
 </style>
 </head>
 <body>
@@ -204,8 +214,8 @@
 			<div class="option">
 				<div>
 					<form onsubmit="searchPlaces(); return false;">
-						키워드 : <input type="hidden" value="서울시 마포구 서교동 동사무소" id="keyword" size="15">
-						<button type="submit">검색하기</button>
+						<input type="hidden" value="서울시 마포구 서교동 동사무소" id="keyword" size="15">
+						<button type="submit"class="btn btn-success" style="margin-left: 10px;padding: 8px;font-size: 18px;border-style: none;min-width: 88px;background: rgb(82,76,0);"><strong>찾아보기</strong></button>
 					</form>
 				</div>
 			</div>
@@ -227,7 +237,7 @@
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 		mapOption = {
 			center : new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			level : 3
+			level : 5
 		// 지도의 확대 레벨
 		};
 
@@ -235,7 +245,7 @@
 		var map = new kakao.maps.Map(mapContainer, mapOption);
 
 		////////
-		// 주소-좌표 변환 객체를 생성합니다
+		// 주소-좌표 변환 객체 생성
 		var geocoder = new kakao.maps.services.Geocoder();
 
 		var marker = new kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
@@ -313,7 +323,7 @@
 		function searchPlaces() {
 
 			var address = document.getElementById('centerAddr').innerText;
-			var keyword = document.getElementById('keyword').value;	// 키워드는 동사무소
+			var keyword = address+" "+ "주민센터"	// 키워드는 동사무소
 			document.getElementById('keyword').value=keyword;
 			
 			if (!keyword.replace(/^\s+|\s+$/g, '')) {

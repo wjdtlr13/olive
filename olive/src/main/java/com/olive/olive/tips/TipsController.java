@@ -36,14 +36,22 @@ public class TipsController {
 	
 	@RequestMapping("home")
 	public String home() {
-		return ".tips.main";
+		return ".tips.home";
 	}
 	
 	@RequestMapping("office")
 	public String office(
 			HttpSession session,
 			Model model) {
-		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+        String userId = info.getUserId();
+		String address = service.getAddress(userId);
+		if(address==null) {
+			model.addAttribute("address", "서울시 마포구 서교동");
+			return ".tips.office";}
+		String[] array = address.split(" ");
+		address = array[0]+" "+array[1]+" "+array[2];
+		model.addAttribute("address", address);
 		return ".tips.office";
 		
 	}
