@@ -134,7 +134,7 @@
 		INSERT INTO auctionReply(replyNum, num, userId, content, answer, created)
 			VALUES (auctionReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, SYSDATE)
 	</insert>
-	
+	 
 	<select id="replyCount" parameterType="map" resultType="com.olive.olive.auction.Reply">
 		SELECT r.replyNum, r.userId, userName, num, content, r.created, 
 		       NVL(answerCount, 0) answerCount,
