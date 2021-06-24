@@ -112,7 +112,7 @@ $(function(){
     } else if ('MozWebSocket' in window) {
     	socket = new MozWebSocket(host);
     } else {
-    	writeToScreen('브라우저의 버전이 낮아 채팅이 불가능 합니다.',"left");
+    	writeToScreen('브라우저의 버전이 낮아 채팅이 불가능 합니다.',"center");
         return false;
     }
 
@@ -170,7 +170,7 @@ $(function(){
     		var out=nickName+"("+uid+") 님이 입장했습니다.";
     		writeToScreen(out,"center");
     		
-    		out="<span id='guest-"+uid+"' data-uid='"+uid+"'> "+nickName+"("+uid+")<span>";
+    		out="<span id='guest-"+uid+"' data-uid='"+uid+"'> "+nickName+"("+uid+")</span>";
     		$("#chatConnectionList").append(out);
     		
     	} else if(cmd=="disconnect") { 
