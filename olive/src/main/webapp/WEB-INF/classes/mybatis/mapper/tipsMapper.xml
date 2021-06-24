@@ -5,7 +5,7 @@
 	
 	<select id = "getAddress" parameterType="String" resultType="String">
 		select addr1 from member2 where userId=#{userId}
-	</select>
+	</select> 
 
 	<insert id="insertTips" parameterType="com.olive.olive.tips.Tips">
 		INSERT INTO tips(num, userId, subject, downLink, content,

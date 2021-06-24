@@ -2,7 +2,7 @@ package com.olive.olive.junggo;
 
 import java.util.List;
 import java.util.Map;
-
+ 
 public interface JunggoService {
 	public void insertJunggo(Junggo dto, String pathname) throws Exception;
 	public List<Junggo> listJunggo(Map<String, Object> map);

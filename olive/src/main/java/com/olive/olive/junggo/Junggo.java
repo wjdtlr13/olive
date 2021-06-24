@@ -3,7 +3,7 @@ package com.olive.olive.junggo;
 public class Junggo {
 	private int num;
 	private int listNum;
-	
+	 
 	private String userId;
 	private String userName;
 	private String subject;

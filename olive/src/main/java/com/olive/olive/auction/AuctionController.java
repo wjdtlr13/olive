@@ -419,7 +419,7 @@ public class AuctionController {
 		
 		return model;
 	}
-	
+	 
 	@RequestMapping(value="countReplyLike", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> countReplyLike(

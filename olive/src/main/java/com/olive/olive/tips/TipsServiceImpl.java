@@ -144,7 +144,7 @@ public class TipsServiceImpl implements TipsService{
 			throw e;
 		}
 		
-	}
+	} 
 
 	@Override
 	public int tipsLikeCount(int num) {

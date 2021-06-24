@@ -15,7 +15,7 @@ public class Auction {
 //			,CONSTRAINT fk_auction_userId FOREIGN KEY(userId)
 //			REFERENCES member1(userId)
 //			);
-	
+	 
 	private int num, listNum;
 	private String userId;
 	private String userName;

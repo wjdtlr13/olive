@@ -6,7 +6,7 @@
 <style type="text/css">
 .ck.ck-editor__editable_inline, .ck.ck-toolbar {
 	border: none;
-}
+} 
 
 .body-container{
     margin-top: 300px;

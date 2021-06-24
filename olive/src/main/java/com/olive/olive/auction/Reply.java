@@ -8,7 +8,7 @@ public class Reply {
 	private String content;
 	private String created;
 	private int answer;
-	
+	 
 	private int answerCount;
 	private int likeCount;
 	private int disLikeCount;

@@ -2,7 +2,7 @@ package com.olive.olive.tips;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Tips {
+public class Tips { 
 	private int num, listNum;
 	private String userId;
 	private String userName;

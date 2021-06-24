@@ -21,7 +21,7 @@ public class AuctionServiceImpl implements AuctionService{
 			e.printStackTrace();
 			throw e;
 		}
-		
+		 
 	}
 
 	@Override

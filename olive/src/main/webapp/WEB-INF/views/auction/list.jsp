@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <style type="text/css">
-*{
+*{ 
 	font-size: 18px;
 }
 .table-content tr {

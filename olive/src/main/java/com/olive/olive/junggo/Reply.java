@@ -1,5 +1,5 @@
 package com.olive.olive.junggo;
-
+ 
 public class Reply {
 	private int replyNum;
 	private int num;

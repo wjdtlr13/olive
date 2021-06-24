@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="auction">
-
+ 
 	<!-- 글등록 created -->
 	<insert id="insertAuction" parameterType="com.olive.olive.auction.Auction">
 		INSERT INTO auction(num, userId, subject, price, content, 

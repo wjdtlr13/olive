@@ -38,7 +38,7 @@ public class TipsController {
 	public String home() {
 		return ".tips.home";
 	}
-	
+	 
 	@RequestMapping("office")
 	public String office(
 			HttpSession session,
