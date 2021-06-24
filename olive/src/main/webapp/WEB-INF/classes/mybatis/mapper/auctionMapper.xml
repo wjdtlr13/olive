@@ -129,30 +129,34 @@
 	</select>
 	
 	<!-- 댓글 관련 -->
-	<insert id="insertReply" parameterType="com.olive.olive.auction.Auction">
+	
+	<insert id="insertReply" parameterType="com.olive.olive.auction.Reply">
 		INSERT INTO auctionReply(replyNum, num, userId, content, answer, created)
-			VALUES (auctionReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, #{created})
+			VALUES (auctionReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, SYSDATE)
 	</insert>
 	
-	<select id="replyCount" parameterType="map" resultType="Integer">
-		SELECT NVL(COUNT(*), 0) FROM auctionReply
-		WHERE num=#{num} AND answer=0
-	</select>
-	
-	<select id="listReply" parameterType="map" resultType="com.olive.olive.auction.Auction">
-		SELECT r.replyNum, r.userId, userName, num, content, r.created,
-			NVL(answerCount, 0) answerCount
+	<select id="replyCount" parameterType="map" resultType="com.olive.olive.auction.Reply">
+		SELECT r.replyNum, r.userId, userName, num, content, r.created, 
+		       NVL(answerCount, 0) answerCount,
+		       NVL(likeCount, 0) likeCount,
+		       NVL(disLikeCount, 0) disLikeCount
 		FROM auctionReply r
 		JOIN member1 m ON r.userId = m.userId
-		LEFT OUTER JOIN(
+		LEFT OUTER JOIN (
 			SELECT answer, COUNT(*) answerCount
-			FROM auctionReply WHERE answer !=0 GROUP BY answer
+			FROM auctionReply WHERE answer!=0 GROUP BY answer
 		) a ON r.replyNum = a.answer
+		LEFT OUTER JOIN (
+			SELECT replyNum, COUNT(DECODE(replyLike, 1, 1)) likeCount,
+				   COUNT(DECODE(replyLike, 0, 1)) disLikeCount
+			FROM auctionReplyLike GROUP BY replyNum
+		) c ON r.replyNum = c.replyNum
+		WHERE num=#{num}  AND r.answer=0
 		ORDER BY r.replyNum DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
-	<delete id="deleteReply" parameterType="map">
+	<delete id="deleteRply" parameterType="map">
 		DELETE FROM auctionReply
 		WHERE replyNum=#{replyNum}
 		<if test="mode=='reply'">
@@ -160,8 +164,7 @@
 		</if>
 	</delete>
 	
-	<!-- 댓글의 답글 -->
-	<select id="listReplyAnswer" parameterType="Integer" resultType="com.olive.olive.auction.Auction">
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.olive.olive.auction.Reply">
 		SELECT replyNum, num, r.userId, userName, content, created, answer
 		FROM auctionReply r
 		JOIN member1 m ON r.userId = m.userId
@@ -170,9 +173,18 @@
 	</select>
 	
 	<select id="replyAnswerCount" parameterType="Integer" resultType="Integer">
-		SELECT NVL(COUNT(*), 0)
-		FROM auctionReply WHERE answer = #{answer}
+		SELECT NVL(COUNT(*),0)
+		FROM auctionReply WHERE answer=#{answer}
 	</select>
 	
+	<insert id="insertReplyLike" parameterType="map">
+		INSERT INTO auctionReplyLike(replyNum, userId, replyLike)
+			VALUES (#{replyNum}, #{userId}, #{replyLike})
+	</insert>
 	
+	<select id="replyLikeCount" parameterType="map" resultType="map">
+		SELECT COUNT(DECODE(replyLike, 1, 1)) likeCount,
+			   COUNT(DECODE(replyLike, 0, 1)) disLikeCount
+		FROM auctionReplyLike WHERE replyNum = #{replyNum}
+	</select>	
 </mapper>

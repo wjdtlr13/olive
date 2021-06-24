@@ -143,7 +143,7 @@ public class AuctionServiceImpl implements AuctionService{
 	@Override
 	public void insertReply(Reply dto) throws Exception {
 		try {
-			dao.insertData("auction.insertReply",dto);
+			dao.insertData("auction.insertReply", dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -163,7 +163,7 @@ public class AuctionServiceImpl implements AuctionService{
 	}
 
 	@Override
-	public int replyCount(Map<String, Object> map) {
+	public int replyCount(Map<String, Object> map) throws Exception {
 		int result=0;
 		try {
 			result=dao.selectOne("auction.replyCount", map);
@@ -188,7 +188,7 @@ public class AuctionServiceImpl implements AuctionService{
 	public List<Reply> listReplyAnswer(int answer) {
 		List<Reply> list = null;
 		try {
-			list=dao.selectList("junggo.listReplyAnswer", answer);
+			list=dao.selectList("auction.listReplyAnswer", answer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -205,6 +205,29 @@ public class AuctionServiceImpl implements AuctionService{
 		}
 		return result;
 	}
+
+	@Override
+	public void insertReplyLike(Map<String, Object> map) throws Exception {
+		try {
+			dao.insertData("auction.insertReplyLike", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	@Override
+	public Map<String, Object> replyLikeCount(Map<String, Object> map) {
+		Map<String, Object> countMap = null;
+		try {
+			countMap = dao.selectOne("auction.replyLikeCount", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return countMap;
+	}
+
 
 
 	

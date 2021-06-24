@@ -123,9 +123,9 @@
 	</select>
 	
 	<!-- 댓글 관련 -->
-	<insert id="insertReply" parameterType="com.olive.olive.junggo.Junggo">
+	<insert id="insertReply" parameterType="com.olive.olive.junggo.Reply">
 		INSERT INTO junggoReply(replyNum, num, userId, content, answer, created)
-			VALUES (junggoReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, #{created})
+			VALUES (junggoReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, SYSDATE)
 	</insert>
 	
 	<select id="replyCount" parameterType="map" resultType="Integer">
@@ -133,7 +133,7 @@
 		WHERE num=#{num} AND answer=0
 	</select>
 	
-	<select id="listReply" parameterType="map" resultType="com.olive.olive.junggo.Junggo">
+	<select id="listReply" parameterType="map" resultType="com.olive.olive.junggo.Reply">
 		SELECT r.replyNum, r.userId, userName, num, content, r.created,
 			NVL(answerCount, 0) answerCount
 		FROM junggoReply r
@@ -155,7 +155,7 @@
 	</delete>
 	
 	<!-- 댓글의 답글 -->
-	<select id="listReplyAnswer" parameterType="Integer" resultType="com.olive.olive.junggo.Junggo">
+	<select id="listReplyAnswer" parameterType="Integer" resultType="com.olive.olive.junggo.Reply">
 		SELECT replyNum, num, r.userId, userName, content, created, answer
 		FROM junggoReply r
 		JOIN member1 m ON r.userId = m.userId

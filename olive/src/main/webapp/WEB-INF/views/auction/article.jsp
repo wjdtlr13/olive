@@ -38,6 +38,7 @@
 </style>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/build/ckeditor.js"></script>
+
 <script type="text/javascript">
 <c:if test="${sessionScope.member.userId=='admin' || sessionScope.member.userId==dto.userId}">
 function deleteAuction() {
@@ -174,7 +175,43 @@ $(function(){
 	});
 });
 
-//댓글별 답글 리스트
+// 댓글 좋아요 / 싫어요
+$(function(){
+	// 댓글 좋아요 / 싫어요 등록
+	$("body").on("click", ".btnSendReplyLike", function(){
+		var replyNum=$(this).attr("data-replyNum");
+		var replyLike=$(this).attr("data-replyLike");
+		var $btn = $(this);
+		
+		var msg="게시글이 마음에 들지 않으십니까 ?";
+		if(replyLike==="1") {
+			msg="게시글에 공감하십니까 ?";
+		}
+		if(! confirm(msg)) {
+			return false;
+		}
+		
+		var url="${pageContext.request.contextPath}/auction/insertReplyLike";
+		var query="replyNum="+replyNum+"&replyLike="+replyLike;
+		
+		var fn = function(data){
+			var state=data.state;
+			if(state==="true") {
+				var likeCount=data.likeCount;
+				var disLikeCount=data.disLikeCount;
+				
+				$btn.parent("td").children().eq(0).find("span").html(likeCount);
+				$btn.parent("td").children().eq(1).find("span").html(disLikeCount);
+			} else if(state==="false") {
+				alert("게시글 공감 여부는 한번만 가능합니다. !!!");
+			}
+		};
+		
+		ajaxFun(url, "post", query, "json", fn);
+	});
+});
+
+// 댓글별 답글 리스트
 function listReplyAnswer(answer) {
 	var url="${pageContext.request.contextPath}/auction/listReplyAnswer";
 	var query="answer="+answer;
@@ -204,6 +241,8 @@ function countReplyAnswer(answer) {
 $(function(){
 	$("body").on("click", ".btnReplyAnswerLayout", function(){
 		var $trReplyAnswer = $(this).closest("tr").next();
+		// var $trReplyAnswer = $(this).parent().parent().next();
+		// var $answerList = $trReplyAnswer.children().children().eq(0);
 		
 		var isVisible = $trReplyAnswer.is(':visible');
 		var replyNum = $(this).attr("data-replyNum");
@@ -326,6 +365,25 @@ $(function(){
 					<button type="button" id="auctionList" onclick="auctionAttend()"></button>
 				</td>
 			</tr>
+			
+			<tr>
+				<td colspan="2">
+					이전글 :
+					<c:if test="${not empty preReadDto}">
+						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					다음글 :
+					<c:if test="${not empty nextReadDto}">
+						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+			
 		</table>
      	
      	<!-- 수정삭제리스트 -->
@@ -376,34 +434,10 @@ $(function(){
 				    </td>
 				 </tr>
 			</table>
-		</div>
-	    
 	    <div id="listReply"></div>
-		
-		<!-- 이전글다음글 -->
-		<table class="table table-border table-content">
-    		<tr>
-				<td colspan="2">
-					이전글 :
-					<c:if test="${not empty preReadDto}">
-						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
-			
-			<tr>
-				<td colspan="2">
-					다음글 :
-					<c:if test="${not empty nextReadDto}">
-						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
-     	</table>
-    	
-     	
-     	
-     </div>
+	</div>
+   </div> 
+ </div>
     
 <script type="text/javascript">
 

@@ -4,6 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <style type="text/css">
+*{
+	font-size: 18px;
+}
 .table-content tr {
 	text-align: center;
 }
@@ -89,6 +92,7 @@ function searchList(){
 <div class="container body-container">
 	<div class="body-title">
 		<h2> 중고거래 </h2>
+		<p> 이웃들과 중고거래를 통해 절약하는 올리브가 되어 보세요! </p>
 	</div>
 	
 	<div class="body-main">
@@ -105,17 +109,19 @@ function searchList(){
 		
 		<table class="table table-border table-content">
 			<tr>
-				<th width="60">번호</th>
+				<th width="6%">번호</th>
+				<th> 카테고리 </th>
 				<th align="center">제목</th>
-				<th width="200">가격</th>
-				<th width="100">작성자</th>
+				<th width="10%">가격</th>
+				<th width="10%">작성자</th>
 				<th width="20%">작성일</th>
-				<th width="100">조회수</th>
+				<th width="8%">조회수</th>
 			</tr>
 			
 			<c:forEach var="dto" items="${list}">
 			<tr>
 				<td>${dto.listNum}</td>
+				<td>${dto.categoryName}</td>
 				<td>
 					<a href="${articleUrl}&num=${dto.num}">${dto.subject} (${dto.replyCount}) </a>
 				</td>

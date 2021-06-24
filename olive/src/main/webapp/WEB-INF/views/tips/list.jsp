@@ -4,6 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <style type="text/css">
+*{
+	font-size: 18px;
+}
 .table-content tr {
 	text-align: center;
 }
@@ -106,12 +109,12 @@ function searchList(){
 		
 		<table class="table table-border table-content">
 			<tr>
-				<th width="60">번호</th>
+				<th width="10%">번호</th>
 				<th>제목</th>
-				<th width="100">작성자</th>
-				<th width="120">작성일</th>
-				<th width="70">조회수</th>
-				<th width="60">첨부</th>
+				<th width="12%">작성자</th>
+				<th width="15%">작성일</th>
+				<th width="10%">조회수</th>
+				<th width="9%">첨부</th>
 			</tr>
 			<c:forEach var="dto" items="${list}">
 			<tr>
