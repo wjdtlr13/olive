@@ -135,7 +135,12 @@
 			VALUES (auctionReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, SYSDATE)
 	</insert>
 	 
-	<select id="replyCount" parameterType="map" resultType="com.olive.olive.auction.Reply">
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0) FROM auctionReply
+		WHERE num=#{num} AND answer=0
+	</select>
+	 
+	<select id="listReply" parameterType="map" resultType="com.olive.olive.auction.Reply">
 		SELECT r.replyNum, r.userId, userName, num, content, r.created, 
 		       NVL(answerCount, 0) answerCount,
 		       NVL(likeCount, 0) likeCount,

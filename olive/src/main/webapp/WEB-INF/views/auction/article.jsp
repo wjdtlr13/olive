@@ -366,23 +366,6 @@ $(function(){
 				</td>
 			</tr>
 			
-			<tr>
-				<td colspan="2">
-					이전글 :
-					<c:if test="${not empty preReadDto}">
-						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
-			
-			<tr>
-				<td colspan="2">
-					다음글 :
-					<c:if test="${not empty nextReadDto}">
-						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
 			
 		</table>
      	
@@ -436,6 +419,27 @@ $(function(){
 			</table>
 	    <div id="listReply"></div>
 	</div>
+	
+	<table class="table table-border table-content">
+			<tr>
+				<td colspan="2">
+					이전글 :
+					<c:if test="${not empty preReadDto}">
+						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					다음글 :
+					<c:if test="${not empty nextReadDto}">
+						<a href="${pageContext.request.contextPath}/auction/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+	</table>
+	
    </div> 
  </div>
     
