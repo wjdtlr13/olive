@@ -4,75 +4,181 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 
-<div class="container">
-        <div class="col text-center article-name">
-        	<p>Q&A</p> 
-        </div>
-        <div class="col text-center">
-            <p ><span style="border-bottom: 1px solid #ccc;">Q&A 게시판입니다</span></p>
-        </div>
-        <div class="row d-flex justify-content-center align-items-center ">
-            <div class="col-auto search"><select style="height: 36px;">
-                    <optgroup label="This is a group">
-                        <option value="12" selected="">This is item 1</option>
-                        <option value="13">This is item 2</option>
-                        <option value="14">This is item 3</option>
-                    </optgroup>
-                </select>
-            </div>
-            <div class="col-auto search" ><input type="text" style="border: 1px solid #ccc; margin: 0; width:200px;  height: 36px;"></div>
-            <div class="col-auto search"><button class="btn btn-primary btn-list" type="button">Button</button></div>
-        </div>
-        <div class="row">
-            <div class="col"><select>
-                    <optgroup label="This is a group">
-                        <option value="12" selected="">This is item 1</option>
-                        <option value="13">This is item 2</option>
-                        <option value="14">This is item 3</option>
-                    </optgroup>
-                </select></div>
-            <div class="col" style="text-align: right;"><select>
-                    <optgroup label="This is a group">
-                        <option value="12" selected="">This is item 1</option>
-                        <option value="13">This is item 2</option>
-                        <option value="14">This is item 3</option>
-                    </optgroup>
-                </select></div>
-        </div>
-        
-        <div class="row">
-        	<div class="col">
-        		<button class="btn btn-primary btn-list" type="button" style="float: right;" onclick="javascript:location.href='${pageContext.request.contextPath}/qna/write';">질문하기</button>
-        	</div>
-        </div>
-        <hr>
+<style type="text/css">
+* {
+	margin: 0; padding: 0; 
+}
+.body-container {
+	width: 70%;
+	margin: auto;
+	min-height: 700px;
+}
+.body-top-select1 {
+	height: 30px;
+	border: 1px solid #ccc;
+	border-radius:5px; 
+	width: 130px;		
+}
 
-        <div class="table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th style="width: 15%;">NO</th>
-                        <th>CONTENTS</th>
-                        <th style="width: 15%;">NAME</th>
-                        <th style="width: 20%;">DATE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                	<c:forEach var="dto" items="${list}">
-                    <tr>
-                        <td style="width: 15%;">${dto.listNum}</td>
-                        
-                        <td><a href="${articleUrl}&qnaNum=${dto.qnaNum}"> ${dto.subject}<br>
-                        <c:if test="${not empty dto.answerContent }">
-                        	답변완료<i class="far fa-check-circle"></i>
-                        </c:if>
-                        </a></td>
-                        
-                        <td style="width: 15%;">${dto.questionId}</td>
-                        <td style="width: 20%;">${dto.questioncreated}</td>
-                    </tr>
-                    </c:forEach>
-                </tbody>
-            </table>
-        </div>
-</div>
+.center {
+	clear: both;
+}
+
+.body-top-select2 {
+
+	border: 1px solid #ccc;	
+	height: 30px;
+	border-radius:5px; 		
+	float: right;
+}
+
+.title {
+	font-size: 25px;
+	padding-top: 80px;
+	padding-bottom:30px;
+	margin: auto;
+	font-weight: bold;
+	width: 70%;
+	border-bottom: 1px solid black;
+}
+
+table {
+	margin:auto;
+	border-collapse: collapse;
+	border-spacing: 0;
+	width: 100%;
+}
+thead {
+	background-color: #eeeeee;
+	height: 50px;
+	line-height: 40px;
+	border-bottom: 1px solid #eee;
+	border-top: 1px solid #eee;
+}
+.head-No {
+	width:20%;
+	text-align: center;
+}
+.head-Contents {
+	width:40%;
+	text-align: left;
+}
+.head-Name {
+	width:20%;
+	text-align: center;
+}
+.head-Date {
+	width:20%;
+	text-align: center;
+}  
+tbody tr {
+	border-bottom: 1px solid #f5f5f5;
+	height: 70px;
+}
+tbody {
+	border-bottom: 1px solid #eee;
+}
+ .created {
+	float: right;
+	height: 45px;
+	width: 65px;
+	color: white;
+	border: none;
+	background: black;
+	margin-top: 30px;
+}
+
+.search1  {
+	height: 40px;
+	border-radius: 3px;
+	width:100px;
+	border: 1px solid #ccc;
+}
+
+.search2 {
+	border-radius: 3px;
+	width:250px;
+	border: 1px solid #ccc;
+	padding-left: 10px;
+	height: 40px;	
+}
+
+.search3 {
+	height: 40px;
+	width:60px;
+	background :#eeeeee;
+	border: none;
+}
+.search {
+	margin: 40px;
+	text-align: center;
+	height: 50px;
+}
+
+input:focus {
+	outline: none;
+}
+
+.head-Contents a {
+	text-decoration: none;
+	color: gray;
+	font-weight: bold;
+}
+.head-Contents a:hover {
+	color: #ef5350;
+}
+.body-middle {
+	margin-top:50px;
+	margin-bottom:20px;
+}
+
+select:focus {
+	outline: none;
+}
+</style>
+
+<div class="title">올리브의 궁금증</div>
+
+<div class="body-container" >
+	<div class="search">
+			<select class="search1">
+				<option>제목+내용</option>
+				<option>제목</option>
+				<option>내용</option>	
+			</select>
+			<input class="search2" type="text" placeholder="검색어를 입력하세요.">
+			<button class="search3">검색</button>				
+	</div>
+	<div style="width:100%; height: 20px; border-top: 1px solid black;"></div>
+		
+	<table>
+		<thead>
+			<tr>
+				<th class="head-No">번호</th>
+				<th class="head-Contents"style="text-align: center;">제목</th>				
+				<th class="head-Name">작성자</th>				
+				<th class="head-Date">날짜</th>				
+			</tr>
+		</thead>
+		<tbody>
+			<c:forEach var="dto" items="${list}">
+			<tr>
+				<td class="head-No">${dto.listNum}</td>
+					<td class="head-Contents"><a href="${articleUrl}&qnaNum=${dto.qnaNum}">${dto.subject}</a><br>
+							<c:if test="${not empty dto.answerContent }">
+                        	ㄴ 답변완료<i class="far fa-check-circle"></i>
+							</c:if>
+					</td>
+					<td class="head-Name">${dto.questionId}</td>
+				<td class="head-Date">${dto.questioncreated}</td>				
+			</tr>
+			</c:forEach>
+		</tbody>
+	
+	</table>
+	
+	<div>
+		<button class="created"	onclick="javascript:location.href='${pageContext.request.contextPath}/qna/write';">등록</button>
+	</div>
+	
+	</div>

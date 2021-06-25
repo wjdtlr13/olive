@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <style type="text/css">
 * {
 	margin: 0; padding: 0; 
@@ -145,9 +144,9 @@ select:focus {
 <div class="body-container" >
 	<div class="search">
 			<select class="search1">
-				<option>검색종류1</option>
-				<option>검색종류2</option>
-				<option>검색종류3</option>			
+				<option>제목+내용</option>
+				<option>제목</option>
+				<option>내용</option>			
 			</select>
 			<input class="search2" type="text" placeholder="검색어를 입력하세요.">
 			<button class="search3">검색</button>				

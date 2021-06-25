@@ -2,168 +2,34 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-<style type="text/css"> 
-* {
-	margin: 0; padding: 0;
-	
-	
-}
 
-.body-container {
-	width: 700px;
-	margin: 20px auto;
-	height: 650px;
-	border: 1px solid #eee;
-	padding: 0 10px;
-
-	
+<style type="text/css">
+.body_title{
+	font-size: 27px;
+	font-weight: 800;
 }
-.article-top1 {
-	height: 30px;
-	line-height: 30px;
+.body-con{
+	font-size: 18px;
 }
-.article-top2 {
-	border-bottom: 1px solid #ccc;
-
-
-}
-
-.article-name {
-	text-decoration: none;
-	font-size: 13px;
-	color: black;
-	font-weight: bold;
-		height: 30px;
-	line-height: 30px;
-	
-}
-.article-date {
-	font-size: 11px;
-	color: #ccc;
-	height: 20px;
-}
-a:hover {
-	color: #1b5e20
-}
-.btn-category {
-	margin: 10px 0;
-	background-color: #82A880;
+.btn{
+	width: 60px;
+	height: 40px;
+	background-color: #424242;
 	color: white;
-	border-radius: 3px;
-	font-size: 11px;
-	height: 20px;
-	width: 90px;
-	line-height: 20px;
-	border: none;
+	border: 1px solid #ddd;
+	cursor: pointer;
+	margin-bottom: 10px;
 }
 
-.article-middle {
-	
-	border-bottom: 1px solid #ccc;
-	height: 70px;
-	line-height: 20px;
-}
-.article-content {
-	padding: 20px 0;
-	height: 270px;
-	border-bottom: 3px solid #ccc;
-}
-.article-like{
-	margin: 20px auto;
-	text-align: center;
-}
-
-.article-content-textarea {
-	border: none;
-	width: 670px;
-	height: 230px;
-	resize: none;
-	
-}
-textarea:focus {
-	outline: none;
-}
-.reply-container {
-	width: 700px;
-	margin: 20px auto;
-	height: 130px;
-	border: 1px solid #eee;
-	padding: 0 10px;
+a {
+ text-decoration: none;
 
 }
-.reply-top {
-	padding-left:10px;
-	line-height: 40px;
-	border-bottom: 1px solid #ccc;
-}
 
-.reply-content-textarea {
-	border: none;
-	width: 500px;
-	height: 55px;
-	resize: none;
-	margin: 10px 0;
-	float: left;
-	
-	
-}
-.btn-reply {
-	margin: 10px 0;
-	width: 50px;
-	height: 35px;
-	float:right;
-	background-color: #82A880;
-	color: white;
-	border-radius: 3px;
-	border: none;
-	
-}
-button:hover {
-	background-color: #506852;
-}
-.btn-list {
-	background-color: #82A880;
-	color: white;
-	border-radius: 3px;
-	border: none;	
-	width: 50px;
-	height: 35px;
-	float: right;
-	margin-left: 5px;
-	
-}
-.article-pre {
-	height: 35px;
-	line-height: 35px;
-	border-bottom: 1px solid #ccc;
-}
-.article-next {
-	height: 35px;
-	line-height: 35px;
-}
-.heart {
-	margin: 13px 15px;
-	border: 1px solid #ccc;;
-	background-color: #fff;
-	border-radius:5px;
-	float: right;
-	text-align: center;
-	width: 30px;
-	height: 30px;
-	
-}
-.heart:hover {
-	color: red;
-}
 </style>
-<script type="text/javascript">
 
+<script type="text/javascript">
 function deleteNotice() {
 
 	if(confirm("게시물을 삭제 하시겠습니까 ?")) {
@@ -184,43 +50,56 @@ function deleteNotice() {
  */
 
 </script>
-</head>
-<body>
+	<div style="height: 100px;"></div>
+	<div class="body_title" style="width: 70%; margin: auto;">공지사항</div>
+	<div class="body-con" style="width: 70%; margin: auto;">
 
-<div class="body-container" >
+		<div>
+			<table style="width: 100%;margin: 30px auto; border-spacing: 0px; border-collapse: collapse; border-top: 1.5px solid #111;">
+				
+				<tr style="height: 70px; border-bottom: 1px solid #ddd;">
+					<td style="text-align: center; padding-left: 200px; font-weight: 700;">${dto.subject}</td>
+					<td width="30%" align="right" >
+						${dto.created} | 조회 ${dto.hitCount}
+					</td>
+				</tr>
+				<tr style="width: 100%; float: left;">
+				  <td style="padding: 20px 20px; margin-left:100px; text-align: center; line-height: 60px;" valign="top" height="400">
+				  	${dto.content}
+				  </td>
+				 </tr>
+					
+				<tr height="55" style="border-bottom: 1px solid #ddd; border-top: 1px solid #ddd;">
+					<td colspan="2" align="left" style="padding-left: 5px;">
+					이전
+					<c:if test="${not empty preReadDto}">
+						<a style="padding-left: 20px;" href="${pageContext.request.contextPath}/admin/articleBoard?${query}&postNum=${preReadDto.postNum}">${preReadDto.subject} </a>
+					</c:if>
+					</td>
+				</tr>
+				
+				<tr height="55" style="border-bottom: 1px solid #ddd;">
+					<td colspan="2" align="left" style="padding-left: 5px;">
+					다음
+					<c:if test="${not empty nextReadDto}">
+						<a style="padding-left: 20px;" href="${pageContext.request.contextPath}/admin/articleBoard?${query}&postNum=${nextReadDto.postNum}">${nextReadDto.subject} </a>
+					</c:if>
+					</td>
+				</tr>
+			</table>
+			
+			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
+			<tr height="62">
+				<td width="600" align="left" style="padding-left: 20px;">
+					<c:if test="${sessionScope.member.userId=='admin'}">
+			          <button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/update?num=${dto.num}&page=${page}';">수정</button>
+						<button type="button" class="btn" onclick="deleteNotice();">삭제</button>
+					</c:if>
+				</td>
+				<td align="right">
+					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list?${query}';">목록</button>
+				</td>					
+			</table>
+		</div>
 	
-	<div class="article-top">
-		<a class="article-name" href="${pageContext.request.contextPath}/notice/list">NOTICE</a>
 	</div>
-	<div class="article-top2">
-		<p class="article-date">${dto.created}</p>
-	</div>	
-	<div class="article-middle">
-		<button class="btn-category">해당카테고리</button>
-		
-		<p  style="font-weight: bold; font-size: 17px;">${dto.subject}</p>
-	</div>
-	<div class="article-content">
-		<textarea class="article-content-textarea" cols="3" rows="5" style="overflow: auto;">${dto.content}</textarea>
-	</div>	
-	<div class="article-like">
-		<p>좋아요! &nbsp;1 &nbsp;&nbsp; 조회수 &nbsp;1 </p>
-	</div>
-	<div class="article-pre">
-		<p>이전글 : <a>올리브가 글쎄..</a> </p>
-	</div>	
-	<div class="article-next">
-		<p>다음글 : <a>올리브가 ??..</a> </p>
-	</div>		
-
-
-	<div style="clear: both;" >
-		<button type="button" class="btn-list" onclick="deleteNotice();">삭제</button>
-		<button type="button" class="btn-list" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/update?num=${dto.num}&page=${page}';">수정</button>
-		<button type="button" class="btn-list" onclick="javascript:location.href='${pageContext.request.contextPath}/notice/list?${query}';">목록</button>
-		
-	</div>
-</div>
-
-
-</body>
