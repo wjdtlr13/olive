@@ -45,7 +45,7 @@
 	        </td>
 	        <td align='right'>
                 <button type='button' class='btn btnSendReplyLike' data-replyNum='${vo.replyNum}' data-replyLike='1' title="좋아요"><i class="icofont-thumbs-up"></i> <span>${vo.likeCount}</span></button>
-                <button type='button' class='btn btnSendReplyLike' data-replyNum='${vo.replyNum}' data-replyLike='0' title="싫어요"><i class="icofont-thumbs-down"></i> <span>${vo.disLikeCount}</span></button>	        
+                <button type='button' class='btn btnSendReplyLike' data-replyNum='${vo.replyNum}' data-replyLike='0' title="싫어요"><i class="icofont-thumbs-down"></i> <span>${vo.dislikeCount}</span></button>	        
 	        </td>
 	    </tr>
 	

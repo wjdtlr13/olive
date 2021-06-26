@@ -41,10 +41,11 @@
 	</select>
 	
 	<select id="listJunggo" parameterType="map" resultType="com.olive.olive.junggo.Junggo">
-		SELECT j.num, j.userId, userName, subject, price, 
+		SELECT j.num, j.userId, userName, categoryName, subject, price, 
 				created, hitCount, NVL(replyCount, 0) replyCount
 		FROM junggo j
 		JOIN member1 m ON j.userId=m.userId
+		JOIN junggoCategory jc ON j.categoryNum = jc.categoryNum
 		LEFT OUTER JOIN (
 			SELECT num, COUNT(*) replyCount FROM junggoReply
 			WHERE answer = 0

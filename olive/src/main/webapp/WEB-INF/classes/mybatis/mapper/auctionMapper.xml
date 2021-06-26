@@ -45,9 +45,14 @@
 		SELECT a.num, a.userId, userName, subject, price,
 		       TO_CHAR(startDate, 'YYYY-MM-DD') startDate,
 		       TO_CHAR(endDate, 'YYYY-MM-DD') endDate,
-		       hitCount
+		       hitCount, NVL(replyCount, 0) replyCount
 		FROM auction a
 		JOIN member1 m ON a.userId=m.userId
+		LEFT OUTER JOIN (
+			SELECT num, COUNT(*) replyCount FROM auctionReply
+			WHERE answer = 0
+			GROUP BY num
+		) c ON a.num = c.num
 		<where>
 			<if test="keyword != null and keyword != ''">
 				<include refid="where-list"/>
