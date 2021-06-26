@@ -2,9 +2,9 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mission">
-	<insert id="insertMission" parameterType="com.olive.olive.mission.Mission">
+	<insert id="insertMission" parameterType="com.olive.olive.mission.Mission"  useGeneratedKeys="true" keyColumn="num" keyProperty="num">
 		insert into mission values(mission_Seq.nextval, #{userId}, #{subject}, #{content}, 
-		to_char(sysdate, 'yyyy-mm-dd'), to_char(#{startDate}, 'yyyy-mm-dd'), to_char(#{endDate}, 'yyyy-mm-dd'), 0)
+		to_char(sysdate, 'yyyy-mm-dd'), #{startDate}, #{endDate}, 0)
 	</insert>
 	
 	<update id="updateMission" parameterType="com.olive.olive.mission.Mission">
@@ -143,12 +143,12 @@
 	</select>
 	
 	<insert id="insertMissionContent" parameterType="com.olive.olive.mission.Content">
-		insert into missionContent values(missionContent_seq, #{missionNum}, #{userId}, #{subject},
+		insert into missionContent values(missionContent_seq.nextval, #{missionNum}, #{userId}, #{subject},
 		#{content}, #{startDate}, #{endDate})
 	</insert>
 	
 	<update id="updateMissionContent" parameterType="com.olive.olive.mission.Content">
-		update missionUpdate set
+		update missionContent set
 		subject=#{subject}, content=#{content}, startDate=#{startDate}, endDate=#{endDate}
 		<where>
 		contentNum=#{contentNum}
@@ -175,7 +175,7 @@
 	
 	<insert id="insertMissionContentAttend" parameterType="com.olive.olive.mission.Content">
 		insert into missionContentAttend values(#{contentNum}, #{userId}, #{content},
-		#{attendDate}, 0, #{imageFileName})
+		to_char(sysdate, 'yyyy-mm-dd'), 0, #{imageFileName})
 	</insert>
 	
 	<update id="updateMissionContentAttend" parameterType="com.olive.olive.mission.Content">

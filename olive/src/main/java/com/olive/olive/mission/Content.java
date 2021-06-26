@@ -1,5 +1,7 @@
 package com.olive.olive.mission;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Content {
 	private int contentNum;
 	private int missionNum;
@@ -12,6 +14,7 @@ public class Content {
 	private String attendDate;
 	private int accept;
 	private String imageFileName;
+	private MultipartFile upload;
 	
 	public int getContentNum() {
 		return contentNum;
@@ -80,6 +83,13 @@ public class Content {
 	public void setImageFileName(String imageFileName) {
 		this.imageFileName = imageFileName;
 	}
+	public MultipartFile getUpload() {
+		return upload;
+	}
+	public void setUpload(MultipartFile upload) {
+		this.upload = upload;
+	}
+	
 	
 	
 }

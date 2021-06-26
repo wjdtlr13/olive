@@ -14,7 +14,7 @@ $(function(){
 	})
 	
 	$("#delete").click(function(){
-		if(!confirm('도전과제를 삭제하시겠습니까?'))  {
+		if(!confirm('밥친구 모집을 삭제하시겠습니까?'))  {
 			return false;
 		}
 				
@@ -62,6 +62,7 @@ $(function(){
                     	<input type="hidden" name="userId" value="${dto.reg_userId }">
                     	<input type="hidden" name="page" value="${page }">
                     	<input type="hidden" name="mode" value="${mode }">
+                    	<input type="hidden" name="readMode" value="${readMode }">
                     	<input type="hidden" name="mate_reg_num" value="${dto.mate_reg_num }">
                     	<input type="hidden" name="mate_regi_num" value="${dto.mate_regi_num }">
                     </div>
