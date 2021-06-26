@@ -29,7 +29,7 @@ public interface FreeService {
 	public void insertReplyLike(Map<String, Object> map) throws Exception;
 	public Map<String, Object> replyLikeCount(Map<String, Object> map);
 	
-	
+	public int updatePoint(Map<String, Object> map) throws Exception;
 	
 	
 	

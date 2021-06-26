@@ -266,4 +266,14 @@ public class FreeServiceImpl implements FreeService{
 		return result;
 	}
 
+	@Override
+	public int updatePoint(Map<String, Object> map) throws Exception {
+		int result = 0;
+		try {
+			result = dao.updateData("member.updatePoint", map);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
+	}
 }

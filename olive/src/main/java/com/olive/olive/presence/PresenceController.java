@@ -54,6 +54,7 @@ public class PresenceController {
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		String userId = info.getUserId();
+		
 		int dataCount = service.dataCount(userId);
 		int rows = 8;
 		int total_page = myUtil.pageCount(rows,  dataCount);
@@ -69,8 +70,13 @@ public class PresenceController {
         map.put("userId", userId);
         
         List<Presence> list = service.listPresence(map);
+        
+        int listNum, n = 0;
         for(Presence dto : list) {
         	dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+        	 listNum = dataCount - (offset + n);
+             dto.setListNum(listNum);
+             n++;
         }
         
         String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
@@ -92,8 +98,14 @@ public class PresenceController {
 	public String insertSubmit(
 			Presence dto) throws Exception{
 		
+		int num = dto.getPointed();
+		String userId = dto.getUserId();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("num", num);
+		map.put("userId", userId);
 		try {
 			service.insertPresence(dto);
+			service.updatePoint(map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
