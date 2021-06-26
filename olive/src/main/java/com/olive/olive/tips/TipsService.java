@@ -16,4 +16,6 @@ public interface TipsService {
 	
 	public void insertTipsLike(Map<String, Object> map) throws Exception;
 	public int tipsLikeCount(int num);
+	 
+	public String getAddress(String userId);
 }

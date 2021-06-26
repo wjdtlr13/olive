@@ -62,6 +62,7 @@
             <mapping path="/**"/>
             <!-- 제외 -->
             <exclude-mapping path="/"/>
+            <exclude-mapping path="/covid"/>            
             <exclude-mapping path="/resources/**"/>
             <exclude-mapping path="/uploads/photo/**"/>
             <exclude-mapping path="/member/login"/>
@@ -73,6 +74,12 @@
             <beans:bean class="com.olive.olive.member.LoginCheckInterceptor"/>
         </interceptor>
     </interceptors>	 
+    
+    <!-- 웹소켓 환경 설정 -->
+ 	<websocket:handlers>
+ 		<websocket:mapping handler="mySocketHandler" path="/chat.msg"/>
+ 	</websocket:handlers>
+ 	<beans:bean id="mySocketHandler" class="com.olive.olive.chat.MySocketHandler" />
 
    <!-- 예외처리 -->
     <beans:bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">

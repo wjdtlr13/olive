@@ -13,7 +13,7 @@ body {
 	padding-bottom:30px;
 	width: 70%;
 	margin: auto;
-	font-weight: 800;
+	font-weight: bold;
 }
 
 .btn {
@@ -52,19 +52,19 @@ body {
 	padding: 10px 10px;
 	border-top: 1px solid #eeeeee;
 	margin-top: 20px;
-	font-size: 17px;
-	font-weight: bold;
+	font-size: 18px;
+	font-weight: 700;
 }
 .div-question:hover{
 cursor: pointer;
 }
 .div-answer{
-	padding: 15px 20px;
+	padding: 30px 20px;
 	margin-top: 15px;
-	font-size: 15px;
-	font-weight: lighter;
-	background: #f9fbe7;
-	border-radius: 30px;
+	font-size: 16px;
+	font-weight: 600;
+	background: #f5f5f5;
+	border-radius: 15px;
 	
 }
 .update{

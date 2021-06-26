@@ -14,7 +14,7 @@
 	
 	font-family: 맑은 고딕, 돋움;
 }
-
+ 
 .body-container {
 	width: 700px;
 	margin: 20px auto;
@@ -285,7 +285,7 @@ $(function(){
 		
 		var fn=function(data) {
 			$(".replyTA").val("");
-			
+			 
 			var state=data.state;
 			if(state==="true") {
 				listPage(1);
@@ -325,7 +325,7 @@ $(function(){
 	</div>
 	<div>
 		첨&nbsp;&nbsp;부 :
-		<c:forEach var="vo" items="${listImage}">
+		<c:forEach var="vo" items="${listImg}">
 			<img src="${pageContext.request.contextPath}/uploads/wisdom/${vo.imageFileName}">
 		</c:forEach>
 	</div>	

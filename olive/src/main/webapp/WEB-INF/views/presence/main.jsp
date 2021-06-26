@@ -62,12 +62,9 @@ function printList(data) {
 	var dataCount = data.dataCount;
 	var page = data.pageNo;
 	var totalPage = data.total_page;
-	pageNo = page;
-	total_page = totalPage;
+	var paging = data.paging;
 	
-	if(page==1) {
-		$(".list").empty();
-	}
+	$(".list").empty();
 	
 	var out="";
 	if(dataCount==0) {
@@ -89,8 +86,12 @@ function printList(data) {
 		var created=data.list[idx].created;
 		var hidden=data.list[idx].hidden;
 		var continuous=data.list[idx].continuous;
-	
-		out+="<div class='col event'><span>축하합니다 "+nickName+"님! 5포인트 획득!<br></span></div>";
+		var pointed=data.list[idx].pointed;
+		
+		
+		if(pointed>1){
+		out+="<div class='col event'><span>축하합니다 "+nickName+"님! "+pointed+"포인트 획득!<br></span></div>";	
+		}
 		out+="<div class='col content'><div class='row justify-content-between'><div class='col-auto col1'><span class='created'><strong>"+created+"</strong></span>";
         out+="<span><strong>출석 "+continuous+"일째</strong></span>";
         if(hidden==1) {
@@ -107,14 +108,22 @@ function printList(data) {
         out+="<input type='hidden' name='continuous' value='"+continuous+"'/>";
         out+="<input type='hidden' name='created' value='"+created+"'/>";
         out+="</div></div><hr></div>";
-        
-	}
+       }
+	out+='<table class="table"><tr><td align="center">'+paging+'</td></tr></table>';
 	
 	$(".list").append(out);
 };
 
 $(function(){
 	$(".create").find('.btn').click(function(){
+		var pickNum = parseInt(Math.random()*5);
+		var pointNum = parseInt(Math.random()*10);
+		var pointed = $('input[name=pointed]');
+		pointed.val(1);
+		if(pickNum == 1) {
+			pointed.val(1+pointNum);
+		}
+		
 		$(".left").show();
 		$(".content").find("input[name=userId]").val();
 		$("input[name=continuous]").val(${continuous}+1);
@@ -224,6 +233,7 @@ function update() {
 	            <input class="form-control" type="hidden" name="hidden" value=0>
 	            <input class="form-control" type="hidden" name="continuous">
 	            <input class="form-control" type="hidden" name="created">
+	            <input class="form-control" type="hidden" name="pointed">
 	        </form>
 	    </div>
 	    <div class="col-lg-6 align-content-center right">
@@ -245,4 +255,5 @@ function update() {
 	<div class="list">
 	    
 	</div>
+	
 </div>

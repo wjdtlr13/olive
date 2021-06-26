@@ -1,5 +1,5 @@
 package com.olive.olive.junggo;
-
+ 
 public class Reply {
 	private int replyNum;
 	private int num;
@@ -11,7 +11,7 @@ public class Reply {
 	
 	private int answerCount;
 	private int likeCount;
-	
+	private int dislikeCount;
 	
 	public int getReplyNum() {
 		return replyNum;
@@ -67,6 +67,12 @@ public class Reply {
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
 	}
-	
+	public int getDislikeCount() {
+		return dislikeCount;
+	}
+	public void setDislikeCount(int dislikeCount) {
+		this.dislikeCount = dislikeCount;
+	}
+
 	
 }

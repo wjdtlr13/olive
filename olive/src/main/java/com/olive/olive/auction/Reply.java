@@ -8,9 +8,10 @@ public class Reply {
 	private String content;
 	private String created;
 	private int answer;
-	
+	 
 	private int answerCount;
 	private int likeCount;
+	private int disLikeCount;
 	
 	public int getReplyNum() {
 		return replyNum;
@@ -65,6 +66,12 @@ public class Reply {
 	}
 	public void setLikeCount(int likeCount) {
 		this.likeCount = likeCount;
+	}
+	public int getDisLikeCount() {
+		return disLikeCount;
+	}
+	public void setDisLikeCount(int disLikeCount) {
+		this.disLikeCount = disLikeCount;
 	}
 	
 	

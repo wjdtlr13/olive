@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.olive.olive.common.dao.CommonDAO;
-
+ 
 @Service("junggo.junggoService")
 public class JunggoServiceImpl implements JunggoService {
 	@Autowired
@@ -161,7 +161,7 @@ public class JunggoServiceImpl implements JunggoService {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public void insertReply(Reply dto) throws Exception {
 		try {
@@ -170,13 +170,14 @@ public class JunggoServiceImpl implements JunggoService {
 			e.printStackTrace();
 			throw e;
 		}
+		
 	}
 
 	@Override
 	public List<Reply> listReply(Map<String, Object> map) {
 		List<Reply> list = null;
 		try {
-			list=dao.selectList("junggo.listReply", map);
+			list = dao.selectList("junggo.listReply", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -185,9 +186,9 @@ public class JunggoServiceImpl implements JunggoService {
 
 	@Override
 	public int replyCount(Map<String, Object> map) {
-		int result=0;
+		int result = 0;
 		try {
-			result=dao.selectOne("junggo.replyCount", map);
+			result = dao.selectOne("junggo.replyCount", map);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -202,13 +203,14 @@ public class JunggoServiceImpl implements JunggoService {
 			e.printStackTrace();
 			throw e;
 		}
+		
 	}
 
 	@Override
 	public List<Reply> listReplyAnswer(int answer) {
 		List<Reply> list = null;
 		try {
-			list=dao.selectList("junggo.listReplyAnswer", answer);
+			list = dao.selectList("junggo.listReplyAnswer", answer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -217,15 +219,16 @@ public class JunggoServiceImpl implements JunggoService {
 
 	@Override
 	public int replyAnswerCount(int answer) {
-		int result=0;
+		int result = 0;
 		try {
-			result=dao.selectOne("junggo.replyAnswerCount", answer);
+			result = dao.selectOne("junggo.replyAnswerCount", answer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
 
+	
 	@Override
 	public List<Junggo> listCategory() {
 		
@@ -238,6 +241,5 @@ public class JunggoServiceImpl implements JunggoService {
 		}
 		return list;
 	}
-
 	
 }

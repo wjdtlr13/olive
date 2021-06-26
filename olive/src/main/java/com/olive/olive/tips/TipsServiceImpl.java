@@ -144,13 +144,24 @@ public class TipsServiceImpl implements TipsService{
 			throw e;
 		}
 		
-	}
+	} 
 
 	@Override
 	public int tipsLikeCount(int num) {
 		int result=0;
 		try {
 			result=dao.selectOne("tips.tipsLikeCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	@Override
+	public String getAddress(String userId) {
+		String result = "";
+		try {
+			result = dao.selectOne("tips.getAddress", userId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

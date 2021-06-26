@@ -110,7 +110,7 @@
 		SELECT num, subject
 		FROM free f
 		JOIN member1 m ON f.userId=m.userId
-		<where>
+		<where>	
 			<if test="keyword != null and keyword != '' ">
 				<include refid="where-list"/>
 			</if>

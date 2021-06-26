@@ -36,7 +36,7 @@ public interface MissionService {
 	
 	public List<Content> listMissionContent(int missionNum);//
 	
-	public int insertMissionContentAttend(Content dto) throws Exception;
+	public int insertMissionContentAttend(Content dto, String pathname) throws Exception;
 	public int updateMissionContentAttend(Content dto) throws Exception;
 	public int deleteMissionContentAttend(Map<String, Object> map) throws Exception;
 	

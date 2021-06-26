@@ -45,8 +45,7 @@
 					<a href="#">real-estate</a>
 					<ul>
                 		<li><a href="${pageContext.request.contextPath}/house/info">올리브의 새 집</a></li>
-                		<li><a href="${pageContext.request.contextPath}/tips/list">올리브의 집문서</a></li>
-                		<li><a href="${pageContext.request.contextPath}/house/bot">꿀팁 안내봇</a></li>
+                		<li><a href="${pageContext.request.contextPath}/tips/home">올리브의 집문서</a></li>
 					</ul>
 				</li>
 				
@@ -77,7 +76,7 @@
 						<li class="dropdown"><a href="#"><i class="fa fa-user" style="font-size: 25px;"></i></a>
 							<ul>
 								<li><a href="${pageContext.request.contextPath}/notice/list">공지사항</a></li>
-								<li><a href="${pageContext.request.contextPath}/member/logout">로그아웃</a></li>
+								<li><a href="${pageContext.request.contextPath}/member/logout">${sessionScope.member.userName}님 로그아웃</a></li>
 								<li><a href="${pageContext.request.contextPath}/mypage/list">내 정보</a></li>
 								<li><a href="${pageContext.request.contextPath}/note/receive/list">우체통</a></li>
 								<c:if test="${sessionScope.member.userId=='admin'}">

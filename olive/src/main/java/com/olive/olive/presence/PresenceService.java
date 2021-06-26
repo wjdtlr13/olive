@@ -14,6 +14,7 @@ public interface PresenceService {
 	
 	public int dataCount(String userId);
 	public List<Presence> listPresence(Map<String, Object> map);
+	public int updatePoint(Map<String, Object> map) throws Exception;
 	
 	
 }

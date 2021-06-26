@@ -1,6 +1,7 @@
 package com.olive.olive.auction;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -273,110 +274,170 @@ public class AuctionController {
 	}
 	
 	// 댓글
-		@RequestMapping(value="listReply")
-		public String listReply(
-				@RequestParam int num,
-				@RequestParam(value="pageNo", defaultValue="1") int current_page,
-				Model model
-				) throws Exception {
-			
-			int rows=5;
-			int total_page=0;
-			int dataCount=0;
-			
-			Map<String, Object> map = new HashMap<>();
-			map.put("num", num);
-			
-			dataCount=service.replyCount(map);
-			total_page = myUtil.pageCount(rows, dataCount);
-			if(current_page>total_page)
-				current_page=total_page;
-			
-			int offset = (current_page-1) * rows;
-			if(offset < 0) offset = 0;
-			map.put("offset", offset);
-			map.put("rows", rows);
-			List<Reply> listReply=service.listReply(map);
-			
-			for(Reply dto:listReply) {
-				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
-			}
-			
-			String paging=myUtil.pagingMethod(current_page, total_page, "listPage");
-			
-			model.addAttribute("listReply", listReply);
-			model.addAttribute("pageNo", current_page);
-			model.addAttribute("replyCount", dataCount);
-			model.addAttribute("total_page", total_page);
-			model.addAttribute("paging", paging);
-			
-			return "junggo/listReply";
+	@RequestMapping(value="listReply")
+	public String listReply(
+			@RequestParam int num,
+			@RequestParam(value="pageNo", defaultValue="1") int current_page,
+			Model model
+			) throws Exception{
+		
+		int rows=5;
+		int total_page=0;
+		int dataCount=0;
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("num",num);
+		
+		dataCount=service.replyCount(map);
+		total_page = myUtil.pageCount(rows, dataCount);
+		if(current_page>total_page)
+				current_page = total_page;
+		
+		int offset = (current_page-1) * rows;
+		if(offset < 0) offset = 0;
+		map.put("offset", offset);
+		map.put("rows", rows);
+		List<Reply> listReply = service.listReply(map);
+		
+		for(Reply dto : listReply) {
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		}
 		
-		// 댓글, 댓글의 답글
-		@RequestMapping(value="insertReply", method=RequestMethod.POST)
-		@ResponseBody
-		public Map<String, Object> insertReply(
-				Reply dto,
-				HttpSession session
-				) {
-			SessionInfo info=(SessionInfo)session.getAttribute("member");
-			String state="true";
-			
-			try {
-				dto.setUserId(info.getUserId());
-				service.insertReply(dto);
-			} catch (Exception e) {
-				state="false";
-			}
-			
-			Map<String, Object> model = new HashMap<>();
-			model.put("state", state);
-			return model;
-		}
+		String paging = myUtil.pagingMethod(current_page, total_page, "listPage");
+		
+		model.addAttribute("listReply", listReply);
+		model.addAttribute("pageNo", current_page);
+		model.addAttribute("replyCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("paging", paging);
+		
+		return "auction/listReply";
+	}
 
-		@RequestMapping(value="deleteReply", method = RequestMethod.POST)
-		@ResponseBody
-		public Map<String, Object> deleteReply(
-				@RequestParam Map<String, Object> paramMap
-				) {
-			
-			String state="true";
-			try {
-				service.deleteReply(paramMap);
-			} catch (Exception e) {
-				state="false";
-			}
-			
-			Map<String, Object> map = new HashMap<>();
-			map.put("state", state);
-			return map;
+	// 댓글 및 댓글의 답글 등록
+	@RequestMapping(value="insertReply", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertReply(
+			Reply dto,
+			HttpSession session
+			) {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String state="true";
+		
+		try {
+			dto.setUserId(info.getUserId());
+			service.insertReply(dto);
+		} catch (Exception e) {
+			state="false";
 		}
 		
-		@RequestMapping(value="listReplyAnswer")
-		public String listReplyAnswer(
-				@RequestParam int answer,
-				Model model
-				) throws Exception {
-			
-			List<Reply> listReplyAnswer=service.listReplyAnswer(answer);
-			for(Reply dto:listReplyAnswer) {
-				dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
-			}
-			model.addAttribute("listReplyAnswer", listReplyAnswer);
-			return "junggo/listReplyAnswer";
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		
+		return model;
+	}
+	
+	// 댓글, 댓글답글 삭제
+	@RequestMapping(value="deleteReply", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> deleteReply(
+			@RequestParam Map<String, Object> paramMap
+			) {
+		
+		String state="true";
+		try {
+			service.deleteReply(paramMap);
+		} catch (Exception e) {
+			state="false";
 		}
 		
-		public Map<String, Object> countReplyAnswer(
-				@RequestParam(value="answer") int answer
-				) {
-			
-			int count=service.replyAnswerCount(answer);
-			
-			Map<String, Object> model=new HashMap<>();
-			model.put("count", count);
-			return model;
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", state);
+		
+		return map;
+	}
+	
+	//댓글의 답글 리스트
+	@RequestMapping(value="listReplyAnswer")
+	public String listReplyAnswer(
+			@RequestParam int answer,
+			Model model
+			) throws Exception {
+		
+		List<Reply> listReplyAnswer=service.listReplyAnswer(answer);
+		for(Reply dto : listReplyAnswer) {
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		}
-
+		
+		model.addAttribute("listReplyAnswer", listReplyAnswer);
+		
+		return "auction/listReplyAnswer";
+	}
+	
+	// 댓글의 답글 개수
+	@RequestMapping(value="countReplyAnswer")
+	@ResponseBody
+	public Map<String, Object> countReplyAnswer(
+			@RequestParam(value="answer") int answer
+			) {
+		
+		int count=service.replyAnswerCount(answer);
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("count", count);
+		
+		return model;
+	}
+	
+	// 댓글의 좋아요 싫어요
+	@RequestMapping(value="insertReplyLike", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertReplyLike(
+			@RequestParam Map<String, Object> paramMap,
+			HttpSession session
+			) {
+		String state="true";
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		Map<String, Object> model = new HashMap<>();
+		
+		try {
+			paramMap.put("userId", info.getUserId());
+			service.insertReplyLike(paramMap);
+		} catch (Exception e) {
+			state="false";
+		}
+		
+		Map<String, Object> countMap = service.replyLikeCount(paramMap);
+		
+		int likeCount=((BigDecimal)countMap.get("LIKECOUNT")).intValue();
+		int disLikeCount=((BigDecimal)countMap.get("DISLIKECOUNT")).intValue();
+		
+		model.put("likeCount", likeCount);
+		model.put("disLikeCount", disLikeCount);
+		model.put("state", state);
+		
+		return model;
+	}
+	 
+	@RequestMapping(value="countReplyLike", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> countReplyLike(
+			@RequestParam Map<String, Object> paramMap,
+			HttpSession session
+			) {
+		
+		Map<String, Object> countMap = service.replyLikeCount(paramMap);
+		
+		int likeCount=((BigDecimal)countMap.get("LIKECOUNT")).intValue();
+		int disLikeCount=((BigDecimal)countMap.get("DISLIKECOUNT")).intValue();
+		
+		Map<String, Object> model=new HashMap<>();
+		model.put("likeCount", likeCount);
+		model.put("disLikeCount", disLikeCount);
+			
+		return model;
+		
+	}
 	
 }

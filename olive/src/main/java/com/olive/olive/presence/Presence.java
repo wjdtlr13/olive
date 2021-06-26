@@ -8,6 +8,8 @@ public class Presence {
 	private String created;
 	private int hidden;
 	private int continuous;
+	private int pointed;
+	private int listNum;
 	public int getNum() {
 		return num;
 	}
@@ -50,6 +52,19 @@ public class Presence {
 	public void setContinuous(int continuous) {
 		this.continuous = continuous;
 	}
+	public int getPointed() {
+		return pointed;
+	}
+	public void setPointed(int pointed) {
+		this.pointed = pointed;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+	
 	
 	
 }

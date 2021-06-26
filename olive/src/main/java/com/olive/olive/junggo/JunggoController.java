@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.olive.olive.common.MyUtil;
 import com.olive.olive.member.SessionInfo;
-
+ 
 @Controller("junggo.junggoController")
 @RequestMapping("/junggo/*")
 public class JunggoController {

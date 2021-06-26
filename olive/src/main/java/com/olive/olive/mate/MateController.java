@@ -119,6 +119,7 @@ public class MateController {
 			@RequestParam(required=false) int mate_reg_num,
 			@RequestParam(required=false) int mate_regi_num,
 			@RequestParam String mode,
+			@RequestParam String readMode,
 			@RequestParam int page) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("mate_reg_num", mate_reg_num);
@@ -129,8 +130,8 @@ public class MateController {
 			e.printStackTrace();
 		}
 		
-		String query = "mode="+mode+"&page="+page;
-		return "/mate/registerList?"+query;
+		String query = "mode="+readMode+"&page="+page;
+		return "redirect:/mate/registerList?"+query;
 	}
 	
 	@RequestMapping("registerList")
@@ -245,6 +246,7 @@ public class MateController {
 			@RequestParam(required=false) String req_userId,
 			@RequestParam int mate_reg_num,
 			@RequestParam int page,
+			@RequestParam String mode,
 			HttpSession session,
 			Model model) {
 		
@@ -264,6 +266,7 @@ public class MateController {
         else
         	model.addAttribute("mode", "mine");
         model.addAttribute("page", page);
+        model.addAttribute("readMode", mode);
         return ".mate.article";
         
 	}

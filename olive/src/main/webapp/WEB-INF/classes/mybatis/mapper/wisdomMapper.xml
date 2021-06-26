@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wisdom">
+	<select id="seq" resultType="Integer">
+		select Wisdom_seq.nextval from dual
+	</select>
+
+
+	<insert id="insertWisdom" parameterType="com.olive.olive.wisdom.tree.Tree">
+		insert into wisdom(num, userId, subject, imageFilename, content, created)
+			values(#{num},#{userId},#{subject},#{imageFilename},#{content},#{created})
+	</insert>
+
+
+	<sql id="where-list">
+		<if test="condition=='all'">
+			( INSTR(subject, #{keyword}) &gt; 0
+				OR INSTR(content, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='subject'">
+			INSTR(subject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content'">
+			INSTR(content, #{keyword}) &gt; 0 
+		</if>
+		<if test="condition=='userName'">
+			userName=#{keyword}
+		</if>
+		<if test="condition=='created'">
+			( TO_CHAR(p.created, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(p.created, 'YYYYMMDD') = #{keyword} )
+		</if>
+	</sql>
+	
+	<!-- 리스트에 뿌릴 데이터 개수 -->
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		select nvl(count(*),0)
+		from wisdom w
+		join member1 m on w.userId=m.userId
+		<where>
+			<if test="keyword!=null and keyword!='' ">
+				<include refid="where-list"/>
+			</if>
+		</where>		
+	</select>
+	
+	<!-- 게시판 리스트 -->
+	<select id="listWisdom" parameterType="map" resultType="com.olive.olive.wisdom.tree.Tree">
+		select w.num,w.userId, subject, imageFileName
+		from wisdom w
+		left outer join (
+		    select imageNum,num,imageFileName from(
+		        select imageNum,num,imageFileName,
+		        row_number() over(partition by num order by imageNum asc) rank
+		    from WisdomImage
+		    )where rank=1
+		) i on w.num=i.num
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>         
+		ORDER BY num DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<!-- 게시물 읽기 -->
+	<select id="readWisdom" parameterType="Integer" resultType="com.olive.olive.wisdom.tree.Tree">
+		 select w.num, w.userId, subject, content, hitCount, created, articleLikeCount
+		 from wisdom w
+		 join member1 m1 on w.userId=m1.userId
+		 left outer join (
+		    select num, count(*) articleLikeCount from WisdomLike 
+		    group by num
+		 ) wl on w.num=wl.num
+		where w.num=#{w.num}
+	</select>
+	
+	<!-- 이미지 추가 -->
+	<insert id="insertImg" parameterType="com.olive.olive.wisdom.tree.Tree">
+		insert into WisdomImage(imageNum, num, imageFileName)
+			values(WisdomImage_seq.nextval, #{num},#{imageFileName})
+	</insert>
+	
+	<!-- 이미지 읽어오기 -->
+	<select id="listImg" parameterType="Integer" resultType="com.olive.olive.wisdom.tree.Tree">
+		select imageNum, num, imageFileName
+		from wisdomImage
+		where imageNum=#{imageNum}
+	</select>
+	
+	
+	<!-- 게시글 좋아요 추가 -->
+	<insert id="insertArticleLike" parameterType="Integer" >
+		insert into wisdomLike (num,userId, articleLike)
+			values(#{num},#{userId},#{articleLike})
+	</insert>
+	
+	<!-- 게시글 좋아요 개수 -->
+	<select id="">
+		select nvl(count(*),0)
+		from wisdomLike where num=#{num}
+	</select>
+	
+	<!-- 댓글 -->
+	<insert id="insertReply" parameterType="com.olive.olive.wisdom.tree.Reply">
+		INSERT INTO wisdomReply(replyNum, num, userId, content, answer, created)
+			VALUES (wisdomReply_seq.NEXTVAL, #{num}, #{userId}, #{content}, #{answer}, SYSDATE)
+	</insert>
+	
+	<!-- 댓글 개수 -->
+	<select id="replyCount" parameterType="map" resultType="Integer">
+		select nvl(COUNT(*), 0) from wisdomReply
+		where num=#{num} 
+	</select>
+
+	<!-- 댓글리스트 -->
+	<select id="listReply" parameterType="map" resultType="com.olive.olive.wisdom.tree.Reply">
+		select r.replyNum, r.userId, userName, num, content, r.created, 
+		       nvl(likeCount, 0) likeCount
+		FROM WisdomReply  r
+		JOIN member1 m ON r.userId = m.userId
+		LEFT OUTER JOIN (
+			SELECT replyNum, COUNT(DECODE(replyLike, 1, 1)) likeCount
+			FROM WisdomReplyLike GROUP BY replyNum
+		) c ON r.replyNum = c.replyNum
+		WHERE num=#{num}  AND r.answer=0
+		ORDER BY r.replyNum DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+		
+	<!-- 댓글 좋아요 추가 -->
+	<insert id="insertReplyLike" parameterType="map">
+		insert into wisdomReplyLike(replyNum, userId, replyLike)
+			values (#{replyNum}, #{userId}, #{replyLike})
+	</insert>
+	
+	<!-- 댓글 좋아요 개수 -->
+	<select id="replyLikeCount" parameterType="map" resultType="Integer">
+		select count(DECODE(replyLike, 1, 1)) likeCount
+		FROM wisdomReplyLike where replyNum = #{replyNum}
+	</select>
+
+
+
+
+
+
+
+
+</mapper>

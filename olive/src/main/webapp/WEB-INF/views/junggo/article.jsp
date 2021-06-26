@@ -2,12 +2,15 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-
+ 
 <style type="text/css">
 .ck.ck-editor__editable_inline, .ck.ck-toolbar {
 	border: none;
 }
-
+.body-title{
+    margin-top: 200px;
+    border-bottom-width: 0px;
+}
 .table-content tr > td {
 	padding-left: 5px; padding-right: 5px;
 }
@@ -265,8 +268,8 @@ $(function(){
 </script>
 
 <div class="container body-container">
-    <div class="body-title">
-        <h2> 중고거래 게시판 </h2>
+    <div class="body-title" style="margin-top: 200px;border-bottom-width: 0px;">
+        <h2> 중고거래 글보기 </h2>
     </div>
     
     <div class="body-main">
@@ -275,7 +278,7 @@ $(function(){
     		<!-- 작성 글 보기 -->
     		<tr>
     			<td colspan="2" align="center">
-					[${dto.categoryName}] ${dto.subject}
+					[${dto.categoryName}]  ${dto.subject}
 				</td>
     		</tr>
     		
@@ -293,7 +296,7 @@ $(function(){
 					조회 ${dto.hitCount}
 				</td>
 				<td width="50%" align="right">
-					${startDate}-${endDate} 
+					${dto.created} 
 				</td>
 			</tr>
     		
@@ -309,32 +312,9 @@ $(function(){
 					<button type="button" class="btn btnSendJunggoLike" title="좋아요"><i class="icofont-like"></i>&nbsp;&nbsp;<span id="junggoLikeCount">${dto.junggoLikeCount}</span></button>
 				</td>
 			</tr>
+		</table>
 			
-			<!-- 이전글다음글 -->
-    		<tr>
-				<td colspan="2">
-					이전글 :
-					<c:if test="${not empty preReadDto}">
-						<a href="${pageContext.request.contextPath}/junggo/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
-			
-			<tr>
-				<td colspan="2">
-					다음글 :
-					<c:if test="${not empty nextReadDto}">
-						<a href="${pageContext.request.contextPath}/junggo/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
-					</c:if>
-				</td>
-			</tr>
-    	</table>
-    	
-    	
-		
-	
-    	
-    	<!-- 수정삭제리스트 -->
+    		<!-- 수정삭제리스트 -->
     	<table class="table">
 			<tr>
 				<td width="50%">
@@ -385,6 +365,27 @@ $(function(){
 	    
 	    	<div id="listReply"></div>
     	</div>
+    	
+    	<!-- 이전글다음글 -->
+		<table class="table table-border table-content">
+    		<tr>
+				<td colspan="2">
+					이전글 :
+					<c:if test="${not empty preReadDto}">
+						<a href="${pageContext.request.contextPath}/junggo/article?${query}&num=${preReadDto.num}">${preReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					다음글 :
+					<c:if test="${not empty nextReadDto}">
+						<a href="${pageContext.request.contextPath}/junggo/article?${query}&num=${nextReadDto.num}">${nextReadDto.subject}</a>
+					</c:if>
+				</td>
+			</tr>
+    	</table>
     </div>
 
 <script type="text/javascript">
