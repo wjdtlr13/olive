@@ -33,6 +33,13 @@
 		</if>
 	</sql>
 	
+	<!-- 카테고리 리스트 -->
+	<select id="listCategory" resultType="com.olive.olive.wisdom.tree.Category">
+		SELECT *
+		FROM wisdomCategory
+		order by categoryNum desc
+	</select>	
+	
 	<!-- 리스트에 뿌릴 데이터 개수 -->
 	<select id="dataCount" parameterType="map" resultType="Integer">
 		select nvl(count(*),0)
@@ -42,12 +49,15 @@
 			<if test="keyword!=null and keyword!='' ">
 				<include refid="where-list"/>
 			</if>
+			<if test="selected!=null">
+				and selected='y'
+			</if>
 		</where>		
 	</select>
 	
 	<!-- 게시판 리스트 -->
 	<select id="listWisdom" parameterType="map" resultType="com.olive.olive.wisdom.tree.Tree">
-		select w.num,w.userId, subject, imageFileName
+		select w.num,w.userId, subject, imageFileName,categoryNum
 		from wisdom w
 		left outer join (
 		    select imageNum,num,imageFileName from(
@@ -55,11 +65,17 @@
 		        row_number() over(partition by num order by imageNum asc) rank
 		    from WisdomImage
 		    )where rank=1
-		) i on w.num=i.num
+		) i on w.num=i.num		
 		<where>
 			<if test="keyword != null and keyword != ''">
 				<include refid="where-list"/>
 			</if>
+			<if test="selected!=null">
+				and selected='y'
+			</if>			
+			<if test="categoryNum!=null and categoryNum!=''">
+				categoryNum=${categoryNum}
+			</if>			
 		</where>         
 		ORDER BY num DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
@@ -71,7 +87,7 @@
 		 from wisdom w
 		 join member1 m1 on w.userId=m1.userId
 		 left outer join (
-		    select num, count(*) articleLikeCount from WisdomLike 
+		    select num, count(*) articleLikeCount from wisdomLike 
 		    group by num
 		 ) wl on w.num=wl.num
 		where w.num=#{w.num}
@@ -92,13 +108,23 @@
 	
 	
 	<!-- 게시글 좋아요 추가 -->
-	<insert id="insertArticleLike" parameterType="Integer" >
+	<insert id="insertWisdomLike" parameterType="map" >
 		insert into wisdomLike (num,userId, articleLike)
-			values(#{num},#{userId},#{articleLike})
+			values(#{num},#{userId},1)
 	</insert>
+
 	
-	<!-- 게시글 좋아요 개수 -->
-	<select id="">
+	<!-- 열매게시판으로 옮길 수 있도록 selected 변경 -->
+	<update id="updateSelected" parameterType="Integer">
+		update wisdom set selected='y'
+		where num=#{num}
+	</update>
+	
+	
+	
+	
+		<!-- 게시글 좋아요 개수 -->
+	<select id="wisdomLikeCount" parameterType="Integer" resultType="Integer">
 		select nvl(count(*),0)
 		from wisdomLike where num=#{num}
 	</select>

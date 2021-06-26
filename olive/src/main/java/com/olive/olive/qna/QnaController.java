@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.olive.olive.common.MyUtil;
 import com.olive.olive.member.SessionInfo;
@@ -101,7 +102,7 @@ public class QnaController {
 	}
 	
 	
-	@RequestMapping(value = "write", method = RequestMethod.GET)
+	@RequestMapping(value = "created", method = RequestMethod.GET)
 	public String createdForm(
 			Model model
 			) throws Exception {
@@ -111,7 +112,7 @@ public class QnaController {
 		return ".qna.write";
 	}
 	
-	@RequestMapping(value = "write", method = RequestMethod.POST)
+	@RequestMapping(value = "/qna/created", method = RequestMethod.POST)
 	public String createdSubmit(
 			Qna dto,
 			HttpSession session		
@@ -155,6 +156,22 @@ public class QnaController {
 			dto.setAnswerContent(dto.getAnswerContent().replaceAll("\n", "<br>"));
 		}
 		
+		service.updateHitCount(qnaNum);
+		
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		map.put("qnaNum", qnaNum);
+		
+		Qna preReadDto = service.preReadQna(map);
+		Qna nextReadDto = service.nextReadQna(map);
+		
+		
+		
+		
+		model.addAttribute("preReadDto",preReadDto);
+		model.addAttribute("nextReadDto",nextReadDto);
+		
 		model.addAttribute("dto",dto);
 		model.addAttribute("page",page);
 		model.addAttribute("query",query);
@@ -162,67 +179,37 @@ public class QnaController {
 		return ".qna.article";
 	}
 	
-	@RequestMapping(value="update", method=RequestMethod.GET)
-	public String updateForm(
-			@RequestParam int num,
-			@RequestParam String page,
-			HttpSession session,
-			Model model) throws Exception {
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		
-		Qna dto = service.readQna(num);
-		if(dto==null) {
-			return "redirect:/qna/list?page="+page;
-		}
 
-		if(! info.getUserId().equals(dto.getQuestionId())) {
-			return "redirect:/qna/list?page="+page;
-		}
-		
-		model.addAttribute("dto", dto);
-		model.addAttribute("mode", "update");
-		model.addAttribute("page", page);
-		
-		return ".qna.created";
-	}
 
-	@RequestMapping(value="update", method=RequestMethod.POST)
-	public String updateSubmit(
-			Qna dto, 
-			@RequestParam String page,
-			HttpSession session) throws Exception {
-		
+	
 
-		try {
-			service.updateQuestion(dto);		
-		} catch (Exception e) {
-		}
-		
-		return "redirect:/qna/list?page="+page;
-	}	
+
 	
 	// AJAX -  답변 등록
-	@RequestMapping(value="writeAnswer")
+	@RequestMapping(value="writeAnswer", method = RequestMethod.POST)
+	@ResponseBody
 	public Map<String, Object> insertAnswer(
 			Qna dto,
 			HttpSession session			
 			) throws Exception {
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String state="true";
 		
 		
+
+		try {
+			
+			dto.setAnswerId(info.getUserId());
+			service.insertAnswer(dto);
+		} catch (Exception e) {
+			state="false";
+			e.printStackTrace();
+		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		
 		
-
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-
-		dto.setAnswerId(info.getUserId());
-
-		try {
-			service.insertAnswer(dto);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
+		model.put("state", state);
 		
 		return model;
 	}

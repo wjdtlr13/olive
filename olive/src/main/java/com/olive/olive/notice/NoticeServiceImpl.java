@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.olive.olive.common.FileManager;
 import com.olive.olive.common.dao.CommonDAO;
 
+
 @Service("notice.noticeService")
 public class NoticeServiceImpl implements NoticeService{
 	 
@@ -113,6 +114,32 @@ public class NoticeServiceImpl implements NoticeService{
 			e.printStackTrace();
 			throw e;
 		}
+	}
+
+	@Override
+	public Notice preReadNotice(Map<String, Object> map) {
+		Notice dto=null;
+
+		try {
+			dto=dao.selectOne("notice.preReadNotice", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
+	}
+
+	@Override
+	public Notice nextReadNotice(Map<String, Object> map) {
+		Notice dto=null;
+
+		try {
+			dto=dao.selectOne("notice.nextReadNotice", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return dto;
 	}
 
 }
