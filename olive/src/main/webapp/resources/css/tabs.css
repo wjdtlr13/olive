@@ -13,7 +13,7 @@ ul.tabs li {
 	float: left;
 	margin: 0;
 	cursor: pointer;
-	padding: 0px 21px ;
+	padding: 5px 21px ;
 	height: 35px;
 	line-height: 35px;
 	overflow: hidden;

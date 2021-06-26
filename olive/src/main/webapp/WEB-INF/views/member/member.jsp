@@ -3,7 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/icofont/icofont.min.css" type="text/css">
 <style type="text/css">
+.body-title {
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+.body-title h2{
+	font-weight: 700;
+}
+
 .table {
 	width: 100%;
 	border-spacing: 0;
@@ -15,7 +24,7 @@
 }
 
 .table-content tr > td:nth-child(1) {
-	width: 100px;
+	width: 130px;
 	padding-top: 5px;
 	padding-right: 5px;
 	text-align: right;
@@ -127,8 +136,6 @@ function memberOk() {
         return;
     }
 
-
-
  	f.action = "${pageContext.request.contextPath}/member/${mode}";
     f.submit();
 }
@@ -161,180 +168,137 @@ function userIdCheck() {
 }
 
 </script>
-<div class="body-container" style="width: 700px;">
+
+
+<style type="text/css">
+.body-container {
+	max-width: 850px; margin: 10px auto 5px; padding-top: 20px;
+}
+</style>
+
+<div class="body-container">
 	<div class="body-title">
-        <h3><i class="fas fa-user"></i> ${mode=="member"?"회원 가입":"회원 정보 수정"} </h3>
+		<h2><i class="bi bi-person-square"></i> 회원 가입</h2>
 	</div>
-    
+
+
 	<div class="body-main">
 		<form name="memberForm" method="post">
-		<table class="table table-content">
-			<tr>
-				<td>
-					<label>아이디</label>
-				</td>
-				<td>
-					<p>
-						<input type="text" name="userId" id="userId" maxlength="15" class="boxTF lg" 
-							value="${dto.userId}"
+			<div class="form-group form-row">
+				<label class="col-sm-2 col-form-label" for="userId">아이디</label>
+				<div class="col-sm-8">
+					<input class="form-control" id="userId" name="userId" type="text" value="${dto.userId}" 
+							${mode=="update" ? "readonly='readonly' ":""}
 							onchange="userIdCheck();"
-							${mode=="update" ? "readonly='readonly' ":""}
 							placeholder="아이디">
-					</p>
-					<p class="help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</p>
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<label>패스워드</label>
-				</td>
-				<td>
-					<p>
-						<input type="password" name="pwd" maxlength="15" class="boxTF lg"
-							placeholder="패스워드">
-					</p>
-					<p class="help-block">패스워드는 5~10자 이내이며, 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</p>
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<label>패스워드 확인</label>
-				</td>
-				<td>
-					<p>
-						<input type="password" name="pwdCheck" maxlength="15" class="boxTF lg"
-							placeholder="패스워드 확인">
-					</p>
-					<p class="help-block">패스워드를 한번 더 입력해주세요.</p>
-				</td>
-			</tr>
-			
-			<tr>
-				<td>
-					<label>이름</label>
-				</td>
-				<td>
-					<p>
-						<input type="text" name="userName" maxlength="30" class="boxTF lg"
-							value="${dto.userName}" 
-							${mode=="update" ? "readonly='readonly' ":""}
-							placeholder="이름">
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>닉네임</label>
-				</td>
-				<td>
-					<p>
-						<input type="text" name="nickName" maxlength="30" class="boxTF lg"
-							value="${dto.nickName}" 
-							${mode=="update" ? "readonly='readonly' ":""}
-							placeholder="닉네임">
-					</p>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>생년월일</label>
-				</td>
-				<td>
-					<p>
-						<input type="text" name="birth" maxlength="10" class="boxTF lg"
-							value="${dto.birth}" 
-							placeholder="생년월일">
-					</p>
-					<p class="help-block">생년월일은 2000-01-01 형식으로 입력 합니다.</p>
-				</td>
-			</tr>
-			  
-			<tr>
-				<td>
-					<label>이메일</label>
-				</td>
-				<td>
-					<p>
-						
-						<input type="text" name="email" maxlength="50" class="boxTF lg" value="${dto.email}" >
+					<small class="form-text text-muted help-block">아이디는 5~10자 이내이며, 첫글자는 영문자로 시작해야 합니다.</small>
+				</div>
+			</div>
+		 
+			<div class="form-group form-row">
+				<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
+				<div class="col-sm-8">
+		            <input class="form-control" id="userPwd" name="userPwd" type="password" placeholder="패스워드">
+		            <small class="form-text text-muted">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</small>
+		        </div>
+		    </div>
+		    
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="userPwdCheck">패스워드 확인</label>
+		        <div class="col-sm-8">
+		            <input class="form-control" id="userPwdCheck" name="userPwdCheck" type="password" placeholder="패스워드 확인">
+		            <small class="form-text text-muted">패스워드를 한번 더 입력해주세요.</small>
+		        </div>
+		    </div>
+		 
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="userName">이름</label>
+		        <div class="col-sm-8">
+		            <input class="form-control" id="userName" name="userName" type="text" value="${dto.userName}" 
+		            		${mode=="update" ? "readonly='readonly' ":""}
+		            		placeholder="이름">
+		        </div>
+		    </div>
+		 
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="nickName">닉네임</label>
+		        <div class="col-sm-8">
+		            <input class="form-control" id="nickName" name="nickName" type="text" value="${dto.nickName}" 
+		            		${mode=="update" ? "readonly='readonly' ":""}
+		            		placeholder="닉네임">
+		        </div>
+		    </div>
 
-					</p>
-				</td>
-			</tr>
-			  
-			<tr>
-				<td>
-					<label>전화번호</label>
-				</td>
-				<td>
-					<p>
-						
-						<input type="text" name="tel" class="boxTF lg" maxlength="11" value="${dto.tel}" >
-					</p>
-				</td>
-			</tr>
-			  
-			<tr>
-				<td>
-					<label>우편번호</label>
-				</td>
-				<td>
-					<p>
-						<input type="text" name="zip" id="zip" class="boxTF sm" value="${dto.zip}"
-							readonly="readonly">
-						<button type="button" class="btn" onclick="daumPostcode();">우편번호</button>          
-					</p>
-				</td>
-			</tr>
-			  
-			<tr>
-				<td>
-					<label>주소</label>
-				</td>
-				<td>
-					<p>
-						<input type="text" name="addr1" id="addr1" maxlength="50" 
-							class="boxTF lg" readonly="readonly" value="${dto.addr1}"
-							placeholder="기본 주소">
-					</p>
-					<p>
-						<input type="text" name="addr2" id="addr2" maxlength="50" 
-							class="boxTF lg" value="${dto.addr2}"  placeholder="나머지 주소">
-					</p>
-				</td>
-			</tr>
-			
-			<c:if test="${mode=='member'}">
-				<tr>
-					<td>
-						<label>약관동의</label>
-					</td>
-					<td>
-						<p style="padding-top: 5px;">
-							<label>
-								<input id="agree" name="agree" type="checkbox" checked="checked"
-									onchange="form.sendButton.disabled = !checked"> <a href="#">이용약관</a>에 동의합니다.
-							</label>
-						</p>
-					</td>
-				</tr>
-			</c:if>
-		</table>
-			
-		<table class="table table-footer">
-			<tr> 
-				<td>
-					<button type="button" name="sendButton" class="btn" onclick="memberOk();">${mode=="member"?"회원가입":"정보수정"}</button>
-					<button type="reset" class="btn">다시입력</button>
-					<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/';">${mode=="member"?"가입취소":"수정취소"}</button>
-				</td>
-			</tr>
-			<tr>
-				<td style="color: blue;">${message}</td>
-			</tr>
-		</table>
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="birth">생년월일</label>
+		        <div class="col-sm-8">
+		            <input class="form-control" id="birth" name="birth" type="date" value="${dto.birth}" placeholder="생년월일">
+		            <small class="form-text text-muted">생년월일은 2000-01-01 형식으로 입력 합니다.</small>
+		        </div>
+		    </div>
+
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="birth">이메일</label>
+		        <div class="col-sm-8">
+		            <input class="form-control" id="email" name="email" type="text" value="${dto.email}" placeholder="이메일">
+		        </div>
+		    </div>
+
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="birth">전화번호</label>
+		        <div class="col-sm-8">
+		            <input class="form-control" id="tel" name="tel" type="text" value="${dto.tel}" placeholder="전화번호">
+		        </div>
+		    </div>
+		
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="zip">우편번호</label>
+		        <div class="col-sm-5">
+		       		<div class="input-group">
+		           		<input class="form-control" id="zip" name="zip" placeholder="우편번호" value="${dto.zip}" readonly="readonly">
+		           		<span class="input-group-btn">
+		           			<button class="btn btn-light" type="button" style="margin-left: 5px;" onclick="daumPostcode();">우편번호 검색</button>
+		           		</span>
+		           	</div>
+				</div>
+		    </div>
+	
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="addr1">주소</label>
+		        <div class="col-sm-8">
+		       		<div>
+		           		<input class="form-control" id="addr1" name="addr1" placeholder="기본 주소" value="${dto.addr1}" readonly="readonly">
+		           	</div>
+		       		<div style="margin-top: 5px;">
+		       			<input class="form-control" id="addr2" name="addr2" placeholder="상세 주소" value="${dto.addr2}">
+					</div>
+				</div>
+		    </div>
+	
+		    <div class="form-group form-row">
+		        <label class="col-sm-2 col-form-label" for="agree">약관 동의</label>
+				<div class="col-sm-1" style="padding-top: 5px; padding-left: 0; padding-right: 0;">
+					<input id="agree" name="agree" type="checkbox" checked="checked"
+						style="margin-left: 0;"
+						onchange="form.sendButton.disabled = !checked">
+				</div>
+				<div class="col-sm-5" style="padding-top: 5px; padding-left: 0;">
+						<a href="#">이용약관</a>에 동의합니다.
+				</div>
+		    </div>
+		     
+		    <div class="form-group form-row">
+		        <div class="offset-sm-2 col-sm-10">
+		            <button type="submit" name="sendButton" class="btn btn-primary" onclick="memberOk();"> 회원가입 <i class="bi bi-check2"></i></button>
+		            <button type="button" class="btn btn-danger" onclick="javascript:location.href='${pageContext.request.contextPath}/';">가입취소</button>
+		        </div>
+		    </div>
+		
+		    <div class="form-group row">
+				<div class="offset-sm-2 col-sm-10">
+					<p class="form-control-plaintext text-center">${message}</p>
+		        </div>
+		    </div>
 		</form>
 	</div>
 

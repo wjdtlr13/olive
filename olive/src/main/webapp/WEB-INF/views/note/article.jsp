@@ -7,6 +7,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ui-css.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tabs.css" type="text/css">
 <style type="text/css">
+.body-title {
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+.body-title h2{
+	font-weight: 700;
+}
+
 .table-content tr > td {
 	padding-left: 5px; padding-right: 5px;
 }
@@ -97,17 +105,17 @@ function deleteNote() {
 				<li id="tab-send" data-tab="send">보낸 쪽지함</li>
 			</ul>
 		</div>
-		<div id="tab-content" style="clear:both; padding: 20px 10px 0;">
+		<div id="tab-content" style="padding: 15px 10px 5px; clear: both;">
 		
 			<table class="table">
 				<tr>
-					<td align="left" width="50%">
+					<td align="left" width="50%" style="border-top: none;">
 						<c:if test="${menuItem=='receive'}">
 							<button type="button" class="btn btnReplyNote" >답변</button>
 							<button type="button" class="btn">스팸신고</button>
 						</c:if>
 					</td>
-					<td align="right">
+					<td align="right" style="border-top: none;">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/note/write';">쪽지 쓰기</button>
 					</td>
 				</tr>
@@ -157,7 +165,7 @@ function deleteNote() {
 				</tr>
 				
 				<tr>
-					<td colspan="2">
+					<td colspan="2" style="border-bottom: 1px solid #dee2e6;">
 						다음쪽지 :
 						<c:if test="${not empty nextDto}">
 							<div class="list-content"><a href="${pageContext.request.contextPath}/note/${menuItem}/article?${query}&num=${nextDto.num}">${nextDto.content}</a></div>
@@ -168,11 +176,11 @@ function deleteNote() {
 
 			<table class="table">
 				<tr>
-					<td width="50%">
+					<td width="50%" style="border-top: none;">
 						<button type="button" class="btn" onclick="deleteNote();">삭제</button>
 					</td>
 				
-					<td align="right">
+					<td align="right" style="border-top: none;">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/note/${menuItem}/list?${query}';">리스트</button>
 					</td>
 				</tr>
