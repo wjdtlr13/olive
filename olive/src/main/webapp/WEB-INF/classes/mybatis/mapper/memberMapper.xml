@@ -93,4 +93,7 @@
 		WHERE userId=#{userId}
 	</delete>
 
+   <update id="updatePoint" parameterType="map">
+    	update member1 set point=point+#{num} where userId=#{userId}
+    </update>
 </mapper>

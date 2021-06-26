@@ -79,9 +79,9 @@ $(function(){
                 <div class="col-auto" style="margin-top: 5px;">
                 	<div class="option">
             			<div><form onsubmit="searchPlaces(); return false;">
-                    		<input type="hidden" value="서울시 은평구 구산동 한식" id="keyword" size="15">
-                    		<input type="hidden" value="한식" id="selectedType">
-                    		<input type="hidden" id="categoryNum" value=1> 
+                    		<input type="text" value="서울시 은평구 구산동 한식" id="keyword" size="15">
+                    		<input type="text" value="한식" id="selectedType">
+                    		<input type="text" id="categoryNum" value=1> 
                     	<button type="submit" class="btn btn-success" style="margin-left: 10px;padding: 8px;font-size: 18px;border-style: none;min-width: 88px;background: rgb(82,76,0);">
                     		<strong>찾아보기</strong></button> 
                 		</form></div>

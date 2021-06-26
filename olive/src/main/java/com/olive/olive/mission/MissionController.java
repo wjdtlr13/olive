@@ -1,5 +1,6 @@
 package com.olive.olive.mission;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -41,7 +43,7 @@ public class MissionController {
 	}
 	
 	
-	@RequestMapping(value="List")
+	@RequestMapping(value="list")
 	@ResponseBody
 	public Map<String, Object> List(
 			 @RequestParam(value="pageNo", defaultValue="1") int current_page,
@@ -79,10 +81,11 @@ public class MissionController {
 		return model;
 	}
 	
-	@RequestMapping(value="ListContent")
+	@RequestMapping(value="listcontent")
 	@ResponseBody
 	public Map<String, Object> ListContent(
 			@RequestParam int num,
+			@RequestParam String mode,
 			HttpSession session) throws Exception {
 		
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -108,11 +111,33 @@ public class MissionController {
 		}
 		Map<String, Object> model = new HashMap<>();
 		model.put("list", list);
+		model.put("mode", mode);
 		
 		return model;
 	}
 	
-	@PostMapping("update")
+	
+	@RequestMapping(value="insertmission", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> insertMission(
+		Mission dto) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		int num = 0;
+		
+		try {
+			num = service.insertMission(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("status", "false");
+			throw e;
+		}
+		
+		result.put("status", "true");
+		result.put("num", num);
+		return result;
+	};
+	
+	@PostMapping("updatemission")
 	@ResponseBody
 	public Map<String, Object> updateMission(
 			Mission dto) throws Exception{
@@ -127,9 +152,9 @@ public class MissionController {
 		}
 		
 		return model;
-	}
+	};
 	
-	@PostMapping("delete")
+	@PostMapping("deletemission")
 	@ResponseBody
 	public Map<String, Object> deleteMission(
 			@RequestParam int num,
@@ -148,7 +173,121 @@ public class MissionController {
 		}
 		
 		return model;
+	};
+	
+	@RequestMapping("insertcontent")
+	@ResponseBody
+	public Map<String, Object> insertContent(
+			@RequestParam int missionNum,
+			@RequestParam(name="subject") List<String> listSubject,
+			@RequestParam(name="content") List<String> listContent,
+			@RequestParam(name="startDate") List<String> listStartDate,
+			@RequestParam(name="endDate") List<String> listEndDate,
+			@RequestParam String userId) throws Exception{
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		try {
+			for(int i=0; i<listContent.size(); i++) {
+				Content dto = new Content();
+				
+				dto.setMissionNum(missionNum);
+				dto.setContent(listContent.get(i));
+				dto.setStartDate(listStartDate.get(i));
+				dto.setEndDate(listEndDate.get(i));
+				dto.setSubject(listSubject.get(i));
+				dto.setUserId(userId);
+				
+				service.insertMissionContent(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("status", "false");
+			throw e;
+		}
+		
+		result.put("status", "true");
+		return result;
+	};
+	@PostMapping("updatecontent")
+	@ResponseBody
+	public Map<String, Object> updateContent(
+			Content dto) throws Exception{
+		Map<String, Object> model = new HashMap<>();
+		
+		try {
+			service.updateMissionContent(dto);
+			model.put("status", "true");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("status", "false");
+		}
+		
+		return model;
 	}
+	
+	@PostMapping("deletecontent")
+	@ResponseBody
+	public Map<String, Object> deleteContent(
+			@RequestParam int contentNum,
+			@RequestParam String userId) throws Exception{
+		Map<String, Object> model = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
+		map.put("contentNum", contentNum);
+		map.put("userId", userId);
+		try {
+			
+			service.deleteMissionContent(map);
+			model.put("status", "true");
+		} catch (Exception e) {
+			e.printStackTrace();
+			model.put("status", "false");
+		}
+		
+		return model;
+	}
+	
+	@PostMapping("insertattend")
+	@ResponseBody
+	public Map<String, Object> insertMissionAttend(
+			Mission dto) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		try {
+			service.insertMissionAttend(dto);
+			map.put("status", "true");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("status", "false");
+			throw e;
+		}
+		
+		return map;
+	}
+	
+	@PostMapping("insertcontentattend")
+	@ResponseBody
+	public Map<String, Object> insertContentAttend(
+			Content dto,
+			HttpSession session) throws Exception {
+		String root=session.getServletContext().getRealPath("/");
+		String path=root+"uploads"+File.separator+"photo";
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		
+		String state = "true";
+		try {
+			dto.setUserId(info.getUserId());
+			service.insertMissionContentAttend(dto, path);
+		} catch (Exception e) {
+			state = "false";
+		}
+		
+		Map<String, Object> model = new HashMap<>();
+		model.put("state", state);
+		return model;
+	}
+	
+	
 	
 	
 }

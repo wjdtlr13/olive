@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.olive.olive.common.FileManager;
 import com.olive.olive.common.dao.CommonDAO;
 
 @Service("mission.missionService")
@@ -13,13 +14,22 @@ public class MissionServiceImpl implements MissionService{
 
 	@Autowired
 	private CommonDAO dao;
+	@Autowired
+	private FileManager fileManager;
 	
 	@Override
 	public int insertMission(Mission dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			dao.insertData("mission.insertMission", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		result = dto.getNum();
+		return result;
 	}
-
+	
 	@Override
 	public int updateMission(Mission dto) throws Exception {
 		int result = 0;
@@ -124,8 +134,13 @@ public class MissionServiceImpl implements MissionService{
 
 	@Override
 	public int insertMissionAttend(Mission dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.insertData("mission.insertMissionAttend", dto);
+		} catch (Exception e) {
+			throw e;
+		}
+		return result;
 	}
 
 	@Override
@@ -191,20 +206,37 @@ public class MissionServiceImpl implements MissionService{
 
 	@Override
 	public int insertMissionContent(Content dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.insertData("mission.insertMissionContent", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
 	}
 
 	@Override
 	public int updateMissionContent(Content dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.updateData("mission.updateMissionContent", dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	@Override
 	public int deleteMissionContent(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = 0;
+		try {
+			result = dao.deleteData("mission.deleteMissionContent", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
@@ -219,9 +251,19 @@ public class MissionServiceImpl implements MissionService{
 	}
 
 	@Override
-	public int insertMissionContentAttend(Content dto) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertMissionContentAttend(Content dto, String pathname) throws Exception {
+		int result = 0;
+		try {
+			String saveFilename=fileManager.doFileUpload(dto.getUpload(), pathname);
+			if(saveFilename!=null) {
+				dto.setImageFileName(saveFilename);
+				result = dao.insertData("mission.insertMissionContentAttend", dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
 	}
 
 	@Override
