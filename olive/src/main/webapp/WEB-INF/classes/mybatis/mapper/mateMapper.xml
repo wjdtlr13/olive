@@ -84,7 +84,7 @@
 		JOIN mate m on r.mate_regi_num = m.num
 		JOIN eating_category e on r.categoryNum = e.num
         JOIN member1 mem on m.userId = mem.userId
-		WHERE TO_DATE(reg_date, 'yyyy-mm-dd')&gt;=sysdate
+		WHERE TO_DATE(eating_date, 'yyyy-mm-dd')&gt;=sysdate
 			AND m.userId=#{userId}
 		ORDER BY mate_reg_num DESC 
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
@@ -97,7 +97,7 @@
 		JOIN mate m on r.mate_regi_num = m.num
 		JOIN eating_category e on r.categoryNum = e.num
         JOIN member1 mem on m.userId = mem.userId
-        WHERE TO_DATE(reg_date, 'yyyy-mm-dd')&lt;=sysdate
+        WHERE TO_DATE(eating_date, 'yyyy-mm-dd')&lt;sysdate
 			AND m.userId=#{userId}
 		ORDER BY mate_reg_num DESC 
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
@@ -110,7 +110,7 @@
 		JOIN mate m on r.mate_regi_num = m.num
 		JOIN eating_category e on r.categoryNum = e.num
         JOIN member1 mem on m.userId = mem.userId
-		WHERE TO_DATE(reg_date, 'yyyy-mm-dd')&gt;=sysdate
+		WHERE TO_DATE(eating_date, 'yyyy-mm-dd')&gt;=sysdate
 			AND m.userId=#{userId}
 			AND mate_req_num is not null
 		ORDER BY mate_reg_num DESC 
