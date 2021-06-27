@@ -79,9 +79,8 @@ header .navbar {
    position: relative;
   color: white;
   transition: 0.3s;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
-  padding: 0 3px;
   text-decoration: none;
   
 }
@@ -115,7 +114,7 @@ header .navbar {
 }
 .nav-menu a:hover{
 	color : #fdd835;
-	font-size: 17px;
+	font-size: 20px;
 }
 .nav-menu .dropdown:hover > ul {
   opacity: 1;
@@ -165,9 +164,18 @@ header .navbar {
 
 
 * {
-	font-family: 'Gothic A1', sans-serif;
+/* 
+ 	font-family: 'Gothic A1', sans-serif;
+*/
+  font-family: ELAND_Choice_L; 
+ 
+ }
+@font-face {
+    font-family: 'ELAND_Choice_L';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_L.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
-
 
 /* main */
  body {

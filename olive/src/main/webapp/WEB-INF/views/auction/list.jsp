@@ -5,7 +5,6 @@
 
 <style type="text/css">
 *{ 
-	font-size: 18px;
 }
 .table-content tr {
 	text-align: center;
@@ -25,8 +24,10 @@
 .body-container{
 	margin-top: 130px;
 }
-.body-title{
-	border-bottom: 1px;
+.div-title span{
+	font-color :#ccc;
+	font-size: 27px;
+	font-weight: 800;
 }
 textarea:focus, input:focus{
 	outline: none;
@@ -82,9 +83,7 @@ textarea:focus, input:focus{
     margin-top: 20px;
 	
 }
-.body-title {
-	font-color :#ccc;
-}
+
 
 </style>
 
@@ -96,9 +95,9 @@ function searchList() {
 </script>
 
 <div class="container body-container">
-	<div class="body-title">
-		<h2> 공동구매 </h2>
-		<p>	이웃들과 공동구매를 통해 알뜰한 올리브가 되어 보세요! </p>
+	<div class="div-title">
+		<span> 함께사는 올리브 </span>
+		<p style="font-size: 20px;">이웃들과 공동구매를 통해 알뜰한 올리브가 되어 보세요! </p>
 	</div>
 	
 	<div class="body-main wx-800 ml-30">

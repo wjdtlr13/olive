@@ -4,8 +4,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
  
 <style type="text/css">
-.table-content tr > td {
-	padding-left: 5px; padding-right: 5px;
+.table-content tr>td {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.body-title {
+	font-size: 27px;
+	font-weight: 800;
 }
 </style>
 
@@ -30,7 +36,7 @@ function login(){
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
-		url:url;
+		url:url,
 		data:query,
 		dataType:dataType,
 		success:function(data){
@@ -38,7 +44,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 		},
 		beforeSend:function(jqXHR){
 			jqXHR.setRequestHeader("AJAX", true);
-		}
+		},
 		error:function(jqXHR) {
 			if(jqXHR.status===403){
 				login();
@@ -80,9 +86,9 @@ $(function(){
 </script>
 
 
-<div class="container body-container">
+<div class="container body-container" style="margin-top: 130px;">
 	<div class="body-title">
-		<h2><i class="icofont-google-talk"></i> 게시판 </h2>
+		<span><i class="icofont-google-talk"></i> 올리브의 집문서 </span>
 	</div>
 	
 	<div class="body-main wx-700 ml-30 pt-15">
@@ -95,7 +101,7 @@ $(function(){
 			
 			<tr>
 				<td width="50%" align="left">
-					이름 : ${dto.userName}
+					작성자 : ${dto.userName}
 				</td>
 				<td width="50%" align="right">
 					${dto.created} | 조회 ${dto.hitCount}

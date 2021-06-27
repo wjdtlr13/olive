@@ -18,6 +18,7 @@ public class Junggo {
 	private int replyCount;
 	private int junggoLikeCount;
 	
+	private String imageFileName;
 	
 	public int getNum() {
 		return num;
@@ -96,6 +97,12 @@ public class Junggo {
 	}
 	public void setJunggoLikeCount(int junggoLikeCount) {
 		this.junggoLikeCount = junggoLikeCount;
+	}
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
 	}
 	
 	

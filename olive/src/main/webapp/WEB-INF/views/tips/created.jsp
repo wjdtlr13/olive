@@ -18,7 +18,10 @@
 .body-container{
 	margin-top: 130px;;
 }
-
+.body-title {
+	font-size: 27px;
+	font-weight: 800;
+}
 </style>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/js/HuskyEZCreator.js" charset="utf-8"></script>
@@ -94,7 +97,7 @@ function setDefaultFont() {
 
 <div class="container body-container">
 	<div class="body-title">
-		<h2> 서류 Tip 작성 </h2>
+		<span> 서류 Tip 작성 </span>
 	</div>
 	
 	<div class="body-main">

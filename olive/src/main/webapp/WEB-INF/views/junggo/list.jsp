@@ -25,6 +25,10 @@
 .body-container{
 	margin-top: 130px;
 }
+.body-title span{
+	font-size: 27px;
+	font-weight: 800;
+}
 .body-title{
 	border-bottom: 1px;
 }
@@ -40,7 +44,6 @@ textarea:focus, input:focus{
 	vertical-align: middle;
 	padding:6px 13px;
 	border-radius: 3px;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	cursor: pointer;
 }
 .sbtn{
@@ -53,7 +56,6 @@ textarea:focus, input:focus{
 	padding:5px 5px 5px;
 	border-radius:4px;
 	background-color:#fff;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
 	margin:20px;
 }
@@ -67,7 +69,6 @@ textarea:focus, input:focus{
 	padding:3px 5px;
 	border-radius:4px;
 	background-color:#fff;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	resize : none;
 }
 
@@ -75,7 +76,6 @@ textarea:focus, input:focus{
 	border:1px solid #999;
 	padding:5px 7px 5px;
 	border-radius:4px;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
 	height: 43px;
     margin-top: 20px;
@@ -91,7 +91,7 @@ function searchList(){
 
 <div class="container body-container">
 	<div class="body-title">
-		<h2> 중고거래 </h2>
+		<span> 주고받는 올리브 </span>
 		<p> 이웃들과 중고거래를 통해 절약하는 올리브가 되어 보세요! </p>
 	</div>
 	
