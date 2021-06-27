@@ -14,7 +14,7 @@
 }
 
 .chatting-continer {
-	width: 80%;
+	width: 100%;
 	padding: 25px 25px 25px;
     margin: 30px auto;
     background: #fefeff;
@@ -66,7 +66,7 @@
 <div class="container body-container">
 	<div style="height: 100px;"></div>
     <div class="body-chat">
-		<div style="margin: auto; padding-bottom:30px; font-size: 27px; font-weight: 700; width: 80%; border-bottom: 1.5px solid black;">올리브네 반상회</div>
+		<div style="margin: auto; padding-bottom:30px; font-size: 27px; font-weight: 700; width: 100%; border-bottom: 1.5px solid black;">올리브네 반상회</div>
     </div>
     
     <div class="body-main wx-700 pt-15 content-center">
