@@ -1,21 +1,25 @@
 package com.olive.olive.admin.manage;
 
 import java.net.URLDecoder;
+
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.olive.olive.common.MyUtil;
- 
+import com.olive.olive.member.SessionInfo;
+  
 @Controller("admin.manageController")
 @RequestMapping("/admin/memManage/*")
 public class ManageController { 
@@ -30,7 +34,7 @@ public class ManageController {
 	@RequestMapping(value = "memList")
 	public String listMember(
 			@RequestParam(value = "page" ,defaultValue = "1") int current_page,
-			@RequestParam(defaultValue = "userId") String condition,
+			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
 			HttpServletRequest req,
 			Model model
@@ -109,14 +113,15 @@ public class ManageController {
 		
 		String paging =myUtil.paging(current_page, total_page, listUrl);
 		
-		model.addAttribute("list" , list);
-		model.addAttribute("detailUrl", detailUrl);
-		model.addAttribute("dataCount", dataCount);
-		model.addAttribute("page",current_page);
-		model.addAttribute("total_page",total_page);
-		model.addAttribute("paging",paging);
-		model.addAttribute("condition",condition);
-		model.addAttribute("keyword",keyword);
+        model.addAttribute("list", list);
+
+        model.addAttribute("page", current_page);
+        model.addAttribute("dataCount", dataCount);
+        model.addAttribute("total_page", total_page);
+        model.addAttribute("paging", paging);
+
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);
 		
 
 		return ".admin.memManage.memList";
@@ -148,6 +153,27 @@ public class ManageController {
 		
 		
 		return ".admin.memManage.memDetail";
+	}
+	//t신고 입력 
+	@PostMapping("insert")
+	public Map<String, Object> insertSubmit(Block dto, HttpSession session) {
+		
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String state ="true";
+		
+		try {
+			dto.setBlockReqId(info.getUserId());
+			service.insertBlock(dto); 
+		} catch (Exception e) {
+			state ="true";
+			
+			
+		}
+		Map<String , Object> model = new HashMap<String, Object>();
+		model.put("state", state);
+		
+		return model;
 	}
 	
 	
@@ -204,11 +230,12 @@ public class ManageController {
 		
 		
 		//신고회원리스트 뿌려주기
-		List<Member> list = service.blockList(map);
+		List<Block> list = service.blockList(map);
+		
 		
 		//리스트 번호 가져오기- 각 게시물 번호?
 		int listNum, n=0;
-		for(Member dto :list) {
+		for(Block dto :list) {
 			listNum=dataCount-(offset+n);
 			dto.setListNum(listNum);
 			n++;

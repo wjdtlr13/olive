@@ -60,7 +60,7 @@ thead {
 	text-align: center;
 }
 .head-Contents {
-	width:40%;
+	width:30%;
 	text-align: left;
 }
 .head-Name {
@@ -157,20 +157,22 @@ select:focus {
 				<th class="head-No">번호</th>
 				<th class="head-Contents"style="text-align: center;">제목</th>				
 				<th class="head-Name">작성자</th>				
-				<th class="head-Date">날짜</th>				
+				<th class="head-Date">날짜</th>		
+				<th class="head-Date">조회수</th>			
 			</tr>
 		</thead>
-		<tbody>
+		<tbody> 
 			<c:forEach var="dto" items="${list}">
 			<tr>
 				<td class="head-No">${dto.listNum}</td>
 					<td class="head-Contents"><a href="${articleUrl}&qnaNum=${dto.qnaNum}">${dto.subject}</a><br>
 							<c:if test="${not empty dto.answerContent }">
-                        	ㄴ 답변완료<i class="far fa-check-circle"></i>
+                        	ㄴ 답변완료        	<img src='${pageContext.request.contextPath}/resources/img/answer.png' style="width: 20px; height: 20x; line-height: 20px; text-align: center;">
 							</c:if>
 					</td>
-					<td class="head-Name">${dto.questionId}</td>
-				<td class="head-Date">${dto.questioncreated}</td>				
+					<td class="head-Name">${dto.nickName}</td>
+				<td class="head-Date">${dto.questioncreated}</td>	
+				<td class="head-Date">${dto.hitCount}</td>			
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -178,7 +180,7 @@ select:focus {
 	</table>
 	
 	<div>
-		<button class="created"	onclick="javascript:location.href='${pageContext.request.contextPath}/qna/write';">등록</button>
+		<button class="created"	onclick="javascript:location.href='${pageContext.request.contextPath}/qna/created';">등록</button>
 	</div>
 	
 	</div>

@@ -1,6 +1,7 @@
 package com.olive.olive.wisdom.tree;
 
 import java.io.File;
+
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.olive.olive.common.FileManager;
 import com.olive.olive.common.MyUtil;
 import com.olive.olive.member.SessionInfo;
 
@@ -31,11 +33,16 @@ public class TreeController {
 	@Autowired
 	private MyUtil myUtil;
 	
+	@Autowired
+	private FileManager fileManager;
+	
+	
 	@RequestMapping("list")
 	public String listWisdom(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
+			@RequestParam(required=false) String categoryNum,
 			HttpServletRequest req,
 			Model model
 			)throws Exception {
@@ -53,6 +60,12 @@ public class TreeController {
 		
 		//전체 페이지 수
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if(categoryNum!=null) {
+			int cNum = Integer.parseInt(categoryNum);
+        	map.put("categoryNum", cNum);
+        }		
+		
 		map.put("condition", condition);
 		map.put("keyword", keyword);
 		
@@ -85,11 +98,23 @@ public class TreeController {
         if(keyword.length()!=0) {
         	query = "condition=" +condition + 
         	         "&keyword=" + URLEncoder.encode(keyword, "utf-8");	
+        	if(categoryNum!=null) {
+        		query+="&categoryNum="+categoryNum;
+        	}
+        }else if(categoryNum!=null) {
+        	query="categoryNum="+categoryNum;
+        }
+        
+        
+        if(query.length()!=0) {
+        	 listUrl = cp+"/wisdom/list"+query;
+        	 articleUrl = cp+"/wisdom/article?page=" + current_page+"&"+ query;
         }
         
         
 		String paging = myUtil.paging(current_page, total_page, listUrl);
 		
+        List<Category> categoryList = service.listCategory();
 		
 		model.addAttribute("list", list);
 		model.addAttribute("articleUrl",articleUrl);
@@ -98,6 +123,9 @@ public class TreeController {
 		model.addAttribute("page", current_page);
 		model.addAttribute("paging", paging);		
 		
+        model.addAttribute("categoryList", categoryList);
+        model.addAttribute("categoryNum", categoryNum);		
+        
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);		
 		
@@ -155,13 +183,12 @@ public class TreeController {
 		}
 		
 		
+		
 		Tree dto = service.readWisdom(num);
 		if (dto == null)
 			return "redirect:/wisdom/list?"+query;		
 		
-		if (! dto.getUserId().equals(info.getUserId()))
-			return "redirect:/";		
-		
+
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		
 		//이미지 불러오기
@@ -176,7 +203,7 @@ public class TreeController {
 	}
 	
 	
-	// 게시글 좋아요 추가 -> AJAX-JSONd으로..
+	// 게시글 좋아요 추가 -> AJAX-JSON으로..
 	@RequestMapping(value="insertWisdomLike", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insertWisdomLike(
@@ -205,6 +232,92 @@ public class TreeController {
 		
 		return model;
 	}	
+	
+	
+	
+	//게시글 열매로 옮기기
+	@RequestMapping("beanList")
+	public String listBeen(
+			@RequestParam(value = "page", defaultValue = "1") int current_page,
+			@RequestParam(defaultValue = "all") String condition,
+			@RequestParam(defaultValue = "") String keyword,
+			HttpServletRequest req,
+			Model model
+			) throws Exception {
+		
+		String cp = req.getContextPath();
+		 
+		keyword = URLDecoder.decode(keyword,"utf-8");
+		
+		int rows=5;
+		int total_page;
+		int dataCount;
+
+		
+		
+		if(req.getMethod().equalsIgnoreCase("GET")) { // GET 방식인 경우
+			keyword = URLDecoder.decode(keyword, "utf-8");
+		}		
+		
+		//전체 페이지 수
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		map.put("selected","y");
+		
+		dataCount = service.dataCount(map);
+		
+		total_page=myUtil.pageCount(rows, dataCount);
+		
+		if(total_page<current_page) {
+			current_page=total_page;
+		}
+		
+		int offset =(current_page-1)*rows;
+		if(offset<0) offset=0;
+		
+		map.put("offset", offset);
+		map.put("rows", rows);
+		
+		
+		List<Tree> list = service.listWisdom(map);
+		
+		
+        // 리스트의 번호
+        int listNum, n = 0;
+        for(Tree dto : list) {
+            listNum = dataCount - (offset + n);
+            dto.setListNum(listNum);
+            n++;
+        }
+		
+        String query = "";
+        String listUrl = cp+"/wisdom/beanList";
+        String articleUrl = cp+"/wisdom/article?page=" + current_page;
+        if(keyword.length()!=0) {
+        	query = "condition=" +condition + 
+        	         "&keyword=" + URLEncoder.encode(keyword, "utf-8");	
+        }
+        
+        
+		String paging = myUtil.paging(current_page, total_page, listUrl);
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("articleUrl",articleUrl);
+		model.addAttribute("dataCount", dataCount);
+		model.addAttribute("total_page", total_page);
+		model.addAttribute("page", current_page);
+		model.addAttribute("paging", paging);		
+		
+		model.addAttribute("condition", condition);
+		model.addAttribute("keyword", keyword);		
+		
+		
+		return ".wisdom.beanList";
+	}
+	
+	
 	
 	// 댓글 리스트 : AJAX-TEXT
 	@RequestMapping(value="listReply")

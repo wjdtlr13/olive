@@ -6,13 +6,45 @@ public class Qna {
 	private String subject;
 	private String questionContent;
 	private String questionId;
+	private String nickName;
 	private String questioncreated;
 	private String answerId;
 	private String answerContent;
 	private String answercreated;
+	private String hitCount;
+	
+	
+	
+	public String getHitCount() {
+		return hitCount;
+	}
+
+
+
+	public void setHitCount(String hitCount) {
+		this.hitCount = hitCount;
+	}
+
+
+
 	public int getListNum() {
 		return listNum;
 	}
+	
+	
+	
+	public String getNickName() {
+		return nickName;
+	}
+
+
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+
+
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
 	}

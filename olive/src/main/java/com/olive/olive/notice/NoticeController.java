@@ -130,13 +130,15 @@ public class NoticeController {
 		
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		
-		try {
-			dto.setUserId(info.getUserId());
-			service.insertNotice(dto, "created");
-		} catch (Exception e) {
-			e.printStackTrace();
+		if(info.getUserId().equals("admin")) {
+
+			try {
+				dto.setUserId(info.getUserId());
+				service.insertNotice(dto, "created");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
 		return "redirect:/notice/list";
 	}
 	
@@ -144,16 +146,38 @@ public class NoticeController {
 	public String article(
 			@RequestParam int num,
 			@RequestParam String page,
+			@RequestParam(defaultValue="all") String condition,
+			@RequestParam(defaultValue="") String keyword,			
 			Model model
 			) throws Exception {
 		
-		
-		Notice dto = service.readNotice(num);
 		String query="page="+page;
+		
+		if(keyword.length()!=0) {
+			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
+		}
+ 
+		service.updateHitCount(num);		
+		Notice dto = service.readNotice(num);
+
 		if(dto==null) {
 			return "redirect:/notice/list?"+query;
 		}
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		
+		//이전글 다음글 
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		map.put("num", num);
+		
+		Notice preReadDto = service.preReadNotice(map);
+		Notice nextReadDto = service.nextReadNotice(map);
+		
+		
+		model.addAttribute("preReadDto",preReadDto);
+		model.addAttribute("nextReadDto",nextReadDto);
+		
 		
 		model.addAttribute("dto",dto);
 		model.addAttribute("page",page);

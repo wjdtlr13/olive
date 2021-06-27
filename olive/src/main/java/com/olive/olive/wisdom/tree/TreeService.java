@@ -22,6 +22,9 @@ public interface TreeService {
 	public Tree readImg(int imageNum);
 	public void deleteImg(Map<String, Object> map) throws Exception;
 	
+	//selected 업데이트
+	public void updateSelect(int num) throws Exception;
+	
 	
 	//좋아요
 	public void insertWisdomLike(Map<String, Object> map) throws Exception;
@@ -37,5 +40,7 @@ public interface TreeService {
 	public void insertReplyLike(Map<String, Object> map) throws Exception;
 	public int replyLikeCount(int replyNum);
 		
+	//카테고리 리스트
+	public List<Category> listCategory();
 
 }

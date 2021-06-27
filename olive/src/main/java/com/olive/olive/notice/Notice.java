@@ -5,6 +5,13 @@ public class Notice {
 	private int num; 
 	private String subject;
 	private String userId;
+	private String nickName;
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 	private String content;
 	private String created;
 	private int hitCount;

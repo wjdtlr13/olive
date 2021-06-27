@@ -2,21 +2,30 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="qna">
-
+	<select id="seq" resultType="Integer">
+		SELECT qna_seq.NEXTVAL FROM dual
+	</select>
+	
+	
 	<!-- 검색시 필요한 문장 -->
 	<sql id="where-list">
-		<choose>
-			<!-- 검색조건이 회원아이디'userId'라면 -->
-			<when test="condition=='userId'">
-				<!-- db에 저장된 userid에서 검색값이 있는 지 찾아라 -->
-				instr(m1.userid,#{keyword}) &gt;= 1
-			</when>
-			<otherwise>
-				<!-- 그게 아니라면 #{condition}에서 검색값이 있는 지 찾아라 -->
-				instr(#{condition},#{keyword}) &gt;=1
-			</otherwise>
-		
-		</choose>
+		<if test="condition=='all' ">
+			( INSTR(q.subject, #{keyword}) &gt; 0
+				OR INSTR(q.content, #{keyword}) &gt; 0 )
+		</if>
+		<if test="condition=='subject' ">
+			INSTR(q.subject, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='content' ">
+			INSTR(q.content, #{keyword}) &gt; 0
+		</if>
+		<if test="condition=='userName' ">
+			userName=#{keyword}
+		</if>
+		<if test="condition=='created' ">
+			( TO_CHAR(q.created, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(q.created, 'YYYYMMDD') = #{keyword} )
+	   </if>
 	</sql>
 
 
@@ -33,17 +42,25 @@
 	
 	<!-- qna리스트 조회 -->
 	<select id="qnaList" parameterType="map" resultType="com.olive.olive.qna.Qna">
-		select qnaNum, subject, questionId, questionContent,
-		to_char(questioncreated, 'YYYY-MM-DD') questioncreated, answerId, answerContent, to_char(answercreated, 'YYYY-MM-DD') answercreated from qna
+		select qnaNum, subject, q.questionId, questionContent, nickName,hitCount,
+		to_char(questioncreated, 'YYYY-MM-DD') questioncreated, answerId, answerContent, to_char(answercreated, 'YYYY-MM-DD') answercreated 
+		from qna q
+		join member1 m on q.questionId=m.userId
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>		
 		order by qnaNum desc 
 		offset #{offset} rows fetch first #{rows} ROWS only
 	</select>
 	
 	<!-- question article -->
 	<select id="readQna" parameterType="Integer" resultType="com.olive.olive.qna.Qna">
-		select qnaNum, subject, questionId, questionContent,to_char(questioncreated, 'YYYY-MM-DD') questioncreated, 
+		select qnaNum, subject, nickName, questionContent,to_char(questioncreated, 'YYYY-MM-DD') questioncreated, 
 			answerContent,to_char(answercreated, 'YYYY-MM-DD') answercreated
-		from qna
+		from qna q
+		join member1 m on q.questionId=m.userId		
 		where qnaNum= #{qnaNum}
 	</select>
 	
@@ -57,12 +74,51 @@
 	<!-- 질문 등록 -->
 	<insert id="insertQuestion" parameterType="com.olive.olive.qna.Qna">
 		insert into qna(qnaNum, subject,questionId,questionContent, questioncreated)
-		values(#{qna_seq.nextval},#{subject},#{questionId},#{questionContent},sysdate)
+		values(#{qnaNum},#{subject},#{questionId},#{questionContent},sysdate)
 	</insert>
 	
 	<!-- 답변 등록 -업데이트수정해야함-->
 	<update id="insertAnswer" parameterType="com.olive.olive.qna.Qna">
 		update qna set answerId=#{answerId},answerContent=#{answerContent},answercreated=sysdate
 		where qnaNum=#{qnaNum}
-	</update>		
+	</update>	
+	
+	
+	
+	<select id="preReadQna" parameterType="map" resultType="com.olive.olive.qna.Qna">
+		SELECT q.qnaNum, q.subject
+		FROM qna q
+		JOIN member1 m ON q.questionId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				AND <include refid="where-list"/>
+			</if>
+			AND (q.qnaNum &gt; #{qnaNum})
+		</where>
+		ORDER BY qnaNum ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<select id="nextReadQna" parameterType="map" resultType="com.olive.olive.qna.Qna">
+		SELECT q.qnaNum, q.subject
+		FROM qna q
+		JOIN member1 m ON q.questionId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				AND <include refid="where-list"/>
+			</if>
+			AND (q.qnaNum &lt; #{qnaNum})
+		</where>
+		ORDER BY qnaNum DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>	
+	
+	<!-- 조회수 증가 -->
+	<update id="updateHitCount" parameterType="Integer">
+		update qna set hitCount=hitCount+1
+		where qnaNum=#{qnaNum}
+	</update>
+
+	
+		
 </mapper>

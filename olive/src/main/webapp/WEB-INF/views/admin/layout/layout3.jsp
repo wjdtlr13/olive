@@ -42,15 +42,19 @@
 	});
 	</script>
 </head>
-
 <body>
+
+
+
 	<header>
 	    <tiles:insertAttribute name="header"/>
 	</header>
-		
-	<main>
-	    <tiles:insertAttribute name="body"/>
-	</main>
+
+<div class="wrapper" style="margin-top: 100px;">
+	<tiles:insertAttribute name="left"/>
+	<tiles:insertAttribute name="body"/>
+</div>
+
 	
 	<footer>
 	    <tiles:insertAttribute name="footer"/>

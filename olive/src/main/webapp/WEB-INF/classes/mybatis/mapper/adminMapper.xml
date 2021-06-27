@@ -6,11 +6,22 @@
 	<!-- 검색시 필요한 문장 -->
 	<sql id="where-list">
 		<choose>
+			<when test="condition == 'all' ">
+			   INSTR(subject, #{keyword}) &gt; 0
+			</when>
 			<!-- 검색조건이 회원아이디'userId'라면 -->
 			<when test="condition=='userId'">
 				<!-- db에 저장된 userid에서 검색값이 있는 지 찾아라 -->
-				instr(m1.userid,#{keyword}) &gt;= 1
+				instr(content,#{keyword}) &gt;= 0
 			</when>
+			<when test="condition =='birth'">
+			( TO_CHAR(birth, 'YYYY-MM-DD') = #{keyword}
+				OR TO_CHAR(birth, 'YYYYMMDD') = #{keyword} )
+			</when>
+			<when test="condition=='userName'">
+				<!-- db에 저장된 userid에서 검색값이 있는 지 찾아라 -->
+				instr(content,#{keyword}) &gt;= 0
+			</when>			
 			<otherwise>
 				<!-- 그게 아니라면 #{condition}에서 검색값이 있는 지 찾아라 -->
 				instr(#{condition},#{keyword}) &gt;=1
@@ -39,8 +50,12 @@
 		created_date, modify_date, last_login, failure_cnt, gender, to_char(birth, 'YYYY-MM-DD') birth
 		 from member1 m1
 		 join member2 m2 on m1.userId=m2.userId
+		<where>
+			<if test="keyword != null and keyword != ''">
+				<include refid="where-list"/>
+			</if>
+		</where>		 
 		 order by memberIdx desc
-		 <!-- 안에 조건 들어가야 함 -->
 		 offset #{offset} rows fetch first #{rows} ROWS only
 		
 	</select>
@@ -55,14 +70,31 @@
 		WHERE m1.userId = #{m1.userId}
 	</select>
 	
+	<!-- 신고하기 -->
+	<insert id="insertBlock" parameterType="String">
+		insert into  block(blockReqId,blockedId,categoryNum,block_date )
+			values(#{blockReqId},#{blockedId},#{categoryNum},sysdate)
+	</insert>
+	
+	<!-- 신고된 회원 warn_cnt증가 -->
+	<update id="updateWarncnt" parameterType="com.olive.olive.admin.manage.Member">
+		update member1 set warn_cnt =warn_cnt+1
+		where userid=#{userid}
+	</update>
+	
+	
 	<!-- 신고회원리스트 조회-->
 	<select id="blockList" parameterType="map" resultType="com.olive.olive.admin.manage.Member">
-		select memberIdx, userId, warn_cnt
-		from member1
+		select blockReqId,blockedId,categoryNum,block_date,warn_cnt,memberIdx
+		from member1 m1
+		join block b on b.blockedId=m1.userId
 		order by memberIdx desc
-		 <!-- 안에 조건 들어가야 함 -->
+		 <!-- 안에 검색하기위한 조건 들어가야 함 -->
 		offset #{offset} rows fetch first #{rows} ROWS only		
 	</select>
+	
+	
+	
 	
 	<!-- 신고2회시 게시판 포인트로 막기 -->
 	<!--  
