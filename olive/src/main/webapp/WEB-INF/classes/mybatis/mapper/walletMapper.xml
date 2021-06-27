@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wallet">
+
+	<insert id="insertWallet" parameterType="com.olive.olive.wallet.Wallet">
+		INSERT INTO wallet(num, categoryNum, userId, cash, installment, price, memo, use_date)
+			VALUES (wallet_seq.NEXTVAL, #{categoryNum}, #{userId}, #{cash}, 
+				#{installment, jdbcType=VARCHAR}, #{price}, #{memo, jdbcType=VARCHAR}, 
+				TO_DATE(#{use_date}, 'YYYY-MM-DD') )
+	</insert>
+
+	<select id="dataCount" parameterType="map" resultType="Integer">
+		SELECT NVL(COUNT(*), 0)
+		FROM wallet a
+		JOIN walletCategory b ON a.categoryNum = b.categoryNum
+		<where>
+			userId = #{userId}
+			AND gubun = #{gubun}
+			<if test="categoryNum != 0 ">
+				AND a.categoryNum = #{categoryNum}
+			</if>
+			<if test="startDate != ''  and endDate != '' ">
+				AND (
+					TO_CHAR(use_date, 'YYYY-MM-DD') &gt;= #{startDate} AND
+					TO_CHAR(use_date, 'YYYY-MM-DD') &lt;= #{endDate}
+				)
+			</if>
+		</where>
+	</select>
+	
+	<select id="listWallet" parameterType="map" resultType="com.olive.olive.wallet.Wallet">
+		SELECT num, gubun, a.categoryNum, category, userId, cash, installment, price, memo, TO_CHAR(use_date, 'YYYY-MM-DD') use_date
+		FROM wallet a
+		JOIN walletCategory b ON a.categoryNum = b.categoryNum
+		<where>
+			userId = #{userId}
+			AND gubun = #{gubun}
+			<if test="categoryNum != 0 ">
+				AND a.categoryNum = #{categoryNum}
+			</if>
+			<if test="startDate != ''  and endDate != '' ">
+				AND (
+					TO_CHAR(use_date, 'YYYY-MM-DD') &gt;= #{startDate} AND
+					TO_CHAR(use_date, 'YYYY-MM-DD') &lt;= #{endDate}
+				)
+			</if>
+		</where>
+		ORDER BY use_date DESC
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="readWallet" parameterType="map" resultType="com.olive.olive.wallet.Wallet">
+		SELECT num, categoryNum, userId, cash, installment, price, memo, TO_CHAR(use_date, 'YYYY-MM-DD') use_date
+		FROM wallet
+		WHERE num = #{num} AND userId = #{userId}
+	</select>
+	
+	<update id="updateWallet" parameterType="com.olive.olive.wallet.Wallet">
+		UPDATE wallet SET categoryNum = #{categoryNum}, cash=#{cash},  price=#{price},
+		              installment = #{installment, jdbcType=VARCHAR},
+		              memo= #{memo, jdbcType=VARCHAR}, 
+		              use_date = TO_DATE(#{use_date}, 'YYYY-MM-DD')
+		WHERE num = #{num} AND userId = #{userId}
+	</update>
+	
+	<delete id="deleteWallet" parameterType="map">
+		DELETE FROM wallet
+		WHERE num = #{num} AND userId = #{userId}
+	</delete>
+	
+	<select id="listCategory" parameterType="String" resultType="com.olive.olive.wallet.Wallet">
+		SELECT categoryNum, gubun, category
+		FROM walletCategory
+		WHERE gubun = #{gubun}
+	</select>
+	
+	<select id="dayStatistics" parameterType="map" resultType="com.olive.olive.wallet.Wallet">
+		SELECT SUM(price) price, 
+			SUM(DECODE(cash, '신용카드', price, 0)) card_price,
+			SUM(DECODE(cash, '현금', price, '통장', price, '체크카드', price, 0)) cash_price
+		FROM wallet a
+		JOIN walletCategory b ON a.categoryNum = b.categoryNum
+		WHERE userId = #{userId}
+			AND gubun = #{gubun} 
+			AND TO_CHAR(use_date, 'YYYY-MM-DD') = #{date}
+	</select>
+
+	<select id="monthStatistics" parameterType="map" resultType="com.olive.olive.wallet.Wallet">
+		SELECT SUM(price) price,
+			SUM(DECODE(cash, '신용카드', price, 0)) card_price,
+			SUM(DECODE(cash, '현금', price, '통장', price, '체크카드', price, 0)) cash_price
+		FROM wallet a
+		JOIN walletCategory b ON a.categoryNum = b.categoryNum
+		WHERE userId = #{userId} 
+			AND gubun = #{gubun} 
+			AND TO_CHAR(use_date, 'YYYY-MM') = SUBSTR(#{date}, 1, 7)
+	</select>
+	
+	<select id="yearStatistics" parameterType="map" resultType="com.olive.olive.wallet.Wallet">
+		SELECT TO_CHAR(use_date, 'YYYY') year, TO_CHAR(use_date, 'MM') month, use_date, SUM(price) price
+		FROM wallet a
+		JOIN walletCategory b ON a.categoryNum = b.categoryNum
+		WHERE userId = #{userId}
+			AND gubun = #{gubun}
+			AND TO_CHAR(use_date, 'YYYY') = SUBSTR(#{date}, 1, 4)
+		GROUP BY TO_CHAR(use_date, 'YYYY'), TO_CHAR(use_date, 'MM')
+		ORDER BY month ASC
+	</select>	
+</mapper>

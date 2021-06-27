@@ -3,9 +3,45 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/icofont/icofont.min.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tabs.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fullcalendar5/lib/main.min.css">
 <style type="text/css">
+.ui-dialog {
+	z-index: 9999;
+}
+
+.ui-dialog * {
+	box-sizing: content-box;
+}
+
+.ui-widget-header {
+	background: none;
+	border: none;
+	height:35px;
+	line-height:35px;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0px;
+}
+
+.body-title {
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+.body-title h2{
+	font-weight: 700;
+}
+
+.table1 {
+	width: 100%; border-spacing: 0; border-collapse: collapse;
+}
+.table1 tr th, .table1 tr td {
+	padding: 7px 0;
+}
+.table1 p{
+	margin-bottom: 0;
+}
+
 .table-article {
 	margin-top: 10px;
 }
@@ -130,8 +166,8 @@ function insertSchedule(start, end, allDay) {
 	
 	$('#schedule-dialog').dialog({
 		  modal: true,
-		  height: 625,
-		  width: 600,
+		  height: 665,
+		  width: 615,
 		  title: '일정 등록',
 		  close: function(event, ui) {
 		  }
@@ -417,7 +453,7 @@ function viewSchedule(calEvent) {
 
 	$('#viewSchedule-dialog').dialog({
 		  modal: true,
-		  height: 420,
+		  height: 445,
 		  width: 600,
 		  title: '상제 일정',
 		  open: function() {
@@ -441,8 +477,8 @@ $(function(){
 		
 		$('#schedule-dialog').dialog({
 			  modal: true,
-			  height: 625,
-			  width: 600,
+			  height: 665,
+			  width: 615,
 			  title: '일정 수정',
 			  close: function(event, ui) {
 			  }
@@ -506,12 +542,12 @@ function updateDrag(calEvent) {
 
 </script>
 
-<div class="container body-container">
+<div class="container">
     <div class="body-title">
 		<h2><i class="icofont-calendar"></i> 일정관리 </h2>
     </div>
     
-    <div class="body-main pt-15">
+    <div class="body-main">
 		<div>    
 			<ul class="tabs">
 				<li id="tab-all" data-group="all">전체일정</li>
@@ -535,7 +571,7 @@ function updateDrag(calEvent) {
 				<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 					<label style="font-weight: 900;">제목</label>
 				</td>
-				<td style="padding: 0 0 15px 15px;">
+				<td style="padding: 0 0 5px 15px;">
 					<p style="margin-top: 1px; margin-bottom: 5px;">
 						<input type="text" name="subject" id="form-subject" maxlength="100" class="boxTF" style="width: 95%;">
 					</p>
@@ -547,7 +583,7 @@ function updateDrag(calEvent) {
 				<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 					<label style="font-weight: 900;">일정분류</label>
 				</td>
-				<td style="padding: 0 0 15px 15px;">
+				<td style="padding: 0 0 5px 15px;">
 					<p style="margin-top: 1px; margin-bottom: 5px;">
 						<select name="color" id="form-color" class="selectField">
 							<option value="green">개인일정</option>
@@ -563,11 +599,15 @@ function updateDrag(calEvent) {
 				<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 					<label style="font-weight: 900;">종일일정</label>
 				</td>
-				<td style="padding: 0 0 15px 15px;">
-					<p style="margin-top: 5px; margin-bottom: 5px;">
-						<input type="checkbox" name="all_day" id="form-allDay" value="1" checked="checked">
-						<label for="allDay">하루종일</label>
-					</p>
+				<td style="padding: 0 0 5px 15px;">
+					<div  class="form-row">
+						<div class="col col-sm-1">
+							<input type="checkbox" name="all_day" id="form-allDay" value="1" checked="checked">
+						</div>
+						<div class="col col-sm-2">
+							<label for="allDay">하루종일</label>
+						</div>
+					</div>
 				</td>
 			</tr>
 
@@ -575,7 +615,7 @@ function updateDrag(calEvent) {
 				<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 					<label style="font-weight: 900;">시작일자</label>
 				</td>
-				<td style="padding: 0 0 15px 15px;">
+				<td style="padding: 0 0 5px 15px;">
 					<p style="margin-top: 1px; margin-bottom: 5px;">
 						<input type="text" name="sday" id="form-sday" maxlength="10" class="boxTF" readonly="readonly" style="width: 25%; background: #fff;">
 						<input type="text" name="stime" id="form-stime" maxlength="5" class="boxTF" style="width: 15%; display: none;" placeholder="시작시간">
@@ -588,7 +628,7 @@ function updateDrag(calEvent) {
 				<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 					<label style="font-weight: 900;">종료일자</label>
 				</td>
-				<td style="padding: 0 0 15px 15px;">
+				<td style="padding: 0 0 5px 15px;">
 					<p style="margin-top: 1px; margin-bottom: 5px;">
 						<input type="text" name="eday" id="form-eday" maxlength="10" class="boxTF" readonly="readonly" style="width: 25%; background: #fff;">
 						<input type="text" name="etime" id="form-etime" maxlength="5" class="boxTF" style="width: 15%; display: none;" placeholder="종료시간">
@@ -601,7 +641,7 @@ function updateDrag(calEvent) {
 				<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 					<label style="font-weight: 900;">일정반복</label>
 				</td>
-				<td style="padding: 0 0 15px 15px;">
+				<td style="padding: 0 0 5px 15px;">
 					<p style="margin-top: 1px; margin-bottom: 5px;">
 						<select name="repeat" id="form-repeat" class="selectField">
 							<option value="0">반복안함</option>
@@ -616,7 +656,7 @@ function updateDrag(calEvent) {
 				<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
 					<label style="font-weight: 900;">메모</label>
 				</td>
-				<td style="padding: 0 0 15px 15px;">
+				<td style="padding: 0 0 5px 15px;">
 					<p style="margin-top: 1px; margin-bottom: 5px;">
 						<textarea name="memo" id="form-memo" class="boxTA" style="width:93%; height: 70px;"></textarea>
 					</p>
@@ -638,7 +678,7 @@ function updateDrag(calEvent) {
 </div>
 
 <div id="viewSchedule-dialog" style="display: none;">
-	<table class="table table-article" border="1">
+	<table class="table1 table-article" border="1">
 		<tr>
 			<td>제목</td>
 			<td><p class="subject"></p></td>

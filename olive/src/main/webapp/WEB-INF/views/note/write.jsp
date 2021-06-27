@@ -7,6 +7,31 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ui-css.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tabs.css" type="text/css">
 <style type="text/css">
+.body-title {
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+.body-title h2{
+	font-weight: 700;
+}
+
+.ui-dialog {
+	z-index: 9999;
+}
+
+.ui-dialog * {
+	box-sizing: content-box;
+}
+
+.ui-widget-header {
+	background: none;
+	border: none;
+	height:35px;
+	line-height:35px;
+	border-bottom: 1px solid #ccc;
+	border-radius: 0px;
+}
+
 .help-block {
 	padding: 5px 0;
 }
@@ -250,10 +275,10 @@ $(function(){
 				<li id="tab-send" data-tab="send" class="active">보낸 쪽지함</li>
 			</ul>
 		</div>
-		<div id="tab-content" style="clear:both; padding: 20px 10px 0;">
+		<div id="tab-content" style="padding: 15px 10px 5px; clear: both;">
 		
 			<form name="noteForm" method="post">
-			<table class="table table-border table-content">
+			<table class="table table-border table-content" style="margin-top: 10px;">
 				<tr> 
 					<td>받는사람</td>
 					<td> 
@@ -268,9 +293,9 @@ $(function(){
 				</tr>
 				
 				<tr> 
-					<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
-					<td valign="top"> 
-						<textarea name="content" class="boxTA">${dto.content}</textarea>
+					<td valign="top" style="border-bottom: 1px solid #dee2e6;">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+					<td valign="top" style="border-bottom: 1px solid #dee2e6;"> 
+						<textarea name="content" class="form-control" style="height: 130px;">${dto.content}</textarea>
 					</td>
 				</tr>
 				  
@@ -278,7 +303,7 @@ $(function(){
 				
 			<table class="table">
 				<tr> 
-					<td align="center">
+					<td align="center" style="border-top: none;">
 						<button type="button" class="btn btn-dark" onclick="sendOk();">보내기</button>
 						<button type="reset" class="btn">다시입력</button>
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/note/send/list';">취소</button>
@@ -292,12 +317,20 @@ $(function(){
 	
 	<div id="receiver-dialog" style="display: none;">
 		<div class="dialog-header">
-			<select name="condition" id="condition" class="selectField">
-				<option value="userName">이름</option>
-				<option value="userId">아이디</option>
-			</select>
-			<input type="text" name="keyword" id="keyword" class="boxTF" style="width: 150px;">
-			<button type="button" class="btn btnReceiverFind"> <i class="icofont-search-user"></i> </button>
+			<div class="form-row"  style="justify-content: center;">
+				<div class="col col-sm-2" style="margin-right: 25px;">
+					<select name="condition" id="condition" class="form-control">
+						<option value="userName">이름</option>
+						<option value="userId">아이디</option>
+					</select>
+				</div>
+				<div class="col col-sm-3" style="margin-right: 15px;">
+					<input type="text" name="keyword" id="keyword" class="form-control">
+				</div>
+				<div class="col col-sm-1"  style="align-items: center; justify-content: center;">
+					<button type="button" class="btn btnReceiverFind"> <i class="icofont-search-user"></i> </button>
+				</div>
+			</div>
 		</div>
 		<div class="dialog-receiver-list">
 			<ul></ul>

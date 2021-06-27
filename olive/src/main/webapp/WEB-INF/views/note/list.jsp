@@ -7,6 +7,14 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ui-css.css" type="text/css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/tabs.css" type="text/css">
 <style type="text/css">
+.body-title {
+	margin-top: 80px;
+	margin-bottom: 30px;
+}
+.body-title h2{
+	font-weight: 700;
+}
+
 .table-content tr {
 	text-align: center;
 }
@@ -82,26 +90,26 @@ $(function() {
 });
 </script>
 
-<div class="container" style="background: #FFFFFF;width: 85%;border-radius: 30px; margin-top: 50px;">
+<div class="container body-container">
     <div class="body-title">
 		<h2><i class="icofont-ui-messaging"></i> 쪽지함 </h2>
     </div>
     
-    <div class="body-main wx-800 ml-30 pt-15">
+    <div class="body-main">
 		<div>
 			<ul class="tabs">
 				<li id="tab-receive" data-tab="receive">받은 쪽지함</li>
 				<li id="tab-send" data-tab="send">보낸 쪽지함</li>
 			</ul>
 		</div>
-		<div id="tab-content" style="clear:both; padding: 20px 10px 0;">
+		<div id="tab-content" style="padding: 15px 10px 5px; clear: both;">
 		
-			<table class="table">
+			<table class="table" style="margin-bottom: 0;">
 				<tr>
-					<td align="left" width="50%">
+					<td align="left" width="50%" style="border-top: none;">
 						<button type="button" class="btn btnDelete" title="삭제"><i class="icofont-trash"></i></button>
 					</td>
-					<td align="right">
+					<td align="right" style="border-top: none;">
 						<button type="button" class="btn btn-light" onclick="javascript:location.href='${pageContext.request.contextPath}/note/write';">쪽지 쓰기</button>
 					</td>
 				</tr>
@@ -136,37 +144,45 @@ $(function() {
 		
 			<table class="table">
 				<tr>
-					<td align="center">${dataCount==0?"쪽지함이 비었습니다.":paging}</td>
+					<td align="center" style="border-top: none;">${dataCount==0?"쪽지함이 비었습니다.":paging}</td>
 				</tr>
 			</table>
 			
 			<table class="table">
 				<tr>
-					<td align="left" width="100">
+					<td align="left" width="100" style="border-top: none;">
 						<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/note/${menuItem}/list';" title="새로고침"> <i class="icofont-ui-reply"></i> </button>
 					</td>
-					<td align="center">
-						<form name="searchForm" class="form-inline" style="justify-content: center;" action="${pageContext.request.contextPath}/note/${menuItem}/list" method="post">
-							<select name="condition" class="form-control" style="vertical-align: middle;">
-								<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
-								<c:choose>
-									<c:when test="${menuItem=='receive'}">
-										<option value="senderName" ${condition=="senderName"?"selected='selected'":""}>보낸사람</option>
-										<option value="senderId" ${condition=="senderName"?"selected='selected'":""}>아이디</option>
-										<option value="sendDay" ${condition=="created"?"selected='selected'":""}>받은날짜</option>
-									</c:when>
-									<c:otherwise>
-										<option value="receiverName" ${condition=="receiverName"?"selected='selected'":""}>받는사람</option>
-										<option value="receiverId" ${condition=="receiverId"?"selected='selected'":""}>아이디</option>
-										<option value="sendDay" ${condition=="created"?"selected='selected'":""}>보낸날짜</option>
-									</c:otherwise>
-								</c:choose>
-							</select>
-							<input type="text" name="keyword" value="${keyword}" class="form-control" style="margin-left: 5px; margin-right: 5px;vertical-align: middle;">
-							<button type="button" class="btn btn-light" onclick="searchList()" title="검색" style="vertical-align: middle;"> <i class="icofont-search-1"></i> </button>
+					<td align="center" style="border-top: none;">
+						<form name="searchForm"action="${pageContext.request.contextPath}/note/${menuItem}/list" method="post">
+							<div class="form-row"  style="justify-content: center;">
+								<div class="col col-sm-2">
+									<select name="condition" class="form-control" style="vertical-align: middle;">
+										<option value="content" ${condition=="content"?"selected='selected'":""}>내용</option>
+										<c:choose>
+											<c:when test="${menuItem=='receive'}">
+												<option value="senderName" ${condition=="senderName"?"selected='selected'":""}>보낸사람</option>
+												<option value="senderId" ${condition=="senderName"?"selected='selected'":""}>아이디</option>
+												<option value="sendDay" ${condition=="created"?"selected='selected'":""}>받은날짜</option>
+											</c:when>
+											<c:otherwise>
+												<option value="receiverName" ${condition=="receiverName"?"selected='selected'":""}>받는사람</option>
+												<option value="receiverId" ${condition=="receiverId"?"selected='selected'":""}>아이디</option>
+												<option value="sendDay" ${condition=="created"?"selected='selected'":""}>보낸날짜</option>
+											</c:otherwise>
+										</c:choose>
+									</select>
+								</div>
+								<div class="col col-sm-3">
+									<input type="text" name="keyword" value="${keyword}" class="form-control" style="margin-left: 5px; margin-right: 5px;vertical-align: middle;">
+								</div>
+								<div class="col col-sm-1">
+									<button type="button" class="btn btn-light" onclick="searchList()" title="검색" style="vertical-align: middle;"> <i class="icofont-search-1"></i> </button>
+								</div>
+							</div>
 						</form>
 					</td>
-					<td align="right" width="100">
+					<td align="right" width="100" style="border-top: none;">
 						&nbsp;
 					</td>
 				</tr>
