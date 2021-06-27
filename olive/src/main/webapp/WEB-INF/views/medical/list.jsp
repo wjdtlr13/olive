@@ -8,12 +8,12 @@ body {
 	}
 
 .title {
-	font-size: 20px;
+	font-size: 27px;
 	padding-top: 80px;
 	padding-bottom:30px;
-	width: 70%;
+	width: 85%;
 	margin: auto;
-	font-weight: bold;
+	font-weight: 800;
 }
 
 .btn {
@@ -46,14 +46,14 @@ body {
 
 .div-list-con {
 	margin: auto;
-	width: 72%;
+	width: 85%;
 }
 .div-question{
 	padding: 10px 10px;
 	border-top: 1px solid #eeeeee;
 	margin-top: 20px;
-	font-size: 18px;
-	font-weight: 700;
+	font-size: 21px;
+	font-weight: 600;
 }
 .div-question:hover{
 cursor: pointer;
@@ -61,8 +61,8 @@ cursor: pointer;
 .div-answer{
 	padding: 30px 20px;
 	margin-top: 15px;
-	font-size: 16px;
-	font-weight: 600;
+	font-size: 19px;
+	font-weight: normal;
 	background: #f5f5f5;
 	border-radius: 15px;
 	
@@ -114,7 +114,7 @@ function deleteList(num, page) {
 		<span>올리브의 구급상자</span>	
 	</div>
 	
-	<table style="height: 120px; margin: auto; border-spacing: 0px;">
+	<table style="height: 120px; margin: auto; border-spacing: 0px; width: 85%">
 		<tr>
 			<td align="center" style="border-top: 1px solid #111;">
 				<form name="searchForm" action="${pageContext.request.contextPath}/medical/list" method="post">
