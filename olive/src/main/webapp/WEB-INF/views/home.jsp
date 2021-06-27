@@ -118,7 +118,7 @@ border-bottom: 1px solid #eeeeee;
 
 .junggo-wrap {
 	margin-bottom: 30px;
-	width: 900px;
+	width: 1200px;
 	height: 300px;
 	margin: auto;
 }
@@ -136,14 +136,12 @@ border-bottom: 1px solid #eeeeee;
 }
 
 .junggo-sub {
-	border-bottom: 1px solid #eee;
 	text-align: center;
 	margin-top: 8px;
 }
 
 .junggo-created {
 	width: 120px;
-	border-bottom: 1px solid #eee;
 	text-align: center;
 	margin: auto;
 	margin-top: 8px;
@@ -151,7 +149,8 @@ border-bottom: 1px solid #eeeeee;
 }
 .junggo-div {
 	float: left;
-	margin-right: 70px;
+	margin: 15px;
+	border: 1px solid #eee;
 }
 .div-title{
  text-align: center;
@@ -255,8 +254,26 @@ border-bottom: 1px solid #eeeeee;
 		    <div id="container"></div>
 		</figure>
 	</div>
+
+	<div class="space-box" style="height: 50px;"></div>	
+	<div style="width: 73%; height: 30px; border-bottom: 1px dashed #a4a4a4; margin: auto;"></div>
+	<div class="space-box" style="height: 70px;"></div>
 	
-		<div style="width: 73%; height: 30px; border-bottom: 1px dashed #a4a4a4; margin: auto;"></div>
+	
+	<div class="junggo-wrap">
+	<div class="junggo-title"><a href="${pageContext.request.contextPath}/junggo/list">주고받는 올리브</a></div>
+		<c:forEach var="dto" items="${listJunggo}">			
+			<div class="junggo-div">
+				<div><a href="${pageContext.request.contextPath}/junggo/article?page=1&num=${dto.num}"><img src="${dto.imageFileName}"></a></div>
+				<div class="junggo-sub"><a href="${pageContext.request.contextPath}/junggo/article?page=1&num=${dto.num}">${dto.subject}</a></div>
+				<div class="junggo-created">${dto.price}원</div>
+			</div> 		
+		</c:forEach>
+ 	</div>
+ 	
+	<div class="space-box" style="height: 70px;"></div>
+	<div style="width: 73%; height: 30px; border-bottom: 1px dashed #a4a4a4; margin: auto;"></div> 		
+	<div class="space-box" style="height: 50px;"></div>
 	
 	<div class="board-wrap">
 		<div><a href="${pageContext.request.contextPath}/notice/list">관리실에서 알립니다</a></div>
@@ -267,36 +284,16 @@ border-bottom: 1px solid #eeeeee;
 		</table>
  		
 		<div class="space-box" style="height: 40px;"></div>
-					
+ 				
 		<div><a href="${pageContext.request.contextPath}/free/list">형형색깔 올리브</a></div>
 		<table class="table-board table-free">
 			<c:forEach var="dto" items="${listFree}">			
 				<tr><td><a href="${pageContext.request.contextPath}/free/article?num=${dto.num}&page=1">${dto.subject}</a></td><td>${dto.nickName}</td><td>${dto.created}</td></tr>	
 			</c:forEach>
-		</table>		
-	</div>
-	
-	<div class="space-box" style="height: 50px;"></div>
-	
-	<div class="junggo-wrap">
-	<div class="junggo-title"><a href="${pageContext.request.contextPath}/junggo/list">주고받는 올리브</a></div>
-		<div class="junggo-div" style="margin-left: 80px;">
-			<div><a href=""><img src=""></a></div>
-			<div class="junggo-sub"><a href="">옷 팔아요 거의 새거</a></div>
-			<div class="junggo-created">2020.01.01</div>
-		</div>
-		<div class="junggo-div">
-			<div><a href=""><img src=""></a></div>
-			<div class="junggo-sub"><a href="">옷 팔아요</a></div>
-			<div class="junggo-created">2020.01.01</div>
+		</table> 
 			
-		</div>
-		<div class="junggo-div">
-			<div><a href=""><img src=""></a></div>
-			<div class="junggo-sub"><a href="">옷 팔아요</a></div>
-			<div class="junggo-created">2020.01.01</div>
-		</div>
-	</div>
+ 	</div>
+
 	
 	<div class="space-box" style="height: 50px;"></div>
 		

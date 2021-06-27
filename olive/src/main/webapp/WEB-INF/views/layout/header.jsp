@@ -41,16 +41,11 @@
                 		<li><a href="${pageContext.request.contextPath}/medical/list">올리브의 구급상자</a></li>
 					</ul>
 				</li>
-				<li class="dropdown">
-					<a href="#">real-estate</a>
-					<ul>
-                		<li><a href="${pageContext.request.contextPath}/house/info">올리브의 새 집</a></li>
-                		<li><a href="${pageContext.request.contextPath}/tips/home">올리브의 집문서</a></li>
-					</ul>
-				</li>
 				
-                		<li><a href="${pageContext.request.contextPath}/wallet/expense/list">cash book</a></li>
-                		<li><a href="${pageContext.request.contextPath}/schedule/main">schedule</a></li>
+				<li><a href="${pageContext.request.contextPath}/tips/home">resident</a></li>
+				
+                <li><a href="${pageContext.request.contextPath}/wallet/expense/list">cash book</a></li>
+           		<li><a href="${pageContext.request.contextPath}/schedule/main">schedule</a></li>
 				<li class="dropdown">
 					<a href="#">olive</a>
 					<ul>
