@@ -11,7 +11,7 @@
 }
 .btn{
 	border : none;
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: 700;
 	background: transparent;
 }
@@ -24,13 +24,13 @@
 button.btn1 {
 	position : fixed;
 	transform : rotate(345deg);
-	left : 22%;
-	top : 50%;
+	left : 24%;
+	top : 49%;
 }
 button.btn2 {
 	position : fixed;
-    left : 62%;
-	top : 55%;
+    left : 67%;
+	top : 53%;
     transform : rotate(25deg);
 	
 }
@@ -42,7 +42,7 @@ button.btn2 {
 	<div style="background: url('${pageContext.request.contextPath}/resources/img/tips/tipshome.jpg');width: 100vw;height: 100vh;background-size: cover;">
 		<div>
 			<button class="btn btn1" onclick="location.href='${pageContext.request.contextPath}/tips/list'">서류작성꿀팁</button>
-			<button class="btn btn2" onclick="location.href='${pageContext.request.contextPath}/tips/office'">내주변동사무소찾기</button>
+			<button class="btn btn2" onclick="location.href='${pageContext.request.contextPath}/tips/office'">주변동사무소찾기</button>
 		</div>
 	</div>
 
