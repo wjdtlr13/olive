@@ -535,8 +535,7 @@
 								<textarea wrap="hard" name="content"></textarea>
 							</div>
 						</div>
-						<input type="hidden" name="userId"
-							value="${sessionScope.member.userId }">
+						<input type="hidden" name="userId">
 					</form>
 					<section class="stitle">
 						<p>
@@ -641,8 +640,11 @@
 		$('#modal-submit')
 				.click(
 						function() {
+							$('#modal-missionForm').find('input[name=userId]').val('${sessionScope.member.userId }');
 							var url = "${pageContext.request.contextPath}/mission/insertmission";
 							var query = $('#modal-missionForm').serialize();
+							
+							console.log(query);
 							var fn = function(data) {
 								$('#modal-missionForm').find('input').val('');
 								$('#modal-missionForm').find('textarea')
@@ -668,7 +670,6 @@
 		}
 		;
 		query += "&missionNum=" + num;
-		console.log(query);
 
 		var fn = function(data) {
 			$('.content-list').empty();

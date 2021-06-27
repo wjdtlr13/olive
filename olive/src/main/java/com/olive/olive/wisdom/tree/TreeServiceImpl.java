@@ -1,6 +1,7 @@
 package com.olive.olive.wisdom.tree;
 
 import java.util.List;
+
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.olive.olive.common.FileManager;
 import com.olive.olive.common.dao.CommonDAO;
+
 
 @Service("wisdom.wisdomServiceImpl")
 public class TreeServiceImpl implements TreeService{
@@ -152,12 +154,20 @@ public class TreeServiceImpl implements TreeService{
 		try {
 			dao.insertData("wisdom.insertWisdomLike", map);
 			
+			int num = (Integer)map.get("num");
+			int count = wisdomLikeCount(num);
+			
+			if(count>=2) {
+				updateSelect(num);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
 		
 	}
+	
 
 	@Override
 	public int wisdomLikeCount(int num) {
@@ -228,6 +238,31 @@ public class TreeServiceImpl implements TreeService{
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	
+	//게시물 옮기기 위한 selected 없데이트하기
+	@Override
+	public void updateSelect(int num) throws Exception {
+		
+		try {
+			dao.updateData("wisdom.updateSelected", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	@Override
+	public List<Category> listCategory() {
+		List<Category> list = null;
+		try {
+			list = dao.selectList("wisdom.listCategory");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 
 

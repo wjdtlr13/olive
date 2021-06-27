@@ -51,11 +51,14 @@ public class MemberServiceImpl implements MemberSerivce{
 		
 		return dto;
 	}
+	
+	
+	
 
 	//신고회원리스트
 	@Override
-	public List<Member> blockList(Map<String, Object> map) throws Exception {
-		List<Member> list =null;
+	public List<Block> blockList(Map<String, Object> map) throws Exception {
+		List<Block> list =null;
 		try {
 			list = dao.selectList("admin.blockList",map);
 		} catch (Exception e) {
@@ -76,6 +79,34 @@ public class MemberServiceImpl implements MemberSerivce{
 
 		}
 	}
+
+	//신고하기
+	@Override
+	public void insertBlock(Block dto) throws Exception {
+		try {
+			dao.insertData("admin.insertBlock",dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+
+	//신고된 회원 warn_cnt 증가
+	@Override
+	public void updateWarncnt(String blockedId) throws Exception {
+		try {
+			dao.updateData("admin.updateWarncnt", blockedId);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+	}
+	
+	
+	
+	
 
 
 

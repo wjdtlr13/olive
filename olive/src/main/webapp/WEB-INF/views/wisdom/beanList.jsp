@@ -65,34 +65,30 @@ $(function(){
 </script>
 
 
- <div class="container" style="margin-top: 50px;">
-        <div class="col text-center"><span style="border-style: solid;">올리브 나무게시판</span></div>
+ <div class="container">
+        <div class="col text-center"><span style="border-style: solid;">올리브 게시판</span></div>
         <div class="col text-center">
-            <p><span style="text-decoration: underline;">올리브나무게시판입니다</span></p>
+            <p><span style="text-decoration: underline;">올리브열매게시판입니다</span></p>
         </div>
         <div class="row d-flex justify-content-center align-items-center">
-            <div class="col-auto">
-            	<select>
+            <div class="col-auto"><select>
                     
-                    	<c:forEach var="vo" items="${categoryList}">
+                    	<c:forEach var="vo" items="${listCategory}">
                        		<option value="${vo.categoryNum}">${vo.category}</option>
                         </c:forEach>
                     
-                </select>
-            </div>
+                </select></div>
             <div class="col-auto" ><input type="text" id="keyword" name="keyword" value="${keyword}"></div>
             <div class="col-auto"><button class="btn btn-primary" type="button">Button</button></div>
         </div>
         <div class="row">
-            <div class="col-auto">
-            	<select>
-                    
-                    	<c:forEach var="vo" items="${categoryList}">
-                       		<option value="${vo.categoryNum}">${vo.category}</option>
-                        </c:forEach>
-                    
-                </select>
-            </div>
+            <div class="col"><select>
+                    <optgroup label="This is a group">
+                        <option value="12" selected="">This is item 1</option>
+                        <option value="13">This is item 2</option>
+                        <option value="14">This is item 3</option>
+                    </optgroup>
+                </select></div>
             <div class="col" style="text-align: right;"><select>
                     <optgroup label="게시글 보기"> 
                         <option value="12" selected="selected">5개씩 보기</option>

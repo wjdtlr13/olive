@@ -176,9 +176,13 @@ function deleteNotice() {
 </script>
 
 <script type="text/javascript">
+/*
+ * 
 function login() {
 	location.href="${pageContext.request.contextPath}/member/login";
-}
+} 
+ */
+
 function ajaxFun(url, method, query, dataType, fn) {
 	$.ajax({
 		type:method,
@@ -250,7 +254,7 @@ $(function(){
 		if(! confirm("게시물에 공감 하십니까 ? ")) {
 			return false;
 		}
-		var url="${pageContext.request.contextPath}/wisdom/insertArticleLike";
+		var url="${pageContext.request.contextPath}/wisdom/insertWisdomLike";
 		var num="${dto.num}";		
 		var query="num="+num;
 		
@@ -299,7 +303,9 @@ $(function(){
 });
 
 
-
+function block() {
+	
+}
 
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/ckeditor5/build/ckeditor.js"></script>
@@ -344,9 +350,9 @@ $(function(){
 		<button type="button" class="btn-list" onclick="deleteNotice();">삭제</button>
 		<button type="button" class="btn-list" onclick="javascript:location.href='${pageContext.request.contextPath}/tree/update?num=${dto.num}&page=${page}';">수정</button>
 		<button type="button" class="btn-list" onclick="javascript:location.href='${pageContext.request.contextPath}/wisdom/list?${query}';">목록</button>
-		
+		<button type="button" class="btn-list" onclick="block();">${dto.userId}신고</button>
 	</div>
-		<div class="reply">
+	<div class="reply">
 			<table class="table table-reply">
 				<tr> 
 					<td align='left'>
@@ -365,7 +371,27 @@ $(function(){
 				 </tr>
 			</table>
 			<div id="listReply"></div>
-		</div>	
+			
+	</div>
+	<div>
+		<form action="./block.jsp" method="post">
+			<div>
+				<label>신고하기</label>
+			</div>
+			<div>
+				<label>신고내용</label>
+				<select>
+					<c:forEach var="vo" items="${categorys}">
+					<option value="${vo.categoryNum}">${vo.subject}</option>
+					</c:forEach>
+
+				</select>
+				<button>신고</button>
+				<button>취소</button>
+			</div>
+		</form>
+	</div>	
+			
 <script type="text/javascript">
 ClassicEditor
 	.create( document.querySelector( '.editor' ), {

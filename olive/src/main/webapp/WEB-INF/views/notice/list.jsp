@@ -61,7 +61,7 @@ thead {
 	text-align: center;
 }
 .head-Contents {
-	width:40%;
+	width:30%;
 	text-align: left;
 }
 .head-Name {
@@ -138,19 +138,27 @@ select:focus {
 	outline: none;
 }
 </style>
-
+<script type="text/javascript">
+function searchList() {
+	var f=document.searchForm;
+	f.submit();	
+	
+}
+</script>
 <div class="title">공지사항</div>
 
 <div class="body-container" >
-	<div class="search">
-			<select class="search1">
-				<option>제목+내용</option>
-				<option>제목</option>
-				<option>내용</option>			
-			</select>
-			<input class="search2" type="text" placeholder="검색어를 입력하세요.">
-			<button class="search3">검색</button>				
-	</div>
+	<form name="searchForm" method="post">
+		<div class="search" >
+				<select class="search1"  action="${pageContext.request.contextPath}/notice/list"name="condition" >
+					<option value="all">제목+내용</option>
+					<option value="subject">제목</option>
+					<option value="content">내용</option>			
+				</select>
+				<input class="search2" type="text" placeholder="검색어를 입력하세요."  name="keyword" value="${keyword}" >
+				<button class="search3"  type="button" onclick="searchList();">검색</button>				
+		</div>
+	</form>
 	<div style="width:100%; height: 20px; border-top: 1px solid black;"></div>
 		
 	<table>
@@ -159,7 +167,8 @@ select:focus {
 				<th class="head-No">번호</th>
 				<th class="head-Contents"style="text-align: center;">제목</th>				
 				<th class="head-Name">작성자</th>				
-				<th class="head-Date">날짜</th>				
+				<th class="head-Date">날짜</th>			
+				<th class="head-Date">날짜</th>	
 			</tr>
 		</thead>
 		<tbody>
@@ -167,14 +176,19 @@ select:focus {
 			<tr>
 				<td class="head-No">${dto.listNum}</td>
 				<td class="head-Contents"><a href="${articleUrl}&num=${dto.num}">${dto.subject}</a> </td>
-				<td class="head-Name">${dto.userId}</td>
-				<td class="head-Date">${dto.created}</td>				
+				<td class="head-Name">${dto.nickName}</td>
+				<td class="head-Date">${dto.created}</td>		
+				<td class="head-Date">${dto.hitCount}</td>						
 			</tr>
 			</c:forEach>
 		</tbody>
 	
 	</table>
-	
+		<table class="table">
+			<tr>
+				<td align="center">${dataCount==0?"등록된 게시물이 없습니다.":paging}</td>
+			</tr>
+		</table>	
 		<c:if test="${sessionScope.member.userId=='admin'}">
 			<div>
 				<button class="created"
