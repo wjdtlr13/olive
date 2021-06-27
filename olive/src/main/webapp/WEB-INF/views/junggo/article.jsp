@@ -25,6 +25,9 @@
 .reply .reply-list tbody tr td {
 	padding: 7px 5px;
 }
+.body-title{
+	
+}
 </style>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/build/ckeditor.js"></script>
@@ -269,7 +272,7 @@ $(function(){
 
 <div class="container body-container">
     <div class="body-title" style="margin-top: 200px;border-bottom-width: 0px;">
-        <h2> 중고거래 글보기 </h2>
+        <span>주고받는 올리브</span>
     </div>
     
     <div class="body-main">

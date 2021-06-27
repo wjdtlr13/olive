@@ -34,7 +34,6 @@
 	vertical-align: middle;
 	padding:6px 13px;
 	border-radius: 3px;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	cursor: pointer;
 }
 .btn:active, .btn:focus, .btn:hover {
@@ -67,7 +66,6 @@
 	padding:5px 5px 5px;
 	border-radius:4px;
 	background-color:#fff;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
 }
 .boxTF[readonly] {
@@ -89,7 +87,6 @@
 .body-title h2 {
     font-size: 23px;
     min-width: 300px;
-    font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
     font-weight: bold;
     margin: 0 0 -5px 0;
     padding-bottom: 5px;
@@ -130,7 +127,7 @@
 
 <div class="container body-container">
 	<div class="body-title">
-		<h2> 중고게시판 글쓰기 </h2>
+		<span> 주고받는 올리브 </span>
 	</div>
 	
 	<div class="body-main">

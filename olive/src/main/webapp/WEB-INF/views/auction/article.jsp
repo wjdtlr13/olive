@@ -9,21 +9,16 @@
 } 
 
 .body-container{
-    margin-top: 300px;
     border-bottom-width: 0px;
 }
 .body-title{
-	margin-top: 260px;
 	border-bottom-width: 0px;
 }
 .table-content tr > td {
 	padding-left: 5px; padding-right: 5px;
 }
-.container{
-	margin-top: 130px;
-}
+
 .body-title{
-	margin-top: 130px;
 }
 .reply {
 	padding: 15px 0 10px;
@@ -34,6 +29,11 @@
 
 .reply .reply-list tbody tr td {
 	padding: 7px 5px;
+}
+.body-title {
+	font-color :#ccc;
+	font-size: 27px;
+	font-weight: 800;
 }
 </style>
 
@@ -316,9 +316,9 @@ $(function(){
 });
 </script>
 
-<div class="container body-container" style="margin-top: 250px;border-bottom-width: 0px;">
+<div class="container body-container" style="margin-top: 120px;border-bottom-width: 0px;">
     <div class="body-title">
-        <h2> 공동구매 글보기 </h2>
+        <span>함께사는 올리브</span>
     </div>
     
      <div class="body-main">
@@ -328,13 +328,13 @@ $(function(){
 					&nbsp;
 				</td>
 				<td width="50%" align="left">
-					이름 : ${dto.userName}
+					작성자 : ${dto.userName}
 				</td>
 			</tr>
 			
 			<tr>
 	     		<td width="50%" align="left">
-					물건명 : ${dto.subject}
+					제목 : ${dto.subject}
 				</td>
 				<td width="50%" align="left">
 					가격 : ${dto.price}

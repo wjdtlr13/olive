@@ -5,7 +5,7 @@
  
 <style type="text/css">
 *{
-	font-size: 18px;
+	
 }
 .table-content tr {
 	text-align: center;
@@ -40,7 +40,6 @@ textarea:focus, input:focus{
 	vertical-align: middle;
 	padding:6px 13px;
 	border-radius: 3px;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	cursor: pointer;
 }
 .sbtn{
@@ -53,9 +52,9 @@ textarea:focus, input:focus{
 	padding:5px 5px 5px;
 	border-radius:4px;
 	background-color:#fff;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
 	margin:20px;
+	height: 43px;
 }
 .boxTF[readonly] {
 	background-color:#eeeeee;
@@ -67,7 +66,6 @@ textarea:focus, input:focus{
 	padding:3px 5px;
 	border-radius:4px;
 	background-color:#fff;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	resize : none;
 }
 
@@ -75,12 +73,14 @@ textarea:focus, input:focus{
 	border:1px solid #999;
 	padding:5px 7px 5px;
 	border-radius:4px;
-	font-family:"Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
 	vertical-align: middle;
 	height: 43px;
     margin-top: 20px;
 }
-
+.body-title {
+	font-size: 27px;
+	font-weight: 800;
+}
 </style>
 
 <script type="text/javascript">
@@ -92,14 +92,14 @@ function searchList(){
 
 <div class="container body-container">
 	<div class="body-title">
-		<h2><i class="icofont-google-talk"></i> 서류게시판 </h2>
+		<span><i class="icofont-google-talk"></i>올리브의 집문서</span>
 	</div>
 	
 	<div class="body-main">
 		<table class="table">
 			<tr>
 				<td align="left" width="50%">
-					${dataCount}개(${page}/${total_page} 페이지)				
+					총 ${dataCount}건 (${page}/${total_page} 페이지)				
 				</td>
 				<td align="right">
 					&nbsp;
@@ -159,7 +159,7 @@ function searchList(){
 				<c:choose>
 					<c:when test="${sessionScope.member.userId=='admin'}">
 						<td align="right" width="20%">
-							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/tips/created';">글올리기</button>
+							<button type="button" class="btn" onclick="javascript:location.href='${pageContext.request.contextPath}/tips/created';">등록</button>
 						</td>
 					</c:when>
 					<c:otherwise>
