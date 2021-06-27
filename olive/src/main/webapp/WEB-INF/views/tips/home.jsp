@@ -25,7 +25,7 @@ button.btn1 {
 	position : fixed;
 	transform : rotate(345deg);
 	left : 24%;
-	top : 49%;
+	top : 49%; 
 }
 button.btn2 {
 	position : fixed;

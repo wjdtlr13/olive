@@ -8,7 +8,7 @@
 }
 .table-content tr {
 	text-align: center;
-}
+} 
 .table-content tr:first-child {
 	background: #eee;
 }

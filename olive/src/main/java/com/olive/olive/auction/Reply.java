@@ -5,7 +5,7 @@ public class Reply {
 	private int num;
 	private String userId;
 	private String userName;
-	private String content;
+	private String content; 
 	private String created;
 	private int answer;
 	 

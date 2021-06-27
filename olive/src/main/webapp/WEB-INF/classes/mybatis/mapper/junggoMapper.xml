@@ -9,7 +9,7 @@
 				#{price}, #{content}, 0, SYSDATE
 			)
 	</insert>
-	
+	 
 	<select id="listCategory" resultType="com.olive.olive.junggo.Junggo">
 		SELECT categoryNum, categoryName FROM junggoCategory
 	</select>

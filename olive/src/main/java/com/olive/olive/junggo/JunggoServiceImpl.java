@@ -21,7 +21,7 @@ public class JunggoServiceImpl implements JunggoService {
 			e.printStackTrace();
 			throw e;
 		}
-	}
+	} 
 
 	@Override
 	public List<Junggo> listJunggo(Map<String, Object> map) {

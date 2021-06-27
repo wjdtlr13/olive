@@ -18,7 +18,7 @@ public class Auction {
 	 
 	private int num, listNum;
 	private String userId;
-	private String userName;
+	private String userName; 
 	private String subject;
 	private String price;
 	private String content;

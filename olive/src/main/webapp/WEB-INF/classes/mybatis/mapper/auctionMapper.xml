@@ -10,7 +10,7 @@
 			(auction_seq.NEXTVAL, #{userId}, #{subject},#{price}, #{content},
 				SYSDATE, #{startDate}, #{endDate}, #{hitCount}
 			)
-	</insert>
+	</insert> 
 
 	<!-- 검색 -->
 	<sql id="where-list">

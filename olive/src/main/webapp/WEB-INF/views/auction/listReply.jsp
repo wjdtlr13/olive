@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
  
 <table class='table reply-list'>
-	<thead id='listReplyHeader'>
+	<thead id='listReplyHeader'> 
 		<tr>
 		    <td colspan='2'>
 		       <div style='clear: both;'>

@@ -15,7 +15,7 @@ public class Junggo {
 	private int categoryNum;
 	private String categoryName;
 	
-	private int replyCount;
+	private int replyCount; 
 	private int junggoLikeCount;
 	
 	private String imageFileName;

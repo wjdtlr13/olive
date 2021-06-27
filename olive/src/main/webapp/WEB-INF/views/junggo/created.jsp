@@ -6,7 +6,7 @@
 <style type="text/css">
 .ck.ck-editor {
 	max-width: 97%;
-}
+} 
 .ck-editor__editable {
 	min-height: 250px;
 }

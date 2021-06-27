@@ -13,7 +13,7 @@ public interface JunggoService {
 	public Junggo nextReadJunggo(Map<String, Object> map);
 	public void updateJunggo(Junggo dto, String pathname) throws Exception;
 	public void deleteJunggo(int num, String pathname, String userId) throws Exception;
-	
+	 
 	public List<Junggo> listCategory();
 	
 	public void insertJunggoLike(Map<String, Object> map) throws Exception;

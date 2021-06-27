@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
  
-<c:forEach var="vo" items="${listReplyAnswer}">
+<c:forEach var="vo" items="${listReplyAnswer}"> 
 	<div class='answer' style='padding: 0 10px;'>
 		<div style='clear:both; padding: 10px 0;'>
 			<div style='float: left; width: 5%;'>└</div>

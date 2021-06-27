@@ -452,7 +452,7 @@ $("#auctionList").click(function(){
 function auctionAttend() {
 	const userId = document.getElementById(b333).value;
 	
-}
+} 
 
 </script>
 

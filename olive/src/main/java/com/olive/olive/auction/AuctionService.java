@@ -13,7 +13,7 @@ public interface AuctionService {
 	public Auction nextReadAuction(Map<String, Object> map);
 	public void updateAuction(Auction dto, String pathname) throws Exception;
 	public void deleteAuction(int num, String pathname, String userId) throws Exception;
-	 
+	  
 	public void insertAuctionLike(Map<String, Object> map) throws Exception;
 	public int auctionLikeCount(int num);
 	

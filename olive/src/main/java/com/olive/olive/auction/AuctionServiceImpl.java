@@ -10,7 +10,7 @@ import com.olive.olive.common.dao.CommonDAO;
 
 @Service("auction.auctionService")
 public class AuctionServiceImpl implements AuctionService{
-	@Autowired
+	@Autowired 
 	private CommonDAO dao;
 
 	@Override

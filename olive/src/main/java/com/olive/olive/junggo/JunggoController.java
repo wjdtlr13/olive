@@ -27,7 +27,7 @@ public class JunggoController {
 	@Autowired
 	private JunggoService service;
 	@Autowired
-	private MyUtil myUtil;
+	private MyUtil myUtil; 
 	
 	@RequestMapping(value="list")
 	public String list(

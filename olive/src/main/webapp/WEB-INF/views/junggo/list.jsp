@@ -6,7 +6,7 @@
 <style type="text/css">
 *{
 	font-size: 18px;
-}
+}  
 .table-content tr {
 	text-align: center;
 }

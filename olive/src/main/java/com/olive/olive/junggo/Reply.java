@@ -11,7 +11,7 @@ public class Reply {
 	
 	private int answerCount;
 	private int likeCount;
-	private int dislikeCount;
+	private int dislikeCount; 
 	
 	public int getReplyNum() {
 		return replyNum;
