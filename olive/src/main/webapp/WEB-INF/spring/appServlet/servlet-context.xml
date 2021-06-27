@@ -65,6 +65,7 @@
             <exclude-mapping path="/covid"/>            
             <exclude-mapping path="/resources/**"/>
             <exclude-mapping path="/uploads/photo/**"/>
+            <exclude-mapping path="/uploads/jimage/**"/>            
             <exclude-mapping path="/member/login"/>
             <exclude-mapping path="/member/logout"/>
             <exclude-mapping path="/member/member"/>

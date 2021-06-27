@@ -7,9 +7,10 @@
 .ck.ck-editor__editable_inline, .ck.ck-toolbar {
 	border: none;
 } 
-.body-title{
-    margin-top: 200px;
-    border-bottom-width: 0px;
+.div-title{
+  font-size: 27px;
+  font-weight: 800;
+  margin-bottom: 30px;
 }
 .table-content tr > td {
 	padding-left: 5px; padding-right: 5px;
@@ -25,9 +26,7 @@
 .reply .reply-list tbody tr td {
 	padding: 7px 5px;
 }
-.body-title{
-	
-}
+
 </style>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/build/ckeditor.js"></script>
@@ -270,13 +269,13 @@ $(function(){
 });
 </script>
 
-<div class="container body-container">
-    <div class="body-title" style="margin-top: 200px;border-bottom-width: 0px;">
+<div style="width: 65%; margin: auto;">
+    <div class="div-title" style="margin-top: 120px;">
         <span>주고받는 올리브</span>
     </div>
     
     <div class="body-main">
-    	<table class="table table-border table-content">
+    	<table class="table table-content">
     	
     		<!-- 작성 글 보기 -->
     		<tr>
@@ -290,7 +289,7 @@ $(function(){
 					작성자 : ${dto.userName}
 				</td>
 				<td width="50%" align="right">
-					${dto.price}
+					가격 : ${dto.price}원
 				</td>
 			</tr>
 			

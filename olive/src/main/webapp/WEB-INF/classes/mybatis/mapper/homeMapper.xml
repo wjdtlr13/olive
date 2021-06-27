@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="home">
+
+	<select id="listJunggo"  resultType="com.olive.olive.junggo.Junggo">
+		SELECT  subject, content, price, created
+		FROM junggo j
+		JOIN member1 m ON j.userId=m.userId
+		ORDER BY num DESC
+		OFFSET 0 ROWS FETCH FIRST 5 ROWS ONLY
+	</select>
+	
+</mapper>
