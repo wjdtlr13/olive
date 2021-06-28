@@ -117,6 +117,33 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
+	<select id="listRegister" parameterType="Map" resultType="com.olive.olive.mate.Register">
+		select mate_reg_num, mate_regi_num, m.userId userId, nickName, r.categoryNum, categoryName,
+		eating_name, eating_address, eating_date, reg_date
+		from mate_register r
+		JOIN mate m on r.mate_regi_num = m.num
+		JOIN eating_category e on r.categoryNum = e.num
+        JOIN member1 mem on m.userId = mem.userId
+		WHERE TO_DATE(eating_date, 'yyyy-mm-dd')&gt;=sysdate
+			AND mate_req_num is null
+			AND m.userId != #{userId}
+		ORDER BY mate_reg_num DESC 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
+	
+	<select id="listRequest" parameterType="Map" resultType="com.olive.olive.mate.Request">
+		select 
+		q.mate_req_num, reg_num mate_reg_num, mate_num, nickName, req_date, req_tf
+		eating_name, eating_date
+		from mate_request q
+		JOIN mate m on q.mate_num = m.num
+		JOIN member1 mem on m.userId = mem.userId
+		JOIN mate_register r on q.reg_num = r.mate_reg_num
+		WHERE TO_DATE(eating_date, 'yyyy-mm-dd')&gt;=sysdate
+			AND m.userId=#{userId}
+		ORDER BY mate_reg_num DESC 
+		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
+	</select>
 	
 	
 	<select id="readMate_Register" parameterType="Integer" resultType="com.olive.olive.mate.Register">

@@ -1,5 +1,6 @@
-header {
+.header {
   background: rgb(103,98,23);
+  text-align: -webkit-center;
 }
 
 .modal-header .header {

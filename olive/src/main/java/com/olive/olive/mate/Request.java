@@ -6,10 +6,14 @@ public class Request {
 	private int mate_num;
 	private String req_date;
 	private int req_tf;
+	private int listNum;
 	private String nickName;
 	private String eating_name;
 	private String eating_address;
 	private String eating_date;
+	private String mate_introduce;
+	private String mate_kind;
+	private String mate_etc;
 	public int getMate_req_num() {
 		return mate_req_num;
 	}
@@ -63,6 +67,30 @@ public class Request {
 	}
 	public void setEating_date(String eating_date) {
 		this.eating_date = eating_date;
+	}
+	public String getMate_introduce() {
+		return mate_introduce;
+	}
+	public void setMate_introduce(String mate_introduce) {
+		this.mate_introduce = mate_introduce;
+	}
+	public String getMate_kind() {
+		return mate_kind;
+	}
+	public void setMate_kind(String mate_kind) {
+		this.mate_kind = mate_kind;
+	}
+	public String getMate_etc() {
+		return mate_etc;
+	}
+	public void setMate_etc(String mate_etc) {
+		this.mate_etc = mate_etc;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
 	}
 	
 	

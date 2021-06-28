@@ -19,11 +19,18 @@ public interface MateService {
 	public List<Category> listCategory();
 	
 	public List<Register> listMyRegister(Map<String, Object> map);
+	public List<Register> listRegister(Map<String, Object> map);
+	public List<Request> listRequest(Map<String, Object> map);
+	
 	public Register readMate_Register(int num);
 	
 	public int updateMate_RegisterAccept(Map<String, Object> map) throws Exception;
 	
 	public int insertMate_Request(Request dto) throws Exception;
 	public int deleteMate_Request(int num) throws Exception;
+
+	
+
+	
 	
 }

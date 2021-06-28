@@ -52,3 +52,28 @@ textarea.form-control {
   margin-top: -55px;
 }
 
+
+.modal-body .row .col {
+  padding: 10px 20px;
+}
+
+.modal-body input {
+  width: 100%;
+  border: 3px solid #c0ca33;
+  padding: 0;
+}
+
+.modal-body textarea {
+  width: 100%;
+  border-width: 3px;
+  border-color: #c0ca33;
+  resize: none;
+  height: 100px;
+}
+
+.modal-header .mtitle p {
+  font-size: 25px;
+  margin: 10px;
+}
+
+

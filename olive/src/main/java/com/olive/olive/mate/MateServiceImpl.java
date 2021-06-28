@@ -147,6 +147,32 @@ public class MateServiceImpl implements MateService{
 		
 		return list;
 	}
+	
+	@Override
+	public List<Register> listRegister(Map<String, Object> map) {
+		List<Register> list = null;
+		
+		try {
+			list = dao.selectList("mate.listRegister", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public List<Request> listRequest(Map<String, Object> map) {
+		List<Request> list = null;
+		
+		try {
+			list = dao.selectList("mate.listRequest", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
 
 	@Override
 	public Register readMate_Register(int num) {
