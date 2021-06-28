@@ -77,22 +77,15 @@
 	padding-top: 10px;
 }
 
-.body-title {
-    color: #424951;
+.div-title span {
     padding-top: 10px;
-    padding-bottom: 5px;
-    margin: 0 0 25px 0;
-    border-bottom: 1px solid #ddd;
+    font-size: 27px;
+    font-weight: 800;
 }
-.body-title h2 {
-    font-size: 23px;
-    min-width: 300px;
-    font-weight: bold;
-    margin: 0 0 -5px 0;
-    padding-bottom: 5px;
-    display: inline-block;
-    border-bottom: 3px solid #424951;
-    
+.div-title{
+	border-bottom: 1px solid black;
+    padding-bottom: 20px;
+	margin-bottom: 30px;
 }
 .table-content tr > td:nth-child(1) {
 	background-color: #afb42b;
@@ -125,8 +118,8 @@
 </script>
 
 
-<div class="container body-container">
-	<div class="body-title">
+<div class="container body-container" style="margin-top: 100px;">
+	<div class="div-title">
 		<span> 주고받는 올리브 </span>
 	</div>
 	

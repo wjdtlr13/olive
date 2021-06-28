@@ -19,6 +19,11 @@
 .reply .reply-list tbody tr td {
 	padding: 7px 5px;
 }
+.div-title{
+	font-size: 27px;
+	font-weight: 800;
+	margin-bottom: 20px;
+}
 </style>
 
 <script type="text/javascript">
@@ -292,9 +297,9 @@ $(function(){
 });
 </script>
 
-<div class="container body-container">
-    <div class="body-title">
-        <h2> 게시판 </h2>
+<div class="container body-container" style="margin-top: 100px;">
+    <div class="div-title">
+        <span>자유 게시판</span>
     </div>
     
     <div class="body-main wx-700 ml-30 pt-15">

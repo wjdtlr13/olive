@@ -15,6 +15,10 @@
 .table-content input[type=text], .table-content input[type=file], .table-content textarea {
 	width: 97%;
 }
+.body-title span{
+	font-size: 27px;
+	font-weight: 800;
+}
 </style>
 
 <script type="text/javascript">
@@ -41,9 +45,9 @@
     }
 </script>
 
-<div class="container body-container">
+<div class="container body-container" style="margin-top: 100px;">
 	<div class="body-title">
-		<h2><i class="icofont-google-talk"></i> 게시판 </h2>
+		<span><i class="icofont-google-talk"></i>자유 게시판 </span>
 	</div>
     
 	<div class="body-main wx-700 ml-30 pt-15">
