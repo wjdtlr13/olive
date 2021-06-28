@@ -102,7 +102,7 @@
 		ORDER BY mate_reg_num DESC 
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
-	
+	 
 	<select id="listRegister_matched" parameterType="Map" resultType="com.olive.olive.mate.Register">
 		select mate_reg_num, mate_regi_num, m.userId userId, nickName, r.categoryNum, categoryName,
 		eating_name, eating_address, eating_date, reg_date
