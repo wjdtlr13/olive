@@ -155,16 +155,25 @@
 		r.mate_req_num, req.userId req_userId, mem2.nickName req_nickName, req.mate_introduce req_introduce, req.mate_kind 
 		req_kind, req.mate_etc req_etc from mate_register r 
 		JOIN mate reg on r.mate_regi_num = reg.num 
-		LEFT OUTER JOIN mate req on r.mate_req_num = req.num 
+		LEFT OUTER JOIN mate_request q on r.mate_req_num = q.mate_req_num
+        LEFT OUTER JOIN mate req on q.mate_num = req.num
 		JOIN member1 mem1 on reg.userId = mem1.userId 
 		LEFT OUTER JOIN member1 mem2 on req.userId = mem2.userId 
 		JOIN eating_category e on r.categoryNum = e.num 
 		where mate_reg_num = ${mate_reg_num}
 	</select>
 	
+	<select id="readItsRequest" parameterType="Integer" resultType="com.olive.olive.mate.Request">
+		select mate_req_num, nickName, req_date, mate_introduce, mate_kind, mate_etc
+		from mate_request q
+		JOIN mate m on q.mate_num = m.num
+		JOIN member1 mem on m.userId = mem.userId
+		where reg_num=${reg_num} and req_tf=0
+	</select>
+	
 	<update id="updateMate_RegisterAccept" parameterType="Map">
 		update mate_register set mate_req_num = #{mate_req_num}, mate_date = sysdate
-		where mate_reg_num = #{mate_reg_num}
+		where mate_reg_num = #{reg_num}
 	</update>
 	
 	<insert id="insertMate_Request" parameterType="com.olive.olive.mate.Request">
@@ -175,16 +184,17 @@
 		delete from mate_request where mate_req_num = #{mate_req_num}
 	</delete>
 	
-	<update id="updateMate_RequestExcept" parameterType="Integer">
-		update mate_reqeust set accept=-1 where reg_num = #{reg_num}
+	<update id="updateMate_RequestExcept" parameterType="Map">
+		update mate_request set req_tf=-1 where reg_num = #{reg_num}
+		AND mate_req_num != #{mate_req_num}
 	</update>
 	
 	<update id="updateMate_RequestAccept" parameterType="Integer">
-		update mate_request set accept=1 where mate_req_num = #{mate_req_num}
+		update mate_request set req_tf=-1 where mate_req_num = #{mate_req_num}
 	</update>
 	
 	<update id="updateMate_RequestDeny" parameterType="Integer">
-		update mate_request set accept=-1 where mate_req_num = #{mate_req_num}
+		update mate_request set req_tf=-1; where mate_req_num = #{mate_req_num}
 	</update>
 	
 	

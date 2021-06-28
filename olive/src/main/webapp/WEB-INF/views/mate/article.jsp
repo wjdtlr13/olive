@@ -66,6 +66,28 @@
 			$('#listRequest').show();
 		})
 
+		if ('${mode}' == 'mine' || '${readMode}' == 'matched') {
+			$('form[name=requestForm]').find('textarea[name=mate_introduce]')
+					.attr("readonly", true);
+			$('form[name=requestForm]').find('textarea[name=mate_kind]').attr(
+					"readonly", true);
+			$('form[name=requestForm]').find('textarea[name=mate_etc]').attr(
+					"readonly", true);
+			console.log('${dto.req_introduce}');
+		}
+
+		if ('${readMode}' == 'matched') {
+			$('form[name=requestForm]').find('textarea[name=mate_introduce]')
+					.text('${dto.req_introduce}');
+			$('form[name=requestForm]').find('textarea[name=mate_kind]').text(
+					'${dto.req_kind}');
+			$('form[name=requestForm]').find('textarea[name=mate_etc]').text(
+					'${dto.req_etc}');
+			$('form[name=requestForm]').find('.nickName').text(
+					'${dto.req_nickName}');
+		}
+		;
+
 		$(document)
 				.on(
 						'click',
@@ -79,50 +101,68 @@
 									'input[name=mate_etc]').val();
 							var nName = $(this).closest('tr').find(
 									'input[name=nickName]').val();
+							var mate_req_num = $(this).closest('tr').find(
+									'input[name=mate_req_num]').val();
 
-							$('#contentModal').find('.nickName').text(nName);
-							$('#contentModal').find('textarea[name=introduce]')
-									.text(kind);
-							$('#contentModal').find('textarea[name=kind]')
-									.text(kind);
-							$('#contentModal').find('textarea[name=nName]')
-									.text(nName);
+							console.log(introduce);
+
+							$('form[name=requestForm]').find('.nickName').text(
+									nName);
+							$('form[name=requestForm]').find(
+									'textarea[name=mate_introduce]').text(
+									introduce);
+							$('form[name=requestForm]').find(
+									'textarea[name=mate_kind]').text(kind);
+							$('form[name=requestForm]').find(
+									'textarea[name=mate_etc]').text(etc);
+							$('form[name=requestForm]').find(
+									'input[name=mate_req_num]').val(
+									mate_req_num);
 						})
 	});
-	
+
 	function listRequest() {
 		if ('${mode}' != 'mine')
 			return;
-		var regNum = "$(dto.mate_reg_num)";
-		var url = "${pageContext.request.contextPath}/mate/listItsRequest";
+		var regNum = "${dto.mate_reg_num}";
+		var url = "${pageContext.request.contextPath}/mate/readItsRequest";
 		var query = "reg_num=" + regNum;
 
 		var fn = function(data) {
+			if (data.list.length == 0) {
+				$('#myInfo').hide();
+				$('#listRequest').hide();
+			}
+
+			$('#requestCount').text(data.list.length);
 
 			for (var idx = 0; idx < data.list.length; idx++) {
-				var out = "";
+				var item = "";
 
 				var listNum = data.list[idx].listNum;
 				var mate_req_num = data.list[idx].mate_req_num;
 				var nickName = data.list[idx].nickName;
 				var req_date = data.list[idx].req_date;
 				var mate_introduce = data.list[idx].mate_introduce;
+
 				var mate_kind = data.list[idx].mate_kind;
 				var mate_etc = data.list[idx].mate_etc;
 
-				item += "<tr><td>" + listNum + "</td><td>" + nickName
-						+ "</td><td>" + req_date + "</td>"
+				item += "<tr><td>" + nickName + "</td><td>" + req_date
+						+ "</td>"
 				item += '<td><button class="btn btnModal" data-toggle="modal"data-target="#contentModal">확인</button></td>';
-				item += '<td><input type="hidden" name="mate_introduce" val="'+mate_introduce+'">';
-				item += '<input type="hidden" name="mate_kind" val="'+mate_kind+'">';
-				item += '<input type="hidden" name="mate_etc" val="'+mate_etc+'">';
-				item += '<input type="hidden" name="nickName" val="'+nickName+'"></td></tr>';
+				item += '<td><input type="hidden" name="mate_introduce" value="'+mate_introduce+'">';
+				item += '<input type="hidden" name="mate_kind" value="'+mate_kind+'">';
+				item += '<input type="hidden" name="mate_etc" value="'+mate_etc+'">';
+				item += '<input type="hidden" name="mate_req_num" value="'+mate_req_num+'">';
+				item += '<input type="hidden" name="nickName" value="'+nickName+'"></td></tr>';
 			}
-			$('tbody').append(item);
+			$('.listBody').append(item);
 		};
-		ajaxFun(url, "post", query, "html", fn);
+
+		ajaxFun(url, "post", query, "json", fn);
 	}
-	
+
 	listRequest();
 </script>
 </head>
@@ -130,7 +170,7 @@
 
 <div class="col">
 	<p>현재는 약속을 삭제해야 식당 재선택이 가능합니다.</p>
-	
+
 </div>
 <div class="col">
 	<div class="row">
@@ -156,11 +196,16 @@
 		<div class="col-lg-6">
 			<p style="text-align: right;">
 				<c:choose>
+					<c:when test="${readMode == 'matched' }">
+						<button class="btn" data-toggle="modal"
+							data-target="#contentModal">메이트 정보보기 &gt;</button>
+					</c:when>
 					<c:when test="${mode == 'mine' }">
 						<button class="btn" id="myInfo" type="button"
 							style="display: none;">내 정보 보기</button>
-						<button class="btn" id="listRequest" type="button">메이트
-							요청이 3개 있습니다 &gt;</button>
+						<button class="btn" id="listRequest" type="button">
+							메이트 요청이 <span id="requestCount"></span>개 있습니다 &gt;
+						</button>
 						<input id="input1" type="hidden" value="내 정보 보기">
 						<input id="input2" type="hidden">
 					</c:when>
@@ -201,7 +246,7 @@
 					<textarea name="mate_kind" class="form-control" readonly>${dto.reg_kind }</textarea>
 				</div>
 				<div class="col">
-					<p class="read">${dto.reg_nickName }님이 하고 싶은 말</p>
+					<p class="read">${dto.reg_nickName }님이하고 싶은 말</p>
 					<p class="change" style="display: none;">기타 하고픈 말을 적어주세요</p>
 					<textarea name="mate_etc" class="form-control" readonly>${dto.reg_etc }</textarea>
 					<input type="hidden" name="userId" value="${dto.reg_userId }">
@@ -220,12 +265,11 @@
 			<table class="table table-striped table-hover" style="display: none;">
 				<thead>
 					<tr>
-						<th width="15%">번호</th>
 						<th width="25%">닉네임</th>
 						<th>등록일</th>
 						<th width="20%">확인하기</th>
 				</thead>
-				<tbody>
+				<tbody class="listBody">
 				</tbody>
 			</table>
 		</div>
@@ -244,7 +288,7 @@
 						<c:otherwise>
 							메이트 신청하기
 						</c:otherwise>
-						</c:choose>
+					</c:choose>
 				</h4>
 				<button type="button" class="close" data-dismiss="modal"
 					aria-label="Close">
@@ -263,8 +307,8 @@
 									자기소개를 적어주세요
 								</c:otherwise>
 								</c:choose></td>
-							<td valign="top"><textarea name="mate_introduce" class="boxTA"></textarea>
-							</td>
+							<td valign="top"><textarea name="mate_introduce"
+									class="boxTA"></textarea></td>
 						</tr>
 						<tr>
 							<td valign="top" width="40%"><c:choose>
@@ -289,33 +333,35 @@
 								</c:choose></td>
 							<td valign="top"><textarea name="mate_etc" class="boxTA"></textarea>
 							</td>
-							<td>
-								<input type="hidden" name="reg_num" value="${dto.mate_reg_num }">
-							</td>
+							<td><input type="hidden" name="reg_num"
+								value="${dto.mate_reg_num }"> <input type="hidden"
+								name="mate_req_num" value=0></td>
 						</tr>
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-dark btnSendOk">
-						<c:choose>
-						<c:when test="${mode == 'mine' }">
+					<c:if test="${readMode != 'matched' }">
+						<button type="button" class="btn btn-dark btnSendOk">
+							<c:choose>
+								<c:when test="${mode == 'mine' }">
 							함께먹기
 						</c:when>
-						<c:otherwise>
+								<c:otherwise>
 							신청하기
 						</c:otherwise>
-						</c:choose>
-					</button>
-					<button type="button" class="btn btnSendCancel">
-						<c:choose>
-						<c:when test="${mode == 'mine' }">
+							</c:choose>
+						</button>
+						<button type="button" class="btn btnSendCancel">
+							<c:choose>
+								<c:when test="${mode == 'mine' }">
 							거절하기
 						</c:when>
-						<c:otherwise>
+								<c:otherwise>
 							취소하기
 						</c:otherwise>
-						</c:choose>
-					</button>
+							</c:choose>
+						</button>
+					</c:if>
 				</div>
 			</form>
 		</div>
@@ -356,12 +402,15 @@
 	};
 
 	displayStaticMap("${dto.eating_address}");
-	
-	$(function(){
-		$('.btnSendOk').click(function(){
+
+	$(function() {
+		$('.btnSendOk').click(function() {
 			var url;
-			if('${mode}' == 'mine') {url = '${pageContext.request.contextPath}/mate/requestAccept'; }
-			else if('${mode}' == 'available') {url =  '${pageContext.request.contextPath}/mate/insertRequest'; }
+			if ('${mode}' == 'mine') {
+				url = '${pageContext.request.contextPath}/mate/requestAccept';
+			} else if ('${mode}' == 'available') {
+				url = '${pageContext.request.contextPath}/mate/insertRequest';
+			}
 			var f = document.requestForm;
 			f.action = url;
 			f.submit();

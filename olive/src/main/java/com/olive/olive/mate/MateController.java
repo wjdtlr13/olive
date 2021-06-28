@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.olive.olive.common.MyUtil;
 import com.olive.olive.member.SessionInfo;
@@ -25,7 +26,6 @@ public class MateController {
 	
 	@Autowired
 	private MateService service;
-	
 	@Autowired
 	private MyUtil myUtil;
 	
@@ -106,7 +106,7 @@ public class MateController {
 			register.setMate_regi_num(mateNum);
 			try {
 				service.insertMate_Register(register);
-				return "/mate/success";
+				return  "redirect:/mate/registerList?mode=upcoming";
 			} catch (Exception e) {
 				service.deleteMate(mateNum);
 				e.printStackTrace();
@@ -401,5 +401,44 @@ public class MateController {
 		
 		return "redirect:/mate/requestList";
 	}
+	
+	@RequestMapping("readItsRequest")
+	@ResponseBody
+	public Map<String, Object> readItsRequest(
+			@RequestParam int reg_num) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Request> list = null;
+		try {
+			list = service.readItsRequest(reg_num);
+		} catch (Exception e) {
+			map.put("status", false);
+		}
+		map.put("list", list);
+		map.put("status", true);
+		
+		return map;
+	}
+	
+	@RequestMapping("requestAccept")
+	public String requestAccept(
+			@RequestParam int mate_req_num,
+			@RequestParam int reg_num) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("mate_req_num", mate_req_num);
+		map.put("reg_num", reg_num);
+		
+		try {
+			service.updateMate_RequestAccept(mate_req_num);
+			service.updateMate_RequestExcept(map);
+			
+			service.updateMate_RegisterAccept(map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "/mate/failure";
+		}
+		return  "redirect:/mate/registerList?mode=matched";
+	}
+	
 	
 }

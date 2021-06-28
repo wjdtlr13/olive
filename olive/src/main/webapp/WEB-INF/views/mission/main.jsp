@@ -138,7 +138,9 @@
 		//if(page==1) {
 		//	$(".my-content").empty();
 		//}
-
+		console.log(data);
+		console.log(data.list);
+		
 		for (var idx = 0; idx < data.list.length; idx++) {
 			var out = "";
 

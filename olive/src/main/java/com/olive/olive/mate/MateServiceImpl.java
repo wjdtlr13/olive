@@ -199,6 +199,48 @@ public class MateServiceImpl implements MateService{
 		
 		return result;
 	}
+	
+	@Override
+	public int updateMate_RequestExcept(Map<String, Object> map) throws Exception {
+		int result = 0;
+		
+		try {
+			result = dao.updateData("mate.updateMate_RequestExcept", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int updateMate_RequestAccept(int mate_req_num) throws Exception {
+		int result = 0;
+		
+		try {
+			result = dao.updateData("mate.updateMate_RequestAccept", mate_req_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int updateMate_RequestDeny(int mate_req_num) throws Exception {
+		int result = 0;
+		
+		try {
+			result = dao.updateData("mate.updateMate_RequestDeny", mate_req_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return result;
+	}
 
 	@Override
 	public int insertMate_Request(Request dto) throws Exception {
@@ -226,6 +268,20 @@ public class MateServiceImpl implements MateService{
 		}
 		
 		return result;
+	}
+	
+	@Override
+	public List<Request> readItsRequest(int reg_num) throws Exception{
+		List<Request> list = null;
+		
+		try {
+			list = dao.selectList("mate.readItsRequest", reg_num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		
+		return list;
 	}
 
 }

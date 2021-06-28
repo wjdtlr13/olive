@@ -33,8 +33,7 @@
 	<h1 style="color: rgb(224, 224, 224);">
 		<strong>올리브의 밥친구</strong>
 	</h1>
-	<p style="color: #e6ee9c; font-size: 20px;">어떠한 색깔도 자유롭게 칠할 수 있는
-		여기는 형형색깔 올리브입니다</p>
+	<p style="color: #e6ee9c; font-size: 20px;">이젠 혼밥하지 마세요. 올리브 얼론이 도와드릴게요</p>
 
 </div>
 
