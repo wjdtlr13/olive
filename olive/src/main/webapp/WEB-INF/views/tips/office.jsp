@@ -199,7 +199,7 @@
 	
 }
 .map_wrap {
-    margin-bottom: 200px;
+    margin-bottom: 150px;
 
 }
 
