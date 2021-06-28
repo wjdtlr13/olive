@@ -61,15 +61,15 @@
 	</select>
 	
 	<select id="readJunggo" parameterType="Integer" resultType="com.olive.olive.junggo.Junggo">
-		SELECT j.num, j.userId, userName, j.categoryNum, subject, price, content,
+		SELECT j.num, j.userId, userName, categoryName, subject, price, content,
 			hitCount, j.created, NVL(junggoLikeCount, 0) junggoLikeCount
 		FROM junggo j
 		JOIN member1 m ON j.userId=m.userId
-		JOIN junggoCategory c ON j.categoryNum = c.categoryNum
+		JOIN junggoCategory jc ON j.categoryNum = jc.categoryNum
 		LEFT OUTER JOIN (
 			SELECT num, COUNT(*) junggoLikeCount FROM junggoLike
 			GROUP BY num
-		) jc ON j.num = jc.num
+		) c ON j.num = c.num
 		WHERE j.num = #{num} 
 	</select>
 	
@@ -143,6 +143,7 @@
 			SELECT answer, COUNT(*) answerCount
 			FROM junggoReply WHERE answer !=0 GROUP BY answer
 		) a ON r.replyNum = a.answer
+		WHERE num=#{num}  AND r.answer=0
 		ORDER BY r.replyNum DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
