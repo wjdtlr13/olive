@@ -4,8 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="navbar fixed-top">
-	<div class="container flex-center">
+	<div class="container flex-center"><%-- 
 		<a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/img/mainLogo.png" width="160px;" height="100px;"></a><img src="${pageContext.request.contextPath}/resources/img/mainLogo2.png" width="46px;" height="48px;">
+	 --%>	<a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/img/mainLogoNew.png" width="200px;" height="100px;"></a><img src="${pageContext.request.contextPath}/resources/img/mainLogo2.png" width="46px;" height="48px;">
 		<nav class="nav-menu">
 			<ul>
 				<li class="dropdown">
