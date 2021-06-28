@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/article.css">
 <style type="text/css">
 .table-content tr > td {
 	padding-left: 5px; padding-right: 5px;
@@ -293,35 +294,37 @@ $(function(){
 
 <div class="container body-container">
     <div class="body-title">
-        <h2><i class="icofont-google-talk"></i> 게시판 </h2>
+        <h2> 게시판 </h2>
     </div>
     
     <div class="body-main wx-700 ml-30 pt-15">
 		<table class="table table-border table-content">
 			<tr>
-				<td colspan="2" align="center">
-					${dto.subject}
-				</td>
-			</tr>
-			
-			<tr>
-				<td width="50%" align="left">
+				<td width="50%" align="left" class="content-header">
 					이름 : ${dto.nickName}
 				</td>
-				<td width="50%" align="right">
+				<td width="50%" align="right" class="content-header">
 					${dto.created} | 조회 ${dto.hitCount}
 				</td>
 			</tr>
 			
+			<tr>
+				<td colspan="2" align="center" class="content-title" style="padding: 24px">
+					<strong>${dto.subject}</strong>
+				</td>
+			</tr>
+			
+			
+			
 			<tr style="border: none;">
-				<td colspan="2" valign="top" height="200">
+				<td colspan="2" valign="top" height="200"  class="content-body" style="padding: 36px">
 					${dto.content}
 				</td>
 			</tr>
 			
 			<tr>
 				<td colspan="2" style="padding-bottom: 15px;" align="center">
-					<button type="button" class="btn btnSendBoardLike" title="좋아요"><i class="icofont-like"></i>&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></button>
+					<button type="button" class="btn btnSendBoardLike" title="좋아요"><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;<span id="boardLikeCount">${dto.boardLikeCount}</span></button>
 				</td>
 			</tr>
 			

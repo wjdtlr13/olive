@@ -145,10 +145,13 @@ public class FreeController {
 		
 		String root=session.getServletContext().getRealPath("/");
 		String pathname=root+"uploads"+File.separator+"free";
-		
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			dto.setUserId(info.getUserId());
 			service.insertFree(dto, pathname);
+			map.put("userId", info.getUserId());
+			map.put("point", 3);
+			service.updatePoint(map);
 		} catch (Exception e) {
 		}
 		
@@ -402,10 +405,14 @@ public class FreeController {
 			) {
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		String state="true";
-		
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			dto.setUserId(info.getUserId());
 			service.insertReply(dto);
+			
+			map.put("userId", info.getUserId());
+			map.put("point", 1);
+			service.updatePoint(map);
 		} catch (Exception e) {
 			state="false";
 		}
