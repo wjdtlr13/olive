@@ -8,8 +8,8 @@
 
 
 	<insert id="insertWisdom" parameterType="com.olive.olive.wisdom.tree.Tree">
-		insert into wisdom(num, userId, subject, imageFilename, content, created)
-			values(#{num},#{userId},#{subject},#{imageFilename},#{content},#{created})
+		insert into wisdom(num, userId, subject, imageFilename, content, created, categoryNum)
+			values(#{num},#{userId},#{subject},#{imageFilename},#{content},sysdate,#{categoryNum})
 	</insert>
 
 
@@ -37,7 +37,6 @@
 	<select id="listCategory" resultType="com.olive.olive.wisdom.tree.Category">
 		SELECT *
 		FROM wisdomCategory
-		order by categoryNum desc
 	</select>	
 	
 	<!-- 리스트에 뿌릴 데이터 개수 -->
@@ -57,15 +56,21 @@
 	
 	<!-- 게시판 리스트 -->
 	<select id="listWisdom" parameterType="map" resultType="com.olive.olive.wisdom.tree.Tree">
-		select w.num,w.userId, subject, imageFileName,categoryNum
+		select w.num,nickName, subject, imageFileName,categoryNum,hitCount,NVL(articleLikeCount, 0) articleLikeCount,
+		to_char(created,'YYYY-MM-DD') created
 		from wisdom w
+		join member1 m on w.userId=m.userId
+		left outer join(
+			SELECT num, COUNT(*) articleLikeCount FROM WisdomLike 
+			GROUP BY num
+		) a ON w.num = a.num		
 		left outer join (
 		    select imageNum,num,imageFileName from(
 		        select imageNum,num,imageFileName,
 		        row_number() over(partition by num order by imageNum asc) rank
 		    from WisdomImage
 		    )where rank=1
-		) i on w.num=i.num		
+		) i on w.num=i.num	
 		<where>
 			<if test="keyword != null and keyword != ''">
 				<include refid="where-list"/>
@@ -99,12 +104,24 @@
 			values(WisdomImage_seq.nextval, #{num},#{imageFileName})
 	</insert>
 	
-	<!-- 이미지 읽어오기 -->
+	<!-- 이미지 list -->
 	<select id="listImg" parameterType="Integer" resultType="com.olive.olive.wisdom.tree.Tree">
 		select imageNum, num, imageFileName
 		from wisdomImage
-		where imageNum=#{imageNum}
+		where num=#{num}
 	</select>
+	
+	<!-- 이미지read -->
+	<select id="readImg" parameterType="Integer" resultType="com.olive.olive.wisdom.tree.Tree">
+		select imageNum, num, imageFileName
+		from wisdomImage
+		where num=#{num}
+	</select>
+	
+	<!--이미지 삭제 -->
+	<delete id="deleteImg" parameterType="map">
+		delete from wisdomImage where ${num} = #{num}
+	</delete>
 	
 	
 	<!-- 게시글 좋아요 추가 -->
