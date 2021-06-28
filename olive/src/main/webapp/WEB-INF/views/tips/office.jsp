@@ -198,6 +198,10 @@
     margin-bottom: 40px;
 	
 }
+.map_wrap {
+    margin-bottom: 150px;
+
+}
 
 </style>
 </head>
