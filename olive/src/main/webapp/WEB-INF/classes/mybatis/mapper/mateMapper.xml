@@ -131,16 +131,20 @@
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
-	<select id="listRequest" parameterType="Map" resultType="com.olive.olive.mate.Request">
-		select 
-		q.mate_req_num, reg_num mate_reg_num, mate_num, nickName, req_date, req_tf
-		eating_name, eating_date
-		from mate_request q
-		JOIN mate m on q.mate_num = m.num
-		JOIN member1 mem on m.userId = mem.userId
-		JOIN mate_register r on q.reg_num = r.mate_reg_num
+	<select id="listRequest" parameterType="Map" resultType="com.olive.olive.mate.Register">
+		select r.mate_reg_num, mate_regi_num, m.userId userId, nickName, r.categoryNum, categoryName,
+		eating_name, eating_address, eating_date, q.req_date reg_date
+		from mate_register r
+		JOIN mate_request q on r.mate_req_num = q.mate_req_num
+		JOIN mate m on q.mate_req_num = m.num
+		JOIN eating_category e on r.categoryNum = e.num
+        JOIN member1 mem on m.userId = mem.userId
 		WHERE TO_DATE(eating_date, 'yyyy-mm-dd')&gt;=sysdate
-			AND m.userId=#{userId}
+			AND r.mate_req_num in 
+				(select mate_req_num
+			 	from mate_request q 
+			 	join mate m on q.mate_num = m.num
+				 where m.userId = ${userId})
 		ORDER BY mate_reg_num DESC 
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>

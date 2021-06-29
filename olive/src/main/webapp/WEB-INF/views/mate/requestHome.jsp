@@ -15,7 +15,7 @@
             <div class="row" style="width: 50%;">
                 <div class="col d-flex justify-content-around">
 	                <button class="btn btn-success" onclick="location.href='${pageContext.request.contextPath}/mate/registerList?mode=available'" type="button" style="font-size: 1.5rem;background: rgb(114,137,61);border-style: none;padding: 12px;border-radius: 12px;">약속 참여하기</button>
-	                <button class="btn btn-success" onclick="location.href='${pageContext.request.contextPath}/mate/requestList'" type="button" style="font-size: 1.5rem;background: rgb(114,137,61);border-style: none;padding: 12px;border-radius: 12px;">내 요청 보기</button>
+	                <button class="btn btn-success" onclick="location.href='${pageContext.request.contextPath}/mate/registerList?mode=request'" type="button" style="font-size: 1.5rem;background: rgb(114,137,61);border-style: none;padding: 12px;border-radius: 12px;">내 요청 보기</button>
                 </div>
             </div>
         </div>

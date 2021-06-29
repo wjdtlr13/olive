@@ -162,8 +162,8 @@ public class MateServiceImpl implements MateService{
 	}
 	
 	@Override
-	public List<Request> listRequest(Map<String, Object> map) {
-		List<Request> list = null;
+	public List<Register> listRequest(Map<String, Object> map) {
+		List<Register> list = null;
 		
 		try {
 			list = dao.selectList("mate.listRequest", map);
