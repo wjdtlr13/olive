@@ -359,7 +359,7 @@ $(function(){
 		<!-- 좋아요 -->
 			<tr>
 				<td style="padding-bottom: 15px;" align="right">
-					<button type="button" class="btn btnSendAuctionLike" title="좋아요"><i class="icofont-like"></i>&nbsp;&nbsp;<span id="auctionLikeCount">좋아요! ${dto.auctionLikeCount}</span></button>
+					<button type="button" class="btn btnSendAuctionLike" title="좋아요"><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;<span id="auctionLikeCount">좋아요! ${dto.auctionLikeCount}</span></button>
 				</td>
 				<td align="left">
 					<button type="button" id="auctionList" onclick="auctionAttend()"></button>
