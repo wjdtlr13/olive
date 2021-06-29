@@ -211,7 +211,7 @@ $(function(){
     		<!-- 좋아요 -->
     		<tr>
 				<td colspan="2" style="padding-bottom: 15px;" align="center">
-					<button type="button" class="btn btnSendWisdomLike" title="좋아요"><i class="icofont-like"></i>&nbsp;&nbsp;<span id="wisdomLikeCount">${dto.wisdomLikeCount}</span></button>
+					<button type="button" class="btn btnSendWisdomLike" title="좋아요"><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;<span id="wisdomLikeCount">${dto.wisdomLikeCount}</span></button>
 				</td>
 			</tr>
 		</table>
