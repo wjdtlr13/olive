@@ -198,7 +198,7 @@ function userIdCheck() {
 			<div class="form-group form-row">
 				<label class="col-sm-2 col-form-label" for="userPwd">패스워드</label>
 				<div class="col-sm-8">
-		            <input class="form-control" id="userPwd" name="userPwd" type="password" placeholder="패스워드">
+		            <input class="form-control" id="userPwd" name="pwd" type="password" placeholder="패스워드">
 		            <small class="form-text text-muted">패스워드는 5~10자이며 하나 이상의 숫자나 특수문자가 포함되어야 합니다.</small>
 		        </div>
 		    </div>
@@ -206,7 +206,7 @@ function userIdCheck() {
 		    <div class="form-group form-row">
 		        <label class="col-sm-2 col-form-label" for="userPwdCheck">패스워드 확인</label>
 		        <div class="col-sm-8">
-		            <input class="form-control" id="userPwdCheck" name="userPwdCheck" type="password" placeholder="패스워드 확인">
+		            <input class="form-control" id="userPwdCheck" name="pwdCheck" type="password" placeholder="패스워드 확인">
 		            <small class="form-text text-muted">패스워드를 한번 더 입력해주세요.</small>
 		        </div>
 		    </div>
