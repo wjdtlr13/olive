@@ -17,7 +17,7 @@ public interface TreeService {
 	public void updateWisdom(Tree dto, String pathname) throws Exception;
 	
 	public void deleteWisdom(int num, String pathname) throws Exception;
-	
+	 
 	public void insertImg(Tree dto) throws Exception;
 	public List<Tree> listImg(int num);
 	public Tree readImg(int imageNum);

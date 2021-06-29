@@ -30,7 +30,7 @@ public class TreeServiceImpl implements TreeService{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw e;
+			throw e; 
 
 		}
 		

@@ -21,7 +21,7 @@
 }
  
 .table-content tr > td:nth-child(1) {
-	width: 100px; 
+	width: 100px;
 	text-align: center;
 	background: #eee;
 }

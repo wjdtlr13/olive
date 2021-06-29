@@ -20,7 +20,7 @@ public class Tree {
 	private int replyCount;
 	
 	private int imageNum;
-	private String imageFileName;
+	private String imageFileName; 
 	private MultipartFile upload;
 	
 	private int articleLike; 

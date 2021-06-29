@@ -17,7 +17,7 @@
 	border: 1px solid #ccc;
 	border-radius:5px; 
 	width: 130px;		
-} 
+}
 
 .center {
 	clear: both; 

@@ -18,7 +18,7 @@
 			INSTR(subject, #{keyword}) &gt; 0
 		</if>
 		<if test="condition=='content'">
-			INSTR(content, #{keyword}) &gt; 0 
+			INSTR(content, #{keyword}) &gt; 0  
 		</if>
 		<if test="condition=='userName'">
 			userName=#{keyword}

@@ -37,7 +37,7 @@ public class TreeController {
 	private FileManager fileManager;
 	
 	
-	@RequestMapping("treeList")
+	@RequestMapping("treeList") 
 	public String listWisdom(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "all") String condition,

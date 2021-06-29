@@ -18,7 +18,7 @@ public class Reply {
 		this.replyNum = replyNum;
 	}
 
-	public int getNum() { 
+	public int getNum() {  
 		return num;
 	}
  

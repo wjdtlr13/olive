@@ -13,7 +13,7 @@
 	min-height: 700px;
 }
 .body-top-select1 {
-	height: 30px;
+	height: 30px; 
 	border: 1px solid #ccc;
 	border-radius:5px; 
 	width: 130px;		

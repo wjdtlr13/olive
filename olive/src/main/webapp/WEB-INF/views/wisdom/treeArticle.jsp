@@ -20,7 +20,7 @@
 	padding: 15px 0 10px;
 }
 .reply .table-reply tr td {
-	padding-top: 0; 
+	padding-top: 0;
 }
  
 .reply .reply-list tbody tr td {

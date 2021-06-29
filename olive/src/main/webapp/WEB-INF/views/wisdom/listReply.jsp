@@ -14,7 +14,7 @@
 		    </td>
 		</tr> 
 	</thead>
-	
+	 
 	<tbody id='listReplyBody'>
 	<c:forEach var="vo" items="${listReply}">
 	    <tr style='background: #eee; border:1px solid #ccc;'>
