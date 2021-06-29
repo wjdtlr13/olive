@@ -8,162 +8,177 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+ 
 <style type="text/css">
-* {
-	margin: 0; padding: 0;
-	
-	font-family: 맑은 고딕, 돋움;
+.ck.ck-editor {
+	max-width: 97%;
+} 
+.ck-editor__editable {
+	min-height: 250px;
 }
-
-.body-container { 
-	width: 1000px;
-	margin: 20px auto;
-	height: 1000px;
+.ck-content .image>figcaption{
+	min-height: 25px;
+}
+ 
+.table-content tr > td:nth-child(1) {
+	width: 100px; 
+	text-align: center;
+	background: #eee;
+}
+.table-content tr > td:nth-child(2) {
 	padding-left: 10px;
-	
-	
 }
-textarea {
-	width:600px;
-	height:500px;
-	resize: none;
-	padding: 10px 10px;
-	border: 1px solid #ccc;	
-	margin-top: 5px;
+.table-content input[type=text], .table-content input[type=file], .table-content textarea {
+	width: 97%;
 }
-textarea:focus {
-	outline: none;
+.btn {
+	color:#333;
+	font-weight: 500;
+	border:1px solid #ccc;
+	background-color:#fff;
+	text-align:center;
+	vertical-align: middle;
+	padding:6px 13px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+.btn:active, .btn:focus, .btn:hover {
+	background-color:#e6e6e6;
+	border-color: #adadad;
+	color: #333;
+}
+.btn[disabled], fieldset[disabled] .btn {
+	pointer-events: none;
+	cursor: not-allowed;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	opacity: .65;
 }
 
-table {
-	width: 700px;
-	
+.btn-dark {
+    background: #424951;
+	border:1px solid #2f3741;
+    color:#fff;
 }
-input {
-	float: left;
-	border: 1px solid #ccc;
-	padding-left: 5px;
+.btn-dark:hover, .btn-dark:active, .btn-dark:focus {
+    background: #333;
+   	border:1px solid #222;
+   	color:#fff;
 }
-input:focus {
-	outline: none;
-}
-.title {
-	width:100px;
-	line-height: 50px;
-	font-size: 20px;
-	font-weight: bold;
-	
-	margin-right: 10px;
-	margin-bottom: 20px;
-		
-}
-.title-file {
-	width:100px;
 
-	font-size: 20px;
-	font-weight: bold;
-	
-	margin-right: 10px;
-	margin-bottom: 20px;
+.boxTF {
+	border:1px solid #999;
+	padding:5px 5px 5px;
+	border-radius:4px;
+	background-color:#fff;
+	vertical-align: middle;
 }
-.input-content {
-	width: 350px;
-	height: 35px;
-	margin-right: 20px;
-	line-height: 35px;
+.boxTF[readonly] {
+	background-color:#eeeeee;
+	/* border: none;*/
 }
-select {
-	float:right;
-	width: 240px;
-	height: 35px;	
-	box-sizing: content-box;
-	border: 1px solid #ccc;
+.body-container {
+	display: block;
+	padding-top: 10px;
 }
-select:focus {
-	outline: none;
+
+.body-title {
+    color: #424951;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin: 0 0 25px 0;
+    border-bottom: 1px solid #ddd;
 }
-tr {
-	height: 50px;
+.body-title h2 {
+    font-size: 23px;
+    min-width: 300px;
+    font-weight: bold;
+    margin: 0 0 -5px 0;
+    padding-bottom: 5px;
+    display: inline-block;
+    border-bottom: 3px solid #424951;
+    
 }
-button {
-	width: 100px;
-	height: 35px;
-	border: 1px solid #ccc;
-	background-color: #fff;
-	border-radius: 5px;
-}
-button:hover {
-	color: white;
-	background-color: #6C9174;
+.table-content tr > td:nth-child(1) {
+	background-color: #afb42b;
 }
 </style>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/vendor/ckeditor5/build/ckeditor.js"></script>
+
 <script type="text/javascript">
 
+function sendOk() {
+    var f = document.wisdomForm;
 
-function sendNotice() {
-	var f= document.noticeForm;
-	
-	f.action="${pageContext.request.contextPath}/notice/${mode}";
-	
-	f.submit();
-	
+	var str = f.subject.value;
+    if(!str) {
+        alert("제목을 입력하세요. ");
+        f.subject.focus();
+        return;
+    }
+    
+    str = window.editor.getData(); // 값 가져오기
+    if(! str) {
+    	alert("내용을 입력하세요. ");
+    	window.editor.focus();
+    	return;
+    }
+    f.content.value = str;
+
+	f.action="${pageContext.request.contextPath}/wisdom/${mode}";
+    f.submit();
 }
-
 
 
 </script>
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/se/js/HuskyEZCreator.js" charset="utf-8"></script>
-</head>
-<body>
 
-<div class="body-container" >
+</head>
+
+
+<div class="container body-container" >
 	
-	<h2 style="margin: 20px 0;">${mode=='update'?'공지글 수정':'공지등록'}</h2>
-	<form name="noticeForm" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this);">
+	<h2 style="margin: 20px 0;">${mode=='update'?'올리브 나무 수정':'올리브 나무 글등록'}</h2>
+	<form name="wisdomForm" method="post" enctype="multipart/form-data" >
 	<table>
-		<tr>
-			<td class="title" >제목</td>
-			<td><input class="input-content" type="text" name="subject" placeholder="제목을 입력하시오" value="${dto.subject}">
- 				
-			</td>
-		</tr>
-		<tr>
-			<td class="title">작성자</td>
-			<td ><input type="text" class="input-content" name="userId" value="${dto.userId}"></td>
-			
-		</tr>	
-		<tr>
-			<td class="title">내용</td>
-			<td><textarea name="content" id="content">${dto.content} </textarea></td>
-		</tr>
-		<tr>
-			<td>첨&nbsp;&nbsp;&nbsp;&nbsp;부</td>
-			<td>
-				<input type="file" name="upload"  multiple="multiple"  class="boxTF" class="input-content">
-			</td>
-		</tr>	
-		<tr>
-		
-			<td class="title-file">첨부된 파일</td>
-			
-			<td>
-				<c:if test="${not empty dto.saveFilename}">
-					<input type="file" name="upload" multiple="multiple" class="input-content" style="line-height: ">
-				</c:if>
-			</td>
-			
-		 <td>
-		 	<c:if test="${mode=='update'}">
-		 		<input type="hidden" name="num" value="${dto.num}">
-		 	</c:if>
-		 </td>
-		</tr>
+			<tr>
+				<td>카테고리</td>
+				<td>
+					<select name="categoryNum" ${ mode='update' ? "disabled='disabled'":""}>
+						<c:forEach var="vo" items="${listCategory}">
+							<option value="${vo.categoryNum}" ${dto.categoryNum==vo.categoryNum ? "selected='selected'":""}>${vo.categoryName}</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+				<td>
+				
+					<input type="text" name="subject" maxlength="100" class="boxTF" value="${dto.subject}">
+				</td>
+			</tr>
+			<tr>
+				<td>작성자</td>
+				<td>
+					${sessionScope.member.userId}
+				</td>
+			</tr>	
+			<tr>
+				<td valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+				<td valign="top">
+					<div id="editor">${dto.content}</div>
+					<input type="hidden" name="content">
+				</td>				
+			</tr>
+
 												
 	</table>
 	
 	<div style="text-align: center; width: 700px;margin-top: 20px;">
-		<button type="submit" >${mode=='update'?'수정완료':'등록하기'}</button>
+		<button type="button" onclick="sendOk();" >${mode=='update'?'수정완료':'등록하기'}</button>
 		<button type="reset">다시입력</button>
 		<button type="button" onclick="javascript:location.href='${pageContext.request.contextPath}/wisdom/treeList';" >취소</button>				
 		<c:if test="${mode=='update'}">
@@ -176,53 +191,46 @@ function sendNotice() {
 		</c:if>
 	</div>
 	</form>
-</div>
 
-</body>
+
 
 
 <script type="text/javascript">
-var oEditors = [];
-nhn.husky.EZCreator.createInIFrame({
-	oAppRef: oEditors,
-	elPlaceHolder: "content",
-	sSkinURI: "${pageContext.request.contextPath}/resources/se/SmartEditor2Skin.html",	
-	htParams : {bUseToolbar : true,
-		fOnBeforeUnload : function(){
-			//alert("아싸!");
-		}
-	}, //boolean
-	fOnAppLoad : function(){
-		//예제 코드
-		//oEditors.getById["content"].exec("PASTE_HTML", ["로딩이 완료된 후에 본문에 삽입되는 text입니다."]);
+ClassicEditor
+.create( document.querySelector( '#editor' ), {
+	toolbar: {
+		items: [
+			'heading', '|',
+			'bold', 'italic', 'link', 'alignment', 'bulletedList', 'numberedList', '|',
+			'outdent', 'indent', '|',
+			'imageUpload', 'blockQuote', 'insertTable', 'mediaEmbed', 'htmlEmbed', 'undo', 'redo'
+		]
 	},
-	fCreator: "createSEditor2"
-});
+	image: {
+		toolbar: [
+            'imageStyle:full',
+            'imageStyle:side',
+            '|',
+            'imageTextAlternative'
+        ],
 
-function pasteHTML() {
-	var sHTML = "<span style='color:#FF0000;'>이미지도 같은 방식으로 삽입합니다.<\/span>";
-	oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
-}
+        // The default value.
+        styles: [
+            'full',
+            'side'
+        ]
+	},
+	language: 'ko',
+	ckfinder : {
+		uploadUrl : '${pageContext.request.contextPath}/jcimage/upload' // 업로드 URL. POST로 감
+	}
+} )
+.then( editor => { 
+	window.editor = editor;
+} )
+.catch( error => {
+	console.error( error );
+} );
 
-function showHTML() {
-	var sHTML = oEditors.getById["content"].getIR();
-	alert(sHTML);
-}
-	
-function submitContents(elClickedObj) {
-	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);	// 에디터의 내용이 textarea에 적용됩니다.
-	
-	// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("content").value를 이용해서 처리하면 됩니다.
-	
-	try {
-		// elClickedObj.form.submit();
-		return check();
-	} catch(e) {}
-}
-
-function setDefaultFont() {
-	var sDefaultFont = '돋움';
-	var nFontSize = 24;
-	oEditors.getById["content"].setDefaultFont(sDefaultFont, nFontSize);
-}
 </script>    
+</div>

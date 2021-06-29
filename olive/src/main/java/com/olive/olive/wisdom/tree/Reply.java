@@ -11,17 +11,17 @@ public class Reply {
 	private int likeCount;
 
 	public int getReplyNum() {
-		return replyNum;
+		return replyNum; 
 	}
 
 	public void setReplyNum(int replyNum) {
 		this.replyNum = replyNum;
 	}
 
-	public int getNum() {
+	public int getNum() { 
 		return num;
 	}
-
+ 
 	public void setNum(int num) {
 		this.num = num;
 	}

@@ -1,15 +1,15 @@
 package com.olive.olive.wisdom.tree;
 
+import java.util.HashMap;
 import java.util.List;
-
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.olive.olive.common.FileManager;
 import com.olive.olive.common.dao.CommonDAO;
+import com.olive.olive.junggo.Junggo;
 
 
 @Service("wisdom.wisdomServiceImpl")
@@ -19,26 +19,14 @@ public class TreeServiceImpl implements TreeService{
 	private CommonDAO dao;
 	
 	@Autowired 
-	private FileManager filManager;
+	private FileManager fileManager;
 	
 	@Override
 	public void insertWisdom(Tree dto, String pathname) throws Exception {
 		try {
-			int seq=dao.selectOne("wisdom.seq");
-			dto.setNum(seq);
+ 
+			dao.insertData("wisdom.insertWisdom", dto);
 			
-			dao.insertData("wisdom.insertImage", dto);
-			
-			//파일 업로드
-			if(! dto.getUpload().isEmpty()) {
-				for(MultipartFile mf:dto.getUpload()) {
-					String saveFilename=filManager.doFileUpload(mf, pathname);
-					if(saveFilename==null) continue;
-					
-					dto.setImageFileName(saveFilename);
-					insertImg(dto);
-				}
-			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,7 +34,7 @@ public class TreeServiceImpl implements TreeService{
 
 		}
 		
-	}
+	} 
 
 	@Override
 	public int dataCount(Map<String, Object> map) {
@@ -86,14 +74,31 @@ public class TreeServiceImpl implements TreeService{
 
 	@Override
 	public void updateWisdom(Tree dto, String pathname) throws Exception {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteWisdom(int num, String pathname) throws Exception {
-		// TODO Auto-generated method stub
-		
+		try {
+			// 파일 지우기
+			List<Tree> listFile=listImg(num);
+			if(listFile!=null) {
+				for(Tree dto:listFile) {
+					fileManager.doFileDelete(dto.getImageFileName(), pathname);
+				}
+			}
+			
+			// 파일 테이블 내용 지우기
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("field", "num");
+			map.put("num", num);
+			deleteImg(map);
+			
+			dao.deleteData("wisdom.deleteWisdom", num); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}	
 	}
 
 	@Override
@@ -157,9 +162,9 @@ public class TreeServiceImpl implements TreeService{
 			int num = (Integer)map.get("num");
 			int count = wisdomLikeCount(num);
 			
-			if(count>=2) {
+			if(count>=3) {
 				updateSelect(num);
-			}
+			} 
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -255,14 +260,62 @@ public class TreeServiceImpl implements TreeService{
 	}
 
 	@Override
-	public List<Category> listCategory() {
-		List<Category> list = null;
+	public List<Tree> listCategory() {
+		List<Tree> list = null;
 		try {
 			list = dao.selectList("wisdom.listCategory");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	@Override
+	public void updateHitCount(int num) throws Exception {
+		try {
+			dao.updateData("wisdom.updateHitCount", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}		
+		
+	}
+
+	@Override
+	public Tree preReadWisdom(Map<String, Object> map) {
+		Tree dto = null;
+		try {
+			dto=dao.selectOne("wisdom.preReadWisdom", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+
+	}
+
+	@Override
+	public Tree nextReadWisdom(Map<String, Object> map) {
+		Tree dto=null;
+		try {
+			dto=dao.selectOne("wisdom.nextReadWisdom", map);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+
+	@Override
+	public void deleteWisdom(int num, String pathname, String userId) throws Exception {
+		try {
+			Tree dto = readWisdom(num);
+			if(dto==null || (! userId.equals("admin") && ! userId.equals(dto.getUserId())))
+				return;
+			
+			dao.deleteData("wisdom.deleteWisdom", num);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 

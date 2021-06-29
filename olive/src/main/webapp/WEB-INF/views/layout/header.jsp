@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<div class="navbar fixed-top">
+<div class="navbar fixed-top"> 
 	<div class="container flex-center"><%-- 
 		<a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/img/mainLogo.png" width="160px;" height="100px;"></a><img src="${pageContext.request.contextPath}/resources/img/mainLogo2.png" width="46px;" height="48px;">
 	 --%>	<a href="${pageContext.request.contextPath}/" class="logo"><img src="${pageContext.request.contextPath}/resources/img/mainLogoNew.png" width="170px;" height="100px;"></a><img src="${pageContext.request.contextPath}/resources/img/mainLogo2.png" width="46px;" height="48px;">
@@ -20,7 +20,7 @@
 				<li class="dropdown">
 					<a href="#">life-info</a>
 					<ul>
-                		<li><a href="${pageContext.request.contextPath}/wisdom/treeLlist">올리브 나무</a></li>
+                		<li><a href="${pageContext.request.contextPath}/wisdom/treeList">올리브 나무</a></li>
                 		<li><a href="${pageContext.request.contextPath}/wisdom/beanList">올리브 열매</a></li>
 					</ul>
 				</li>

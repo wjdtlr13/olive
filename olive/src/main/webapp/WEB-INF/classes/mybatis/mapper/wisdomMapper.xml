@@ -2,14 +2,10 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wisdom">
-	<select id="seq" resultType="Integer">
-		select Wisdom_seq.nextval from dual
-	</select>
-
 
 	<insert id="insertWisdom" parameterType="com.olive.olive.wisdom.tree.Tree">
-		insert into wisdom(num, userId, subject, imageFilename, content, created, categoryNum)
-			values(#{num},#{userId},#{subject},#{imageFilename},#{content},sysdate,#{categoryNum})
+		insert into wisdom(num, userId, subject, content, created)
+			values(wisdom_seq.nextval, #{userId},#{subject},#{content},sysdate)
 	</insert>
 
 
@@ -34,7 +30,7 @@
 	</sql>
 	
 	<!-- 카테고리 리스트 -->
-	<select id="listCategory" resultType="com.olive.olive.wisdom.tree.Category">
+	<select id="listCategory" resultType="com.olive.olive.wisdom.tree.Tree">
 		SELECT *
 		FROM wisdomCategory
 	</select>	
@@ -53,50 +49,87 @@
 			</if>
 		</where>		
 	</select>
-	
+	<update id="updateHitCount" parameterType="Integer">
+		UPDATE wisdom SET hitcount=hitCount+1 WHERE num=#{num}
+	</update>	
 	<!-- 게시판 리스트 -->
 	<select id="listWisdom" parameterType="map" resultType="com.olive.olive.wisdom.tree.Tree">
-		select w.num,nickName, subject, imageFileName,categoryNum,hitCount,NVL(articleLikeCount, 0) articleLikeCount,
+		select w.num,nickName, subject, w.saveFilename,w.categoryNum,hitCount,NVL(wisdomLikeCount, 0) wisdomLikeCount,
 		to_char(created,'YYYY-MM-DD') created
 		from wisdom w
 		join member1 m on w.userId=m.userId
+		left outer join wisdomCategory wc on w.categoryNum =wc.categoryNum
 		left outer join(
-			SELECT num, COUNT(*) articleLikeCount FROM WisdomLike 
-			GROUP BY num
-		) a ON w.num = a.num		
+			SELECT num, COUNT(*) wisdomLikeCount FROM WisdomLike 
+			 where num=33
+            GROUP BY num
+		) a ON w.num = a.num	
+		<!-- 
 		left outer join (
-		    select imageNum,num,imageFileName from(
-		        select imageNum,num,imageFileName,
-		        row_number() over(partition by num order by imageNum asc) rank
-		    from WisdomImage
-		    )where rank=1
-		) i on w.num=i.num	
+			SELECT num, COUNT(*) replyCount FROM wisdomReply
+			GROUP BY num
+		) c ON w.num = c.num -->
 		<where>
 			<if test="keyword != null and keyword != ''">
 				<include refid="where-list"/>
 			</if>
 			<if test="selected!=null">
 				and selected='y'
-			</if>			
-			<if test="categoryNum!=null and categoryNum!=''">
-				categoryNum=${categoryNum}
-			</if>			
+			</if>					
 		</where>         
-		ORDER BY num DESC
+		ORDER BY w.num DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
 	
 	<!-- 게시물 읽기 -->
 	<select id="readWisdom" parameterType="Integer" resultType="com.olive.olive.wisdom.tree.Tree">
-		 select w.num, w.userId, subject, content, hitCount, created, articleLikeCount
+		 select w.num, nickName, subject, content, hitCount, created, wisdomLikeCount
 		 from wisdom w
 		 join member1 m1 on w.userId=m1.userId
+		 left outer join wisdomCategory wc on w.categoryNum =wc.categoryNum		 
 		 left outer join (
-		    select num, count(*) articleLikeCount from wisdomLike 
+		    select num, count(*) wisdomLikeCount from wisdomLike 
 		    group by num
 		 ) wl on w.num=wl.num
 		where w.num=#{w.num}
 	</select>
+	
+	<select id="preReadWisdom" parameterType="map" resultType="com.olive.olive.wisdom.tree.Tree">
+		SELECT num, subject
+		FROM wisdom w
+		JOIN member1 m ON w.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &gt; #{num})
+		</where>
+		ORDER BY num ASC
+		FETCH FIRST 1 ROWS ONLY
+	</select>
+	
+	<select id="nextReadWisdom" parameterType="map" resultType="com.olive.olive.wisdom.tree.Tree">
+		SELECT num, subject
+		FROM wisdom w
+		JOIN member1 m ON w.userId=m.userId
+		<where>
+			<if test="keyword != null and keyword != '' ">
+				<include refid="where-list"/>
+			</if>
+			AND (num &lt; #{num})
+		</where>
+		ORDER BY num DESC
+		FETCH FIRST 1 ROWS ONLY
+	</select>		
+	
+	<delete id="deleteWisdom" parameterType="Integer">
+		DELETE FROM wisdom WHERE num = #{num}
+	</delete>	
+	
+	
+	
+	
+	
 	
 	<!-- 이미지 추가 -->
 	<insert id="insertImg" parameterType="com.olive.olive.wisdom.tree.Tree">
@@ -168,7 +201,7 @@
 			SELECT replyNum, COUNT(DECODE(replyLike, 1, 1)) likeCount
 			FROM WisdomReplyLike GROUP BY replyNum
 		) c ON r.replyNum = c.replyNum
-		WHERE num=#{num}  AND r.answer=0
+		WHERE num=#{num} 
 		ORDER BY r.replyNum DESC
 		OFFSET #{offset} ROWS FETCH FIRST #{rows} ROWS ONLY
 	</select>
@@ -193,4 +226,4 @@
 
 
 
-</mapper>
+</mapper> 

@@ -1,19 +1,19 @@
 package com.olive.olive.wisdom.tree;
 
 import java.io.File;
-
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest; 
 import javax.servlet.http.HttpSession;
-
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,20 +37,21 @@ public class TreeController {
 	private FileManager fileManager;
 	
 	
-	@RequestMapping("list")
+	@RequestMapping("treeList")
 	public String listWisdom(
 			@RequestParam(value = "page", defaultValue = "1") int current_page,
 			@RequestParam(defaultValue = "all") String condition,
 			@RequestParam(defaultValue = "") String keyword,
-			@RequestParam(required=false) String categoryNum,
-			HttpServletRequest req,
+			@RequestParam(value = "categoryNum", defaultValue = "0") String categoryNum,
+			HttpServletRequest req, 
+			HttpSession session,
 			Model model
 			)throws Exception {
 		String cp = req.getContextPath();
-		 
-		keyword = URLDecoder.decode(keyword,"utf-8");
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+
 		
-		int rows=5;
+		int rows=10;
 		int total_page;
 		int dataCount;
 
@@ -60,11 +61,7 @@ public class TreeController {
 		
 		//전체 페이지 수
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		if(categoryNum!=null) {
-			int cNum = Integer.parseInt(categoryNum);
-        	map.put("categoryNum", cNum);
-        }		
+				
 		
 		map.put("condition", condition);
 		map.put("keyword", keyword);
@@ -93,28 +90,23 @@ public class TreeController {
         }
 		
         String query = "";
-        String listUrl = cp+"/wisdom/list";
-        String articleUrl = cp+"/wisdom/article?page=" + current_page;
+        String listUrl = cp+"/wisdom/treeList";
+        String articleUrl = cp+"/wisdom/treeArticle?page=" + current_page;
         if(keyword.length()!=0) {
         	query = "condition=" +condition + 
         	         "&keyword=" + URLEncoder.encode(keyword, "utf-8");	
-        	if(categoryNum!=null) {
-        		query+="&categoryNum="+categoryNum;
-        	}
-        }else if(categoryNum!=null) {
-        	query="categoryNum="+categoryNum;
+
         }
         
         
         if(query.length()!=0) {
-        	 listUrl = cp+"/wisdom/list"+query;
-        	 articleUrl = cp+"/wisdom/article?page=" + current_page+"&"+ query;
+        	 listUrl = cp+"/wisdom/treeList"+query;
+        	 articleUrl = cp+"/wisdom/treeArticle?page=" + current_page+"&"+ query;
         }
         
         
 		String paging = myUtil.paging(current_page, total_page, listUrl);
 		
-        List<Category> categoryList = service.listCategory();
 		
 		model.addAttribute("list", list);
 		model.addAttribute("articleUrl",articleUrl);
@@ -122,9 +114,7 @@ public class TreeController {
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("page", current_page);
 		model.addAttribute("paging", paging);		
-		
-        model.addAttribute("categoryList", categoryList);
-        model.addAttribute("categoryNum", categoryNum);		
+
         
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);		
@@ -134,36 +124,73 @@ public class TreeController {
 	}
 	
 	
-	@RequestMapping(value = "created", method = RequestMethod.GET)
+	@RequestMapping(value = "treeCreated", method = RequestMethod.GET)
 	public String createForm(Model model) throws Exception {
-		model.addAttribute("mode","created");
+		List<Tree> listCategory = service.listCategory();
 		
+		model.addAttribute("mode","created");
+		model.addAttribute("listCategory", listCategory);		
 		
 		return ".wisdom.treeCreated";
 	}
 	
 	
-	@RequestMapping(value = "created", method = RequestMethod.POST)
+	@RequestMapping(value = "/wisdom/created", method = RequestMethod.POST)
 	public String createdSubmit(
 			Tree dto,
 			HttpSession session
 			) throws Exception {
-		String root=session.getServletContext().getRealPath("/");
-		String path=root+"uploads"+File.separator+"wisdom";		
 		
 		SessionInfo info =(SessionInfo) session.getAttribute("member");
 		
+		String root=session.getServletContext().getRealPath("/");
+		String pathname=root+"uploads"+File.separator+"wisdom";		
+		
+		
 		try {
 			dto.setUserId(info.getUserId());
-			service.insertWisdom(dto, path);
+			service.insertWisdom(dto, pathname);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return "redireck:/wisdom/list";
+		return "redirect:/wisdom/treeList";
 	}
 	
-	@RequestMapping(value = "article",method = RequestMethod.GET)
+	
+	@PostMapping("upload")
+	@ResponseBody
+	public Map<String, Object> fileUpload(Tree dto, HttpServletRequest req,
+			HttpSession session) throws Exception {
+		Map<String, Object> model = new HashMap<String, Object>();
+		
+		String root = session.getServletContext().getRealPath("/");
+		String pathname = root+"uploads"+File.separator+"wisdom";
+		
+		String saveFilename = fileManager.doFileUpload(dto.getUpload(), pathname);
+		
+				
+		String cp = req.getContextPath();
+		boolean uploaded = false;
+		String url = null;
+		if(saveFilename != null) {
+			uploaded = true;
+			url = cp+"/uploads/wisdom/" + saveFilename;
+			model.put("url", url);
+			model.put("uploaded", uploaded);
+			
+		} else {
+			model.put("error", "{\"message\":\"upload error !!!\"}");
+			model.put("uploaded", uploaded);
+		}
+		
+		return model;
+				
+	}	
+	
+	
+	
+	@RequestMapping(value = "treeArticle",method = RequestMethod.GET)
 	public String article(
 			@RequestParam int num,
 			@RequestParam String page,
@@ -182,20 +209,29 @@ public class TreeController {
 			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
 		}
 		
-		
+		service.updateHitCount(num);
 		
 		Tree dto = service.readWisdom(num);
 		if (dto == null)
-			return "redirect:/wisdom/list?"+query;		
+			return "redirect:/wisdom/treeList?"+query;		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("condition", condition);
+		map.put("keyword", keyword);
+		map.put("num", num);		
 		
-
+		Tree preReadDto = service.preReadWisdom(map);
+		Tree nextReadDto = service.nextReadWisdom(map);
+		
+		
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		
 		//이미지 불러오기
-		List<Tree> listImg=service.listImg(num);
+		//List<Tree> listImg=service.listImg(num);
 		
 		model.addAttribute("dto", dto);
-		model.addAttribute("listImg",listImg);
+		model.addAttribute("preReadDto", preReadDto);
+		model.addAttribute("nextReadDto", nextReadDto);		
+
 		model.addAttribute("page", page);
 		model.addAttribute("query", query);
 		
@@ -204,7 +240,7 @@ public class TreeController {
 	
 	
 	// 게시글 좋아요 추가 -> AJAX-JSON으로..
-	@RequestMapping(value="insertWisdomLike", method=RequestMethod.POST)
+	@RequestMapping(value="insertwisdomLike", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> insertWisdomLike(
 			@RequestParam int num,
@@ -233,7 +269,41 @@ public class TreeController {
 		return model;
 	}	
 	
-	
+	@RequestMapping(value = "delete")
+	public String delete(
+			@RequestParam int num,
+			@RequestParam String page,
+			@RequestParam(defaultValue="all") String condition,
+			@RequestParam(defaultValue="") String keyword,
+			HttpSession session) throws Exception{
+		
+		keyword = URLDecoder.decode(keyword, "utf-8");
+		String query="page="+page;
+		if(keyword.length()!=0) {
+			query+="&condition="+condition+"&keyword="+URLEncoder.encode(keyword, "UTF-8");
+		}		
+		
+		String root=session.getServletContext().getRealPath("/");
+		String pathname=root+"uploads"+File.separator+"wisdom";
+		
+		SessionInfo info=(SessionInfo)session.getAttribute("member");		
+		Tree dto = service.readWisdom(num);
+		
+		if (dto == null) {
+			return "redirect:/wisdom/treeList?page="+page;
+		}
+		
+		if(! dto.getUserId().equals(info.getUserId())) {
+			return "redirect:/";
+		}
+		
+		try {
+			service.deleteWisdom(num, pathname);
+		} catch (Exception e) {
+		}
+		
+		return "redirect:/wisdom/treeList?"+query;
+	}
 	
 	//게시글 열매로 옮기기
 	@RequestMapping("beanList")
@@ -293,7 +363,7 @@ public class TreeController {
 		
         String query = "";
         String listUrl = cp+"/wisdom/beanList";
-        String articleUrl = cp+"/wisdom/article?page=" + current_page;
+        String articleUrl = cp+"/wisdom/treeArticle?page=" + current_page;
         if(keyword.length()!=0) {
         	query = "condition=" +condition + 
         	         "&keyword=" + URLEncoder.encode(keyword, "utf-8");	
@@ -308,7 +378,7 @@ public class TreeController {
 		model.addAttribute("dataCount", dataCount);
 		model.addAttribute("total_page", total_page);
 		model.addAttribute("page", current_page);
-		model.addAttribute("paging", paging);		
+		model.addAttribute("paging", paging);		 
 		
 		model.addAttribute("condition", condition);
 		model.addAttribute("keyword", keyword);		
